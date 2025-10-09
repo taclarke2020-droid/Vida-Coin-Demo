@@ -104,8 +104,42 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
   backdrop-filter:blur(2px)
 }
 .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* Pills row */
 .pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px;color:#a7cdb5}
-.pills span{padding:6px 10px;border:1px solid var(--edge);border-radius:999px}
+
+/* >>> Interactive pill popovers <<< */
+.pill{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 12px; border:1px solid var(--edge); border-radius:999px;
+  background:rgba(255,255,255,.03); color:#d9efe4; cursor:default; position:relative;
+}
+.pill:hover, .pill:focus{ border-color:rgba(114,206,155,.35); box-shadow:0 0 0 2px rgba(114,206,155,.18) inset; outline:none }
+.pill .dot{ width:8px; height:8px; border-radius:50%;
+  background:linear-gradient(180deg,var(--brand),var(--brand2));
+  box-shadow:0 0 0 2px rgba(76,194,111,.20)
+}
+.pill .popover{
+  position:absolute; left:50%; bottom:calc(100% + 10px);
+  transform:translate(-50%,-6px); width:min(520px, calc(100vw - 48px));
+  padding:12px 14px; border-radius:14px; border:1px solid var(--edge);
+  background:rgba(11,26,15,.96); color:#e9f4ee; box-shadow:0 12px 30px rgba(0,0,0,.35);
+  opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease;
+  text-align:left; z-index:5
+}
+.pill .popover::after{
+  content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:8px solid transparent; border-top-color:rgba(11,26,15,.96)
+}
+.pill .popover ul{ margin:.4rem 0 .25rem; padding-left:1.1rem }
+.pill .popover li{ margin:.15rem 0 }
+.pill:hover .popover,
+.pill:focus .popover,
+.pill[data-open="true"] .popover{
+  opacity:1; pointer-events:auto; transform:translate(-50%,-2px)
+}
+/* make sure popovers sit above the hero vignette */
+.hero .pills{ position:relative; z-index:2 }
 
 /* Panels */
 .panel{background:linear-gradient(180deg,#0b1a0f,#0b1a0f);border-radius:28px;padding:32px 16px 26px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
@@ -187,12 +221,55 @@ input[type="range"]{width:280px}
     <p class="sub">
       The system is powered by Gaia Coin — a crypto currency which rewards ecological care twice, through fair governance and rising value as global ecosystems recover.
     </p>
+
     <div class="cta">
       <button class="btn primary" data-next="2">Start the demo</button>
       <button class="btn ghost" data-next="2">See how it works</button>
     </div>
-    <div class="pills">
-      <span>Open satellite data</span><span>Auditable registry</span><span>Transparent payouts</span>
+
+    <!-- Interactive pills with hover/tap popovers -->
+    <div class="pills" role="group" aria-label="Highlights">
+      <!-- Satellite evidence -->
+      <span class="pill" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Satellite evidence details">
+        <span class="dot" aria-hidden="true"></span> Satellite evidence
+        <span class="popover" role="dialog" aria-label="Satellite evidence">
+          <strong>Satellite evidence</strong>
+          <ul>
+            <li>Before/After imagery with NDVI overlay</li>
+            <li>Parcel boundary & last cloud-free date</li>
+            <li>Export: image (.png) & NDVI series (.csv)</li>
+          </ul>
+          <div class="tiny muted">Sources: Sentinel-2, Landsat; 10–30 m resolution.</div>
+        </span>
+      </span>
+
+      <!-- Public registry -->
+      <span class="pill" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Public registry details">
+        <span class="dot" aria-hidden="true"></span> Public registry
+        <span class="popover" role="dialog" aria-label="Public registry">
+          <strong>Public registry</strong>
+          <ul>
+            <li>Parcel • Country • Biome • HealthScore</li>
+            <li>Verifier notes + on-chain/IPFS links</li>
+            <li>Export: CSV / JSON · simple API</li>
+          </ul>
+          <div class="tiny muted">Every update is time-stamped and signed.</div>
+        </span>
+      </span>
+
+      <!-- Payouts ledger -->
+      <span class="pill" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Payouts ledger details">
+        <span class="dot" aria-hidden="true"></span> Payouts ledger
+        <span class="popover" role="dialog" aria-label="Payouts ledger">
+          <strong>Payouts ledger</strong>
+          <ul>
+            <li>Pool size • parcels paid • median score</li>
+            <li>Table: parcel share, £ amount, tx hash</li>
+            <li>Demo slider to simulate pool sizes</li>
+          </ul>
+          <div class="tiny muted">Share = HealthScore / Σ(HealthScore).</div>
+        </span>
+      </span>
     </div>
   </section>
 
@@ -289,6 +366,28 @@ input[type="range"]{width:280px}
     if(e.key==="ArrowLeft") show(Math.max(1,current-1));
   });
   show(1);
+
+  // Hover popovers also open on tap for touch devices
+  document.querySelectorAll('.pill').forEach(pill=>{
+    // Toggle on click (touch screens)
+    pill.addEventListener('click', (e)=>{
+      if (window.matchMedia('(hover: none)').matches) {
+        const wasOpen = pill.dataset.open === 'true';
+        document.querySelectorAll('.pill[data-open="true"]').forEach(x=>delete x.dataset.open);
+        if (!wasOpen) pill.dataset.open = 'true';
+        e.stopPropagation();
+      }
+    });
+    // Close on Escape when focused
+    pill.addEventListener('keydown', (e)=>{
+      if (e.key === 'Escape') delete pill.dataset.open;
+    });
+  });
+  document.addEventListener('click', (e)=>{
+    if (!e.target.closest('.pill')) {
+      document.querySelectorAll('.pill[data-open="true"]').forEach(x=>delete x.dataset.open);
+    }
+  });
 
   // Slide 2: land joins
   const grid=document.getElementById("grid");
