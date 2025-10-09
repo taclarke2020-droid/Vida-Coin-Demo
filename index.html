@@ -186,6 +186,30 @@ input[type="range"]{width:280px}
 @media (prefers-reduced-motion:reduce){
   .screen{transition:none} .hero::after,.aura,.aura::after,.pulse{animation:none}
 }
+
+  /* === Illustrated hero art (SVG) === */
+.hero::before,
+.hero::after{ content:none !important; }   /* turn off the old gradient hills */
+
+.hero-art{
+  position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none;
+}
+.hero-art svg{ width:100%; height:100%; display:block }
+
+/* subtle animation */
+@keyframes bird-fly { 
+  0% { transform: translateX(-4%) translateY(0) }
+  50%{ transform: translateX(0) translateY(-6px) }
+  100%{ transform: translateX(4%) translateY(0) }
+}
+.hero-art .bird{ opacity:.75; animation: bird-fly 16s ease-in-out infinite }
+.hero-art .bird--2{ animation-duration: 20s; opacity:.6 }
+.hero-art .bird--3{ animation-duration: 24s; opacity:.5 }
+
+@media (prefers-reduced-motion: reduce){
+  .hero-art .bird{ animation:none }
+}
+
 </style>
 
 </head>
@@ -204,6 +228,116 @@ input[type="range"]{width:280px}
 
   <!-- Slide 1 -->
   <section class="screen hero active" data-screen="1" aria-live="polite">
+    <div class="hero-art" aria-hidden="true">
+  <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice" role="img">
+    <defs>
+      <!-- sky + dawn -->
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"  stop-color="#0d2718"/>
+        <stop offset="55%" stop-color="#0b1f16"/>
+        <stop offset="100%" stop-color="#0a1913"/>
+      </linearGradient>
+      <radialGradient id="sun" cx="60%" cy="-10%" r="45%">
+        <stop offset="0%" stop-color="rgba(255,230,150,.28)"/>
+        <stop offset="100%" stop-color="rgba(255,230,150,0)"/>
+      </radialGradient>
+
+      <!-- hill shades -->
+      <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"  stop-color="#1a4a38"/>
+        <stop offset="100%" stop-color="#153d2e"/>
+      </linearGradient>
+      <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"  stop-color="#1f5d45"/>
+        <stop offset="100%" stop-color="#174735"/>
+      </linearGradient>
+      <linearGradient id="hillNear" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"  stop-color="#266f50"/>
+        <stop offset="100%" stop-color="#1b553f"/>
+      </linearGradient>
+
+      <!-- river -->
+      <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"  stop-color="#2aa38f" stop-opacity=".45"/>
+        <stop offset="100%" stop-color="#1d6a57" stop-opacity=".55"/>
+      </linearGradient>
+
+      <!-- simple tree -->
+      <g id="tree">
+        <polygon points="0,-36 10,-18 -10,-18" fill="#1c5b45"/>
+        <polygon points="0,-22 14,0 -14,0" fill="#1e644b"/>
+        <rect x="-2" y="0" width="4" height="12" rx="1.5" fill="#14402f"/>
+      </g>
+
+      <!-- soft top fade so the art never competes with the heading -->
+      <linearGradient id="fadeG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="white" stop-opacity="0"/>
+        <stop offset="25%" stop-color="white" stop-opacity=".25"/>
+        <stop offset="60%" stop-color="white" stop-opacity=".9"/>
+        <stop offset="100%" stop-color="white" stop-opacity="1"/>
+      </linearGradient>
+      <mask id="fadeMask"><rect width="1600" height="700" fill="url(#fadeG)"/></mask>
+    </defs>
+
+    <!-- sky & dawn -->
+    <rect width="1600" height="700" fill="url(#sky)"/>
+    <circle cx="960" cy="0" r="380" fill="url(#sun)"/>
+
+    <!-- distant hill -->
+    <path d="M0,460 Q380,360 800,420 T1600,380 L1600,700 L0,700 Z" fill="url(#hillFar)" opacity=".85"/>
+
+    <!-- mid hill -->
+    <path d="M0,520 Q320,420 800,500 T1600,460 L1600,700 L0,700 Z" fill="url(#hillMid)" opacity=".95"/>
+
+    <!-- sprinkle some mid-distance trees -->
+    <g opacity=".7">
+      <use href="#tree" transform="translate(120,520) scale(1.1)"/>
+      <use href="#tree" transform="translate(220,515) scale(1.05)"/>
+      <use href="#tree" transform="translate(360,518) scale(1.2)"/>
+      <use href="#tree" transform="translate(520,522) scale(1.1)"/>
+      <use href="#tree" transform="translate(690,514) scale(1.15)"/>
+      <use href="#tree" transform="translate(860,520) scale(1.05)"/>
+      <use href="#tree" transform="translate(1040,516) scale(1.2)"/>
+      <use href="#tree" transform="translate(1200,524) scale(1.1)"/>
+      <use href="#tree" transform="translate(1380,510) scale(1.2)"/>
+    </g>
+
+    <!-- near hill -->
+    <path d="M0,580 Q420,480 900,560 T1600,520 L1600,700 L0,700 Z" fill="url(#hillNear)"/>
+
+    <!-- foreground trees -->
+    <g>
+      <use href="#tree" transform="translate(80,580) scale(1.4)"/>
+      <use href="#tree" transform="translate(160,590) scale(1.35)"/>
+      <use href="#tree" transform="translate(260,585) scale(1.45)"/>
+      <use href="#tree" transform="translate(410,588) scale(1.5)"/>
+      <use href="#tree" transform="translate(560,592) scale(1.4)"/>
+      <use href="#tree" transform="translate(740,584) scale(1.55)"/>
+      <use href="#tree" transform="translate(900,590) scale(1.45)"/>
+      <use href="#tree" transform="translate(1080,586) scale(1.5)"/>
+      <use href="#tree" transform="translate(1260,594) scale(1.4)"/>
+      <use href="#tree" transform="translate(1440,588) scale(1.5)"/>
+    </g>
+
+    <!-- river / wetland shine -->
+    <path d="M500,640 Q800,600 1100,640 T1600,680 L0,700 Z" fill="url(#river)" opacity=".7"/>
+
+    <!-- a few birds -->
+    <g class="bird">
+      <path d="M-30,150 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+    </g>
+    <g class="bird bird--2">
+      <path d="M260,120 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+    </g>
+    <g class="bird bird--3">
+      <path d="M1020,110 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+    </g>
+
+    <!-- fade the top so text always pops -->
+    <rect width="1600" height="700" fill="#000" mask="url(#fadeMask)" opacity=".25"/>
+  </svg>
+</div>
+
     <div class="aura"></div><div class="pulse" aria-hidden="true"></div>
     <h1>When nature improves, Gaia pays you.</h1>
     <div class="chip">What is Gaia?</div>
