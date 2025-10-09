@@ -11,71 +11,142 @@
 
 <style>
 :root{
-  --bg:#0a0b10;--panel:#0c0e14;--ink:#eafbf2;--muted:#a8cdbf;--edge:rgba(255,255,255,.08);
-  --brand:#2ad08f;--brand2:#786fff;--chipbg:rgba(139,240,198,.12);--chipbr:rgba(139,240,198,.18);
-  --ring:rgba(90,240,180,.15);
+  /* Forest Regeneration palette */
+  --bg:#07130a;           /* deep forest */
+  --panel:#0b1a0f;        /* canopy shadow */
+  --ink:#eef7f0;          /* soft paper white-green */
+  --muted:#a6cdb3;        /* mossy muted */
+  --edge:rgba(255,255,255,.07);
+
+  /* organic accent gradient (moss → teal) */
+  --brand:#4cc26f;
+  --brand2:#2aa38f;
+
+  /* chips */
+  --chipbg:rgba(114,206,155,.14);
+  --chipbr:rgba(114,206,155,.22);
+
+  /* gentle pulse ring */
+  --ring:rgba(76,194,111,.18);
 }
-*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,Arial,sans-serif}
+
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,Arial,sans-serif}
+
+/* layout */
 .wrap{max-width:1200px;margin:0 auto;padding:16px}
 .screen{display:none;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
 .screen.active{display:block;opacity:1;transform:none}
 
-/* === Sticky stepper w/ progress === */
+/* === Sticky stepper with progress === */
 .sticky{
-  position:sticky;top:0;z-index:40;background:linear-gradient(180deg,rgba(10,11,16,.75),rgba(10,11,16,.35));
-  backdrop-filter:blur(8px);border-bottom:1px solid var(--edge)
+  position:sticky;top:0;z-index:40;
+  background:linear-gradient(180deg,rgba(7,19,10,.86),rgba(7,19,10,.48));
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--edge)
 }
-.stepper{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 10px}
-.stepper button{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  border:1px solid var(--edge);border-radius:999px;color:var(--ink);font-weight:700;font-size:.86rem;padding:.5rem .8rem;cursor:pointer}
-.stepper button.active{border-color:rgba(139,240,198,.5);box-shadow:0 0 0 2px rgba(139,240,198,.2) inset}
+.stepper{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px}
+.stepper button{
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+  border:1px solid var(--edge);border-radius:999px;color:var(--ink);
+  font-weight:700;font-size:.86rem;padding:.5rem .8rem;cursor:pointer
+}
+.stepper button.active{border-color:rgba(114,206,155,.5);box-shadow:0 0 0 2px rgba(114,206,155,.22) inset}
 .progress{height:3px;background:var(--edge);border-radius:999px;overflow:hidden;margin:0 16px 8px}
 .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-/* === Hero (Solana-esque) === */
-.hero{position:relative;border-radius:24px;padding:108px 20px 70px;background:#0b0c10;text-align:center;
-  isolation:isolate;box-shadow:0 12px 40px rgba(0,0,0,.35);overflow:hidden}
-.aura,.aura::after{content:"";position:absolute;inset:-25%;
+/* === Hero (forest dawn) === */
+.hero{
+  position:relative;border-radius:28px;padding:110px 20px 74px;background:#09170e;text-align:center;
+  isolation:isolate;box-shadow:0 14px 44px rgba(0,0,0,.38);overflow:hidden
+}
+
+/* Layered “hills” + dawn sun — all gradients, no images */
+.hero::before,
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:-2;
   background:
-    radial-gradient(60% 40% at 20% 20%,rgba(66,255,180,.18),transparent 60%),
-    radial-gradient(60% 40% at 80% 80%,rgba(120,111,255,.20),transparent 60%),
-    conic-gradient(from 230deg at 50% 50%,rgba(66,255,180,.25),rgba(120,111,255,.25),rgba(66,255,180,.15));
-  filter:blur(44px) saturate(120%);z-index:-1;opacity:.85;animation:drift 20s linear infinite}
-.aura::after{transform:rotate(8deg) scale(1.05);opacity:.55;animation:drift2 26s linear infinite}
+    /* dawn glow */
+    radial-gradient(600px 280px at 60% -60px, rgba(255,230,150,.22), transparent 60%),
+    /* distant hill */
+    radial-gradient(1000px 520px at 50% 120%, rgba(26,74,56,.60), transparent 60%),
+    /* left hill */
+    radial-gradient(800px 420px at 15% 120%, rgba(20,66,50,.70), transparent 60%),
+    /* right hill */
+    radial-gradient(860px 440px at 85% 120%, rgba(17,56,44,.66), transparent 60%),
+    /* sky tint */
+    linear-gradient(180deg, #0d2718 0%, #0b1f16 50%, #0a1913 100%);
+  filter:saturate(110%);
+}
+.hero::after{
+  /* slow parallax drift for life */
+  animation:forestDrift 28s linear infinite;opacity:.55
+}
+@keyframes forestDrift{
+  0%{transform:translate3d(0,0,0)}
+  100%{transform:translate3d(-1.2%,.8%,0)}
+}
+
+/* faint aurora shimmer */
+.aura,.aura::after{
+  content:"";position:absolute;inset:-25%;
+  background:
+    radial-gradient(60% 40% at 25% 20%,rgba(76,194,111,.16),transparent 60%),
+    radial-gradient(60% 40% at 80% 70%,rgba(40,154,133,.16),transparent 60%),
+    conic-gradient(from 240deg at 50% 50%,rgba(76,194,111,.18),rgba(40,154,133,.18),rgba(76,194,111,.12));
+  filter:blur(42px);z-index:-1;opacity:.85;animation:drift 22s linear infinite
+}
+.aura::after{transform:rotate(8deg) scale(1.05);opacity:.5;animation:drift2 30s linear infinite}
 @keyframes drift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-2%,1%,0)}}
 @keyframes drift2{0%{transform:rotate(8deg) scale(1.05)}100%{transform:rotate(368deg) scale(1.05)}}
-h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 16px;font-weight:800;letter-spacing:.005em}
+
+/* pulse gives “alive” feeling */
 .pulse{
-  position:absolute;inset:auto auto -60px 50%;transform:translateX(-50%);width:540px;height:540px;border-radius:50%;
-  box-shadow:0 0 0 0 var(--ring);animation:pulse 3.6s ease-out infinite;pointer-events:none
+  position:absolute;inset:auto auto -60px 50%;transform:translateX(-50%);
+  width:540px;height:540px;border-radius:50%;
+  box-shadow:0 0 0 0 var(--ring);animation:pulse 3.8s ease-out infinite;pointer-events:none
 }
-@keyframes pulse{0%{box-shadow:0 0 0 0 var(--ring)}100%{box-shadow:0 0 0 180px rgba(90,240,180,0)}}
-.chip{display:inline-block;margin:6px 0 12px;padding:6px 14px;border-radius:999px;color:#8bf0c6;background:var(--chipbg);border:1px solid var(--chipbr);font-weight:800;letter-spacing:.02em}
-.lead{max-width:880px;margin:10px auto 8px;color:#cfe9da;font-size:1.08rem;line-height:1.7}
-.sub{max-width:880px;margin:8px auto 22px;color:#a9c9ba}
-.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--ring)}100%{box-shadow:0 0 0 190px rgba(76,194,111,0)}}
+
+h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight:800;letter-spacing:.005em}
+.chip{
+  display:inline-block;margin:6px 0 12px;padding:6px 14px;border-radius:999px;
+  color:#b3f2cd;background:var(--chipbg);border:1px solid var(--chipbr);font-weight:800;letter-spacing:.02em
+}
+.lead{max-width:880px;margin:12px auto 8px;color:#d9efe4;font-size:1.08rem;line-height:1.7}
+.sub{max-width:880px;margin:8px auto 24px;color:#a7cdb5}
+
+/* Buttons (moss → teal) */
 .btn{border-radius:14px;font-weight:800;cursor:pointer;padding:.95rem 1.28rem;border:1px solid transparent}
-.btn.primary{background:linear-gradient(180deg,#5cf0c2,#2ad08f);color:#0a1b14;box-shadow:0 10px 28px rgba(42,208,143,.36);transition:transform .12s ease, filter .12s ease, box-shadow .12s ease}
-.btn.primary:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 14px 36px rgba(42,208,143,.46)}
-.btn.ghost{background:rgba(255,255,255,.03);color:#cfe9da;border-color:var(--edge);backdrop-filter:blur(2px)}
-.pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px;color:#a9c9ba}
+.btn.primary{
+  background:linear-gradient(180deg,#7fe09f,#3abf97);
+  color:#05140c;border:0;box-shadow:0 12px 30px rgba(58,191,151,.32);
+  transition:transform .12s ease,filter .12s ease,box-shadow .12s ease
+}
+.btn.primary:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 16px 38px rgba(58,191,151,.44)}
+.btn.ghost{
+  background:rgba(255,255,255,.03);color:#d9efe4;border-color:var(--edge);
+  backdrop-filter:blur(2px)
+}
+.cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px;color:#a7cdb5}
 .pills span{padding:6px 10px;border:1px solid var(--edge);border-radius:999px}
 
-/* === Panels === */
-.panel{background:linear-gradient(180deg,#0b0c10,#0b0c10);border-radius:24px;padding:32px 16px 26px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+/* Panels */
+.panel{background:linear-gradient(180deg,#0b1a0f,#0b1a0f);border-radius:28px;padding:32px 16px 26px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
 h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 .center{text-align:center}.muted{color:var(--muted)} .tiny{font-size:.92rem}
 
-/* Rail / timeline */
+/* Timeline */
 .rail{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 18px}
 .rail .line{width:48px;height:2px;background:var(--edge)}
 .dot{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.03);font-weight:700}
 
-/* Grid of parcels */
+/* Parcel grid */
 .grid{--min:260px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--min),1fr));gap:12px;max-width:1060px;margin:0 auto 10px}
 .card{padding:14px 12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--edge);backdrop-filter:blur(4px)}
 .card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.tag{font-size:.75rem;border:1px solid var(--edge);border-radius:999px;padding:2px 8px;color:#cfe9da}
+.tag{font-size:.75rem;border:1px solid var(--edge);border-radius:999px;padding:2px 8px;color:#d9efe4}
 .prog{height:8px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:6px}
 .prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .7s ease}
 .meta{margin-top:6px;color:var(--muted);font-size:.95rem}
@@ -90,34 +161,33 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 .scrub{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0 2px}
 input[type="range"]{width:280px}
 
-/* Two cols (funding) */
+/* Funding columns */
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:1060px;margin:8px auto}
 @media (max-width:860px){.cols{grid-template-columns:1fr}}
 .card h3{margin:4px 0 6px}
 
-/* ECO supply */
+/* ECO supply + badge */
 .supply .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin:6px 0}
 .supply .bar span{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--brand),var(--brand2))}
-.success{margin-top:8px;color:#8bf0c6}.hidden{display:none}
-
-/* Badge */
+.success{margin-top:8px;color:#b3f2cd}.hidden{display:none}
 .badge{display:flex;gap:12px;align-items:center;margin:6px 0 12px}
 .badge img{border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 
-/* Payout ledger + animated coins */
+/* Payout ledger + coin flow */
 .ledger{position:relative;max-width:1060px;margin:10px auto 8px;border-radius:16px;padding:8px}
 .row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--edge)}
 .row:last-child{border-bottom:0}
 .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
 .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .8s ease}
-.flow{position:absolute;left:18px;top:-16px;height:16px;width:16px;border-radius:50%;background:linear-gradient(180deg,#5cf0c2,#2ad08f);box-shadow:0 0 12px rgba(42,208,143,.6);opacity:0;pointer-events:none}
+.flow{position:absolute;left:18px;top:-16px;height:16px;width:16px;border-radius:50%;background:linear-gradient(180deg,#7fe09f,#3abf97);box-shadow:0 0 12px rgba(58,191,151,.6);opacity:0;pointer-events:none}
 .nav{display:flex;justify-content:space-between;gap:10px;max-width:1060px;margin:12px auto 0}
 
-/* Respect reduced motion */
+/* reduced motion */
 @media (prefers-reduced-motion:reduce){
-  .screen{transition:none} .aura,.aura::after,.pulse{animation:none}
+  .screen{transition:none} .hero::after,.aura,.aura::after,.pulse{animation:none}
 }
 </style>
+
 </head>
 <body>
 <div class="sticky">
