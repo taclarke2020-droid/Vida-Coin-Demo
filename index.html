@@ -55,37 +55,14 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakar
 .progress{height:3px;background:var(--edge);border-radius:999px;overflow:hidden;margin:0 16px 8px}
 .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-/* === Hero (forest dawn) === */
+/* === Hero === */
 .hero{
   position:relative;border-radius:28px;padding:110px 20px 74px;background:#09170e;text-align:center;
   isolation:isolate;box-shadow:0 14px 44px rgba(0,0,0,.38);overflow:hidden
 }
 
-/* Layered “hills” + dawn sun — all gradients, no images */
-.hero::before,
-.hero::after{
-  content:"";position:absolute;inset:0;z-index:-2;
-  background:
-    /* dawn glow */
-    radial-gradient(600px 280px at 60% -60px, rgba(255,230,150,.22), transparent 60%),
-    /* distant hill */
-    radial-gradient(1000px 520px at 50% 120%, rgba(26,74,56,.60), transparent 60%),
-    /* left hill */
-    radial-gradient(800px 420px at 15% 120%, rgba(20,66,50,.70), transparent 60%),
-    /* right hill */
-    radial-gradient(860px 440px at 85% 120%, rgba(17,56,44,.66), transparent 60%),
-    /* sky tint */
-    linear-gradient(180deg, #0d2718 0%, #0b1f16 50%, #0a1913 100%);
-  filter:saturate(110%);
-}
-.hero::after{
-  /* slow parallax drift for life */
-  animation:forestDrift 28s linear infinite;opacity:.55
-}
-@keyframes forestDrift{
-  0%{transform:translate3d(0,0,0)}
-  100%{transform:translate3d(-1.2%,.8%,0)}
-}
+/* kill the old gradient hills (we use SVG scenes instead) */
+.hero::before,.hero::after{content:none !important}
 
 /* faint aurora shimmer */
 .aura,.aura::after{
@@ -116,7 +93,7 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 .lead{max-width:880px;margin:12px auto 8px;color:#d9efe4;font-size:1.08rem;line-height:1.7}
 .sub{max-width:880px;margin:8px auto 24px;color:#a7cdb5}
 
-/* Buttons (moss → teal) */
+/* Buttons */
 .btn{border-radius:14px;font-weight:800;cursor:pointer;padding:.95rem 1.28rem;border:1px solid transparent}
 .btn.primary{
   background:linear-gradient(180deg,#7fe09f,#3abf97);
@@ -182,36 +159,31 @@ input[type="range"]{width:280px}
 .flow{position:absolute;left:18px;top:-16px;height:16px;width:16px;border-radius:50%;background:linear-gradient(180deg,#7fe09f,#3abf97);box-shadow:0 0 12px rgba(58,191,151,.6);opacity:0;pointer-events:none}
 .nav{display:flex;justify-content:space-between;gap:10px;max-width:1060px;margin:12px auto 0}
 
-/* reduced motion */
-@media (prefers-reduced-motion:reduce){
-  .screen{transition:none} .hero::after,.aura,.aura::after,.pulse{animation:none}
-}
-
-  /* === Illustrated hero art (SVG) === */
-.hero::before,
-.hero::after{ content:none !important; }   /* turn off the old gradient hills */
-
-.hero-art{
-  position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none;
-}
+/* === Illustrated hero art (SVG) === */
+.hero-art{ position:absolute; inset:0; z-index:-1; overflow:hidden; pointer-events:none; }
 .hero-art svg{ width:100%; height:100%; display:block }
 
-/* subtle animation */
-@keyframes bird-fly { 
-  0% { transform: translateX(-4%) translateY(0) }
-  50%{ transform: translateX(0) translateY(-6px) }
-  100%{ transform: translateX(4%) translateY(0) }
-}
-.hero-art .bird{ opacity:.75; animation: bird-fly 16s ease-in-out infinite }
-.hero-art .bird--2{ animation-duration: 20s; opacity:.6 }
-.hero-art .bird--3{ animation-duration: 24s; opacity:.5 }
+/* scenes on/off */
+.hero-art .scene{ display:none }
+.hero-art .scene.active{ display:block }
 
-@media (prefers-reduced-motion: reduce){
-  .hero-art .bird{ animation:none }
-}
+/* tiny ambient motion */
+@keyframes bird-fly { 0%{transform:translateX(-3%)} 50%{transform:translateY(-6px)} 100%{transform:translateX(3%)} }
+.hero-art .bird{ animation: bird-fly 18s ease-in-out infinite; opacity:.75 }
+.hero-art .bird.b2{ animation-duration: 22s; opacity:.6 }
+.hero-art .bird.b3{ animation-duration: 26s; opacity:.5 }
+@media (prefers-reduced-motion:reduce){ .hero-art .bird{ animation:none } }
 
+/* biome switcher */
+.biome-switch{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:10px 0 0 }
+.chip.small{ padding:4px 10px; font-size:.85rem; color:#b3f2cd }
+.chip.small.active{ border-color:rgba(114,206,155,.55); box-shadow:0 0 0 2px rgba(114,206,155,.22) inset }
+
+/* reduced motion */
+@media (prefers-reduced-motion:reduce){
+  .screen{transition:none} .aura,.aura::after,.pulse{animation:none}
+}
 </style>
-
 </head>
 <body>
 <div class="sticky">
@@ -228,115 +200,155 @@ input[type="range"]{width:280px}
 
   <!-- Slide 1 -->
   <section class="screen hero active" data-screen="1" aria-live="polite">
+    <!-- Illustrated multi-biome backdrop -->
     <div class="hero-art" aria-hidden="true">
-  <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice" role="img">
-    <defs>
-      <!-- sky + dawn -->
-      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#0d2718"/>
-        <stop offset="55%" stop-color="#0b1f16"/>
-        <stop offset="100%" stop-color="#0a1913"/>
-      </linearGradient>
-      <radialGradient id="sun" cx="60%" cy="-10%" r="45%">
-        <stop offset="0%" stop-color="rgba(255,230,150,.28)"/>
-        <stop offset="100%" stop-color="rgba(255,230,150,0)"/>
-      </radialGradient>
+      <svg viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice" role="img">
+        <defs>
+          <!-- shared sky + dawn -->
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"  stop-color="#0d2718"/>
+            <stop offset="55%" stop-color="#0b1f16"/>
+            <stop offset="100%" stop-color="#0a1913"/>
+          </linearGradient>
+          <radialGradient id="sun" cx="62%" cy="-12%" r="45%">
+            <stop offset="0%" stop-color="rgba(255,230,150,.26)"/>
+            <stop offset="100%" stop-color="rgba(255,230,150,0)"/>
+          </radialGradient>
+          <!-- scene fades -->
+          <linearGradient id="fadeG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="white" stop-opacity="0"/>
+            <stop offset="30%" stop-color="white" stop-opacity=".18"/>
+            <stop offset="65%" stop-color="white" stop-opacity=".88"/>
+            <stop offset="100%" stop-color="white" stop-opacity="1"/>
+          </linearGradient>
+          <mask id="fadeMask"><rect width="1600" height="700" fill="url(#fadeG)"/></mask>
+        </defs>
 
-      <!-- hill shades -->
-      <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#1a4a38"/>
-        <stop offset="100%" stop-color="#153d2e"/>
-      </linearGradient>
-      <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#1f5d45"/>
-        <stop offset="100%" stop-color="#174735"/>
-      </linearGradient>
-      <linearGradient id="hillNear" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#266f50"/>
-        <stop offset="100%" stop-color="#1b553f"/>
-      </linearGradient>
+        <!-- base sky -->
+        <rect width="1600" height="700" fill="url(#sky)"/>
+        <circle cx="980" cy="-20" r="380" fill="url(#sun)"/>
 
-      <!-- river -->
-      <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%"  stop-color="#2aa38f" stop-opacity=".45"/>
-        <stop offset="100%" stop-color="#1d6a57" stop-opacity=".55"/>
-      </linearGradient>
+        <!-- ===== Forest ===== -->
+        <g id="scene-forest" class="scene active">
+          <defs>
+            <linearGradient id="f-far" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1a4a38"/><stop offset="100%" stop-color="#153d2e"/>
+            </linearGradient>
+            <linearGradient id="f-mid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1f5d45"/><stop offset="100%" stop-color="#174735"/>
+            </linearGradient>
+            <linearGradient id="f-near" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#266f50"/><stop offset="100%" stop-color="#1b553f"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,470 Q380,370 800,430 T1600,390 L1600,700 L0,700 Z" fill="url(#f-far)" opacity=".9"/>
+          <path d="M0,530 Q320,430 800,510 T1600,470 L1600,700 L0,700 Z" fill="url(#f-mid)"/>
+          <path d="M0,590 Q420,490 900,570 T1600,530 L1600,700 L0,700 Z" fill="url(#f-near)"/>
+          <g fill="#1e644b" opacity=".75">
+            <polygon points="80,590 95,560 65,560"/>
+            <polygon points="160,600 178,568 142,568"/>
+            <polygon points="260,596 280,562 240,562"/>
+            <polygon points="410,598 433,565 387,565"/>
+            <polygon points="560,604 585,570 535,570"/>
+            <polygon points="740,596 763,562 717,562"/>
+            <polygon points="900,602 922,568 878,568"/>
+            <polygon points="1080,598 1103,564 1060,564"/>
+            <polygon points="1260,606 1282,572 1240,572"/>
+            <polygon points="1440,600 1462,566 1420,566"/>
+          </g>
+          <g class="bird">
+            <path d="M260,120 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <g class="bird b2">
+            <path d="M1020,110 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </g>
 
-      <!-- simple tree -->
-      <g id="tree">
-        <polygon points="0,-36 10,-18 -10,-18" fill="#1c5b45"/>
-        <polygon points="0,-22 14,0 -14,0" fill="#1e644b"/>
-        <rect x="-2" y="0" width="4" height="12" rx="1.5" fill="#14402f"/>
-      </g>
+        <!-- ===== Wetland ===== -->
+        <g id="scene-wetland" class="scene">
+          <defs>
+            <linearGradient id="w-far" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#16514a"/><stop offset="100%" stop-color="#0f3d35"/>
+            </linearGradient>
+            <linearGradient id="w-mid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1e6a5f"/><stop offset="100%" stop-color="#145349"/>
+            </linearGradient>
+            <linearGradient id="w-water" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#2aa38f" stop-opacity=".5"/>
+              <stop offset="100%" stop-color="#1b6b5a" stop-opacity=".7"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,480 Q380,380 800,440 T1600,420 L1600,700 L0,700 Z" fill="url(#w-far)" opacity=".9"/>
+          <path d="M0,540 Q320,440 800,520 T1600,500 L1600,700 L0,700 Z" fill="url(#w-mid)"/>
+          <path d="M0,620 Q420,600 860,630 T1600,670 L1600,700 L0,700 Z" fill="url(#w-water)"/>
+          <g fill="#144e43" opacity=".8">
+            <rect x="100" y="600" width="4" height="24" rx="2"/>
+            <rect x="112" y="608" width="4" height="18" rx="2"/>
+            <rect x="124" y="596" width="4" height="28" rx="2"/>
+            <rect x="500" y="604" width="4" height="24" rx="2"/>
+            <rect x="514" y="612" width="4" height="16" rx="2"/>
+            <rect x="530" y="600" width="4" height="26" rx="2"/>
+            <rect x="920" y="606" width="4" height="22" rx="2"/>
+            <rect x="934" y="612" width="4" height="16" rx="2"/>
+            <rect x="948" y="596" width="4" height="28" rx="2"/>
+          </g>
+          <g class="bird b3">
+            <path d="M300,130 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </g>
 
-      <!-- soft top fade so the art never competes with the heading -->
-      <linearGradient id="fadeG" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="white" stop-opacity="0"/>
-        <stop offset="25%" stop-color="white" stop-opacity=".25"/>
-        <stop offset="60%" stop-color="white" stop-opacity=".9"/>
-        <stop offset="100%" stop-color="white" stop-opacity="1"/>
-      </linearGradient>
-      <mask id="fadeMask"><rect width="1600" height="700" fill="url(#fadeG)"/></mask>
-    </defs>
+        <!-- ===== Grassland ===== -->
+        <g id="scene-grassland" class="scene">
+          <defs>
+            <linearGradient id="g-far" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1b5c40"/><stop offset="100%" stop-color="#134a37"/>
+            </linearGradient>
+            <linearGradient id="g-mid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#2a7c55"/><stop offset="100%" stop-color="#1a6147"/>
+            </linearGradient>
+            <linearGradient id="g-near" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#3a9e67"/><stop offset="100%" stop-color="#257b56"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,480 Q360,420 800,470 T1600,450 L1600,700 L0,700 Z" fill="url(#g-far)" opacity=".9"/>
+          <path d="M0,540 Q320,480 800,530 T1600,510 L1600,700 L0,700 Z" fill="url(#g-mid)"/>
+          <path d="M0,600 Q420,560 900,600 T1600,570 L1600,700 L0,700 Z" fill="url(#g-near)"/>
+          <g fill="#2d8c5e" opacity=".8">
+            <circle cx="180" cy="598" r="4"/><circle cx="186" cy="594" r="3"/><circle cx="192" cy="599" r="3"/>
+            <circle cx="520" cy="606" r="4"/><circle cx="526" cy="602" r="3"/><circle cx="532" cy="607" r="3"/>
+            <circle cx="980" cy="602" r="4"/><circle cx="986" cy="598" r="3"/><circle cx="992" cy="603" r="3"/>
+          </g>
+          <g class="bird">
+            <path d="M1120,120 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </g>
 
-    <!-- sky & dawn -->
-    <rect width="1600" height="700" fill="url(#sky)"/>
-    <circle cx="960" cy="0" r="380" fill="url(#sun)"/>
+        <!-- ===== Alpine ===== -->
+        <g id="scene-alpine" class="scene">
+          <defs>
+            <linearGradient id="a-far" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#174b3b"/><stop offset="100%" stop-color="#103b2f"/>
+            </linearGradient>
+            <linearGradient id="a-mid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#1c5a46"/><stop offset="100%" stop-color="#144636"/>
+            </linearGradient>
+          </defs>
+          <path d="M180,520 380,300 600,520 Z" fill="url(#a-far)"/>
+          <path d="M620,540 880,320 1120,540 Z" fill="url(#a-mid)"/>
+          <path d="M1120,560 1320,360 1540,560 Z" fill="url(#a-far)"/>
+          <polygon points="380,300 360,330 402,330" fill="#d9efe4" opacity=".8"/>
+          <polygon points="880,320 858,352 902,352" fill="#d9efe4" opacity=".8"/>
+          <polygon points="1320,360 1298,392 1342,392" fill="#d9efe4" opacity=".8"/>
+          <path d="M0,600 Q420,560 900,600 T1600,570 L1600,700 L0,700 Z" fill="#1a5a45"/>
+          <g class="bird b2">
+            <path d="M260,130 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round"/>
+          </g>
+        </g>
 
-    <!-- distant hill -->
-    <path d="M0,460 Q380,360 800,420 T1600,380 L1600,700 L0,700 Z" fill="url(#hillFar)" opacity=".85"/>
-
-    <!-- mid hill -->
-    <path d="M0,520 Q320,420 800,500 T1600,460 L1600,700 L0,700 Z" fill="url(#hillMid)" opacity=".95"/>
-
-    <!-- sprinkle some mid-distance trees -->
-    <g opacity=".7">
-      <use href="#tree" transform="translate(120,520) scale(1.1)"/>
-      <use href="#tree" transform="translate(220,515) scale(1.05)"/>
-      <use href="#tree" transform="translate(360,518) scale(1.2)"/>
-      <use href="#tree" transform="translate(520,522) scale(1.1)"/>
-      <use href="#tree" transform="translate(690,514) scale(1.15)"/>
-      <use href="#tree" transform="translate(860,520) scale(1.05)"/>
-      <use href="#tree" transform="translate(1040,516) scale(1.2)"/>
-      <use href="#tree" transform="translate(1200,524) scale(1.1)"/>
-      <use href="#tree" transform="translate(1380,510) scale(1.2)"/>
-    </g>
-
-    <!-- near hill -->
-    <path d="M0,580 Q420,480 900,560 T1600,520 L1600,700 L0,700 Z" fill="url(#hillNear)"/>
-
-    <!-- foreground trees -->
-    <g>
-      <use href="#tree" transform="translate(80,580) scale(1.4)"/>
-      <use href="#tree" transform="translate(160,590) scale(1.35)"/>
-      <use href="#tree" transform="translate(260,585) scale(1.45)"/>
-      <use href="#tree" transform="translate(410,588) scale(1.5)"/>
-      <use href="#tree" transform="translate(560,592) scale(1.4)"/>
-      <use href="#tree" transform="translate(740,584) scale(1.55)"/>
-      <use href="#tree" transform="translate(900,590) scale(1.45)"/>
-      <use href="#tree" transform="translate(1080,586) scale(1.5)"/>
-      <use href="#tree" transform="translate(1260,594) scale(1.4)"/>
-      <use href="#tree" transform="translate(1440,588) scale(1.5)"/>
-    </g>
-
-    <!-- river / wetland shine -->
-    <path d="M500,640 Q800,600 1100,640 T1600,680 L0,700 Z" fill="url(#river)" opacity=".7"/>
-
-    <!-- a few birds -->
-    <g class="bird">
-      <path d="M-30,150 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round" opacity=".7"/>
-    </g>
-    <g class="bird bird--2">
-      <path d="M260,120 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round" opacity=".6"/>
-    </g>
-    <g class="bird bird--3">
-      <path d="M1020,110 q16,-12 32,0 q16,-12 32,0" fill="none" stroke="#d9efe4" stroke-width="2" stroke-linecap="round" opacity=".55"/>
-    </g>
-
-    <!-- fade the top so text always pops -->
-    <rect width="1600" height="700" fill="#000" mask="url(#fadeMask)" opacity=".25"/>
-  </svg>
-</div>
+        <!-- soften top for readability -->
+        <rect width="1600" height="700" fill="#000" mask="url(#fadeMask)" opacity=".25"/>
+      </svg>
+    </div>
 
     <div class="aura"></div><div class="pulse" aria-hidden="true"></div>
     <h1>When nature improves, Gaia pays you.</h1>
@@ -347,6 +359,15 @@ input[type="range"]{width:280px}
       <button class="btn primary" data-next="2">Start the demo</button>
       <button class="btn ghost" data-next="2">See how it works</button>
     </div>
+
+    <!-- biome switcher -->
+    <div class="biome-switch">
+      <button class="chip small active" data-biome="forest">Forest</button>
+      <button class="chip small" data-biome="wetland">Wetland</button>
+      <button class="chip small" data-biome="grassland">Grassland</button>
+      <button class="chip small" data-biome="alpine">Alpine</button>
+    </div>
+
     <div class="pills">
       <span>Open satellite data</span><span>Auditable registry</span><span>Transparent payouts</span>
     </div>
@@ -446,6 +467,17 @@ input[type="range"]{width:280px}
   });
   show(1);
 
+  // ==== Biome switcher (hero) ====
+  const biomeBtns = document.querySelectorAll('.biome-switch [data-biome]');
+  const scenes = document.querySelectorAll('.hero-art .scene');
+  biomeBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.dataset.biome;
+      biomeBtns.forEach(b=>b.classList.toggle('active', b===btn));
+      scenes.forEach(s=> s.classList.toggle('active', s.id === `scene-${key}`));
+    });
+  });
+
   // Slide 2: land joins
   const grid=document.getElementById("grid");
   const mParcels=document.getElementById("mParcels");
@@ -463,7 +495,7 @@ input[type="range"]{width:280px}
     const i=parcels.length%8;
     const score=rand(0.62,0.93);
     const earned=+(score*100).toFixed(2);
-    const p={name:names[i],code:codes[i],biome:biomes[Math.floor(Math.random()*biomes.length)],score,earned};
+    const p={name:names[i],code:codes[i],biome:biomes[Math.floor(Math.random() * biomes.length)],score,earned};
     parcels.push(p);
     const card=el(`
       <article class="card" aria-live="polite">
@@ -571,7 +603,7 @@ input[type="range"]{width:280px}
     });
 
     if(!prefersReduced){
-      // simple coin flow animation: a few glowing dots from top-left flowing across rows
+      // simple coin flow animation
       for(let i=0;i<10;i++){
         const c=document.createElement("div"); c.className="flow";
         ledger.appendChild(c);
