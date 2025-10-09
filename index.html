@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Gaia Demo</title>
 
-<!-- Premium font (safe, fast) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -14,53 +13,66 @@
 :root{
   --bg:#0a0b10;--panel:#0c0e14;--ink:#eafbf2;--muted:#a8cdbf;--edge:rgba(255,255,255,.08);
   --brand:#2ad08f;--brand2:#786fff;--chipbg:rgba(139,240,198,.12);--chipbr:rgba(139,240,198,.18);
+  --ring:rgba(90,240,180,.15);
 }
 *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,Arial,sans-serif}
 .wrap{max-width:1200px;margin:0 auto;padding:16px}
 .screen{display:none;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
 .screen.active{display:block;opacity:1;transform:none}
 
-/* Stepper */
-.stepper{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:4px 0 12px}
+/* === Sticky stepper w/ progress === */
+.sticky{
+  position:sticky;top:0;z-index:40;background:linear-gradient(180deg,rgba(10,11,16,.75),rgba(10,11,16,.35));
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--edge)
+}
+.stepper{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 10px}
 .stepper button{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
   border:1px solid var(--edge);border-radius:999px;color:var(--ink);font-weight:700;font-size:.86rem;padding:.5rem .8rem;cursor:pointer}
 .stepper button.active{border-color:rgba(139,240,198,.5);box-shadow:0 0 0 2px rgba(139,240,198,.2) inset}
+.progress{height:3px;background:var(--edge);border-radius:999px;overflow:hidden;margin:0 16px 8px}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-/* Hero */
-.hero{position:relative;border-radius:24px;padding:86px 20px 60px;background:#0b0c10;text-align:center;
+/* === Hero (Solana-esque) === */
+.hero{position:relative;border-radius:24px;padding:108px 20px 70px;background:#0b0c10;text-align:center;
   isolation:isolate;box-shadow:0 12px 40px rgba(0,0,0,.35);overflow:hidden}
 .aura,.aura::after{content:"";position:absolute;inset:-25%;
   background:
     radial-gradient(60% 40% at 20% 20%,rgba(66,255,180,.18),transparent 60%),
     radial-gradient(60% 40% at 80% 80%,rgba(120,111,255,.20),transparent 60%),
     conic-gradient(from 230deg at 50% 50%,rgba(66,255,180,.25),rgba(120,111,255,.25),rgba(66,255,180,.15));
-  filter:blur(44px) saturate(120%);z-index:-1;opacity:.85}
-.aura::after{transform:rotate(8deg) scale(1.05);opacity:.55}
-h1{font-size:clamp(32px,5.2vw,56px);line-height:1.05;margin:0 0 14px;font-weight:800}
-.chip{display:inline-block;margin:6px 0 12px;padding:4px 12px;border-radius:999px;color:#8bf0c6;background:var(--chipbg);border:1px solid var(--chipbr);font-weight:700}
-.lead{max-width:820px;margin:8px auto 6px;color:#cfe9da;font-size:1.06rem;line-height:1.65}
-.sub{max-width:820px;margin:6px auto 18px;color:#a9c9ba}
+  filter:blur(44px) saturate(120%);z-index:-1;opacity:.85;animation:drift 20s linear infinite}
+.aura::after{transform:rotate(8deg) scale(1.05);opacity:.55;animation:drift2 26s linear infinite}
+@keyframes drift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-2%,1%,0)}}
+@keyframes drift2{0%{transform:rotate(8deg) scale(1.05)}100%{transform:rotate(368deg) scale(1.05)}}
+h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 16px;font-weight:800;letter-spacing:.005em}
+.pulse{
+  position:absolute;inset:auto auto -60px 50%;transform:translateX(-50%);width:540px;height:540px;border-radius:50%;
+  box-shadow:0 0 0 0 var(--ring);animation:pulse 3.6s ease-out infinite;pointer-events:none
+}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--ring)}100%{box-shadow:0 0 0 180px rgba(90,240,180,0)}}
+.chip{display:inline-block;margin:6px 0 12px;padding:6px 14px;border-radius:999px;color:#8bf0c6;background:var(--chipbg);border:1px solid var(--chipbr);font-weight:800;letter-spacing:.02em}
+.lead{max-width:880px;margin:10px auto 8px;color:#cfe9da;font-size:1.08rem;line-height:1.7}
+.sub{max-width:880px;margin:8px auto 22px;color:#a9c9ba}
 .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.btn{border-radius:14px;font-weight:800;cursor:pointer;padding:.9rem 1.2rem;border:1px solid transparent}
-.btn.primary{background:linear-gradient(180deg,#5cf0c2,#2ad08f);color:#0a1b14;box-shadow:0 10px 28px rgba(42,208,143,.36)}
+.btn{border-radius:14px;font-weight:800;cursor:pointer;padding:.95rem 1.28rem;border:1px solid transparent}
+.btn.primary{background:linear-gradient(180deg,#5cf0c2,#2ad08f);color:#0a1b14;box-shadow:0 10px 28px rgba(42,208,143,.36);transition:transform .12s ease, filter .12s ease, box-shadow .12s ease}
 .btn.primary:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 14px 36px rgba(42,208,143,.46)}
 .btn.ghost{background:rgba(255,255,255,.03);color:#cfe9da;border-color:var(--edge);backdrop-filter:blur(2px)}
 .pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px;color:#a9c9ba}
 .pills span{padding:6px 10px;border:1px solid var(--edge);border-radius:999px}
 
-/* Panels */
+/* === Panels === */
 .panel{background:linear-gradient(180deg,#0b0c10,#0b0c10);border-radius:24px;padding:32px 16px 26px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
 h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 .center{text-align:center}.muted{color:var(--muted)} .tiny{font-size:.92rem}
 
-/* Rail */
+/* Rail / timeline */
 .rail{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 18px}
 .rail .line{width:48px;height:2px;background:var(--edge)}
-.dot{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;border:1px solid var(--edge);
-  background:rgba(255,255,255,.03);font-weight:700}
+.dot{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.03);font-weight:700}
 
 /* Grid of parcels */
-.grid{--min:260px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--min),1fr));gap:12px;max-width:1040px;margin:0 auto 8px}
+.grid{--min:260px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--min),1fr));gap:12px;max-width:1060px;margin:0 auto 10px}
 .card{padding:14px 12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--edge);backdrop-filter:blur(4px)}
 .card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .tag{font-size:.75rem;border:1px solid var(--edge);border-radius:999px;padding:2px 8px;color:#cfe9da}
@@ -69,13 +81,17 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 .meta{margin-top:6px;color:var(--muted);font-size:.95rem}
 
 /* KPIs */
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1040px;margin:10px auto 6px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1060px;margin:12px auto 6px}
 .kpi{background:rgba(255,255,255,.03);border:1px solid var(--edge);border-radius:14px;padding:12px;text-align:center}
 .kpi .label{color:var(--muted);font-size:.9rem}
 .kpi .value{font-weight:800;font-size:1.4rem;margin-top:4px}
 
+/* Scrubber */
+.scrub{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0 2px}
+input[type="range"]{width:280px}
+
 /* Two cols (funding) */
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:1040px;margin:8px auto}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:1060px;margin:8px auto}
 @media (max-width:860px){.cols{grid-template-columns:1fr}}
 .card h3{margin:4px 0 6px}
 
@@ -88,31 +104,40 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 .badge{display:flex;gap:12px;align-items:center;margin:6px 0 12px}
 .badge img{border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 
-/* Payout ledger */
-.ledger{max-width:1040px;margin:10px auto 8px;border-radius:16px;padding:8px}
+/* Payout ledger + animated coins */
+.ledger{position:relative;max-width:1060px;margin:10px auto 8px;border-radius:16px;padding:8px}
 .row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--edge)}
 .row:last-child{border-bottom:0}
 .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
 .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .8s ease}
-.nav{display:flex;justify-content:space-between;gap:10px;max-width:1040px;margin:12px auto 0}
+.flow{position:absolute;left:18px;top:-16px;height:16px;width:16px;border-radius:50%;background:linear-gradient(180deg,#5cf0c2,#2ad08f);box-shadow:0 0 12px rgba(42,208,143,.6);opacity:0;pointer-events:none}
+.nav{display:flex;justify-content:space-between;gap:10px;max-width:1060px;margin:12px auto 0}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion:reduce){
+  .screen{transition:none} .aura,.aura::after,.pulse{animation:none}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-
+<div class="sticky">
   <div class="stepper" aria-label="Demo steps">
     <button class="tab active" data-goto="1">Intro</button>
     <button class="tab" data-goto="2">Land joins</button>
     <button class="tab" data-goto="3">Funding</button>
     <button class="tab" data-goto="4">Payouts</button>
   </div>
+  <div class="progress"><span id="progressLine"></span></div>
+</div>
+
+<div class="wrap">
 
   <!-- Slide 1 -->
   <section class="screen hero active" data-screen="1" aria-live="polite">
-    <div class="aura"></div>
+    <div class="aura"></div><div class="pulse" aria-hidden="true"></div>
     <h1>When nature improves, Gaia pays you.</h1>
     <div class="chip">What is Gaia?</div>
-    <p class="lead">Gaia crypto system that automatically rewards verified land stewards for restoring and maintaining healthy ecosystems — funded by companies and donors who want real, measurable impact.</p>
+    <p class="lead">Gaia is a decentralised crypto system that automatically rewards verified land stewards for restoring and maintaining healthy ecosystems — funded by companies and donors who want real, measurable impact.</p>
     <p class="sub">The system is powered by Gaia Coin — a crypto currency which rewards ecological care twice, through fair governance and rising value as global ecosystems recover.</p>
     <div class="cta">
       <button class="btn primary" data-next="2">Start the demo</button>
@@ -127,8 +152,13 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
   <section class="screen panel" data-screen="2">
     <h2>Land joins & earns</h2>
     <p class="muted center">Privately owned or charity land onboards, gets verified, receives a HealthScore, then earns Gaia Coins over time.</p>
-
     <div class="rail"><div class="dot">1</div>Sign up<div class="line"></div><div class="dot">2</div>Verify<div class="line"></div><div class="dot">3</div>HealthScore<div class="line"></div><div class="dot">4</div>Earn</div>
+
+    <div class="scrub">
+      <span class="tiny muted">Faster</span>
+      <input type="range" id="speed" min="0" max="100" value="40" aria-label="Onboarding speed">
+      <span class="tiny muted">Slower</span>
+    </div>
 
     <div class="grid" id="grid"></div>
 
@@ -149,7 +179,7 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
     <div class="cols">
       <article class="card">
         <h3>Companies</h3>
-        <p class="muted">Buy Proof-of-Health certificates</p>
+        <p class="muted tiny">Buy Proof-of-Health certificates</p>
         <div class="supply">
           <div class="bar"><span id="ecoBar"></span></div>
           <div class="muted tiny"><span id="ecoNum">1,000,000</span> ECO remaining</div>
@@ -160,12 +190,14 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 
       <article class="card">
         <h3>People</h3>
-        <p class="muted">Donate & receive a Biome Badge</p>
+        <p class="muted tiny">Donate & receive a Biome Badge</p>
         <div class="badge">
           <img id="badgeImg" alt="Biome Badge" width="140" height="140"
                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
           <div class="muted tiny" id="badgeCap">No badge yet</div>
         </div>
+        <div class="tiny muted">Badge level</div>
+        <div class="scrub"><input type="range" id="badgeLevel" min="1" max="4" value="1" aria-label="Badge level"></div>
         <button class="btn primary" id="donateBtn">Donate £10 (demo)</button>
         <div class="success hidden" id="donateMsg">✅ Thanks! Biome Badge granted.</div>
       </article>
@@ -186,18 +218,28 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 
 <script>
 (function(){
-  // Router
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Router + progress
   const screens=[...document.querySelectorAll(".screen")];
   const tabs=[...document.querySelectorAll(".stepper .tab")];
+  const progressLine = document.getElementById("progressLine");
+  const total= screens.length;
   const show=n=>{
     screens.forEach(s=>s.classList.toggle("active",s.dataset.screen===String(n)));
     tabs.forEach(b=>b.classList.toggle("active",b.dataset.goto===String(n)));
+    progressLine.style.width = ((n-1)/(total-1))*100 + "%";
     postHeight();
     if(n===2) startOnboarding();
     if(n===4) renderPayouts();
   };
   document.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.next)));
   tabs.forEach(b=>b.addEventListener("click",()=>show(b.dataset.goto)));
+  document.addEventListener("keydown",(e)=>{
+    const current = +screens.find(s=>s.classList.contains("active")).dataset.screen;
+    if(e.key==="ArrowRight") show(Math.min(total,current+1));
+    if(e.key==="ArrowLeft") show(Math.max(1,current-1));
+  });
   show(1);
 
   // Slide 2: land joins
@@ -220,13 +262,13 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
     const p={name:names[i],code:codes[i],biome:biomes[Math.floor(Math.random()*biomes.length)],score,earned};
     parcels.push(p);
     const card=el(`
-      <article class="card">
+      <article class="card" aria-live="polite">
         <div class="top">
           <strong>${p.name} <span class="muted">(${p.code})</span></strong>
           <span class="tag">${p.biome}</span>
         </div>
         <div class="meta">Sign up • Verify • Score • Earn</div>
-        <div class="prog"><span></span></div>
+        <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100"><span></span></div>
         <div class="meta"><span>HealthScore: <b>${p.score}</b></span> · <span>Earned: <b>£${p.earned}</b></span></div>
       </article>
     `);
@@ -239,11 +281,20 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
     mCoins.textContent=Math.round(parcels.reduce((a,c)=>a+c.earned,0)).toLocaleString();
   }
 
+  const speed = document.getElementById("speed");
   function startOnboarding(){
     if(timer) return;
-    if(parcels.length===0){for(let i=0;i<3;i++) addParcel();}
-    timer=setInterval(()=>{ if(parcels.length>=12){clearInterval(timer); timer=null; return;} addParcel(); }, 900);
+    if(parcels.length===0){for(let i=0;i<4;i++) addParcel();}
+    timer=setInterval(()=>{ if(parcels.length>=14){clearInterval(timer); timer=null; return;} addParcel(); }, getInterval());
   }
+  function getInterval(){
+    // slider: 0..100 → 200..1400ms
+    const v = +speed.value;
+    return 200 + (100-v)*12;
+  }
+  speed.addEventListener("input", ()=>{
+    if(timer){ clearInterval(timer); timer=setInterval(()=>{ if(parcels.length>=14){clearInterval(timer); timer=null; return;} addParcel(); }, getInterval()); }
+  });
 
   // Slide 3: funding
   let eco=1_000_000;
@@ -255,18 +306,24 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
   const donateMsg=document.getElementById("donateMsg");
   const badgeImg=document.getElementById("badgeImg");
   const badgeCap=document.getElementById("badgeCap");
+  const badgeLevel = document.getElementById("badgeLevel");
 
   function refreshEco(){ ecoNum.textContent=eco.toLocaleString(); ecoBar.style.width=(eco/1_000_000*100)+"%"; postHeight(); }
   refreshEco();
 
-  buyCert.addEventListener("click",()=>{ eco=Math.max(0, eco-5000); refreshEco(); certMsg.classList.remove("hidden"); });
+  buyCert.addEventListener("click",()=>{
+    eco=Math.max(0, eco-5000); refreshEco(); certMsg.classList.remove("hidden");
+    if(!prefersReduced){ ecoBar.animate([{filter:'brightness(1.0)'},{filter:'brightness(1.3)'},{filter:'brightness(1.0)'}],{duration:600}); }
+  });
 
   function badgeSVG(level){
     const titles={1:"L1 • Seed",2:"L2 • Sprout",3:"L3 • Bloom",4:"L4 • Wild"};
     const icons ={1:"🌱",2:"🌿",3:"🦋",4:"🌳"};
+    const ring = level===1?12: level===2?16: level===3?20:24;
     const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'>
       <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0%' stop-color='#5cf0c2'/><stop offset='100%' stop-color='#786fff'/></linearGradient></defs>
       <rect width='100%' height='100%' fill='#0b0c10'/>
+      <circle cx='260' cy='230' r='${120+level*6}' fill='none' stroke='url(#g)' stroke-width='${ring}' opacity='.35'/>
       <circle cx='260' cy='230' r='120' fill='none' stroke='url(#g)' stroke-width='12'/>
       <text x='260' y='230' font-size='76' text-anchor='middle' dominant-baseline='middle'>${icons[level]}</text>
       <text x='260' y='390' font-family='Plus Jakarta Sans, Arial' font-size='22' text-anchor='middle' fill='#cfe9da'>Biome Badge — ${titles[level]}</text>
@@ -274,9 +331,22 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
     return "data:image/svg+xml;utf8,"+encodeURIComponent(svg);
   }
 
-  donateBtn.addEventListener("click",()=>{ donateBtn.disabled=true; badgeImg.src=badgeSVG(1); badgeCap.textContent="Biome Badge — Level 1"; donateMsg.classList.remove("hidden"); postHeight(); });
+  badgeLevel.addEventListener("input", ()=>{
+    const lvl = +badgeLevel.value;
+    badgeImg.src = badgeSVG(lvl);
+    badgeCap.textContent = "Biome Badge — Level " + lvl;
+    postHeight();
+  });
 
-  // Slide 4: payouts
+  donateBtn.addEventListener("click",()=>{
+    donateBtn.disabled=true;
+    badgeImg.src=badgeSVG(+badgeLevel.value || 1);
+    badgeCap.textContent="Biome Badge — Level " + (+badgeLevel.value || 1);
+    donateMsg.classList.remove("hidden");
+    postHeight();
+  });
+
+  // Slide 4: payouts (with coin flow)
   const ledger=document.getElementById("ledger");
   function renderPayouts(){
     ledger.innerHTML="";
@@ -293,13 +363,24 @@ h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
         <div>£<b>${amt.toLocaleString()}</b></div>
       </div>`);
       ledger.appendChild(row);
-      setTimeout(()=>{row.querySelector(".bar span").style.width=Math.min(100, share*100*2)+"%"; postHeight();}, 40);
+      setTimeout(()=>{row.querySelector(".bar span").style.width=Math.min(100, share*100*2)+"%";}, 40);
     });
-  }
 
-  // Navigation bindings
-  document.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.next)));
-  document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>show(b.dataset.goto)));
+    if(!prefersReduced){
+      // simple coin flow animation: a few glowing dots from top-left flowing across rows
+      for(let i=0;i<10;i++){
+        const c=document.createElement("div"); c.className="flow";
+        ledger.appendChild(c);
+        const rowCount = sample.length;
+        const y = 20 + Math.random()* (rowCount*48);
+        const duration = 1200 + Math.random()*1200;
+        c.style.top = y+"px"; c.style.opacity = "1";
+        c.animate([{transform:"translateX(0px)",opacity:1},{transform:"translateX(960px)",opacity:.2}],{duration,iterations:1,easing:"ease-out",fill:"forwards"});
+        setTimeout(()=>c.remove(), duration+100);
+      }
+    }
+    postHeight();
+  }
 
   // iframe auto-height for Shopify embed
   const postHeight = () => {
