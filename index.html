@@ -42,25 +42,24 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakar
 .progress{height:3px;background:var(--edge);border-radius:999px;overflow:hidden;margin:0 16px 8px}
 .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-/* Slide counter: tiny label, no bubble */
+/* Tiny slide counter – top-right, no bubble */
 .step-count{
   position:absolute;
-  top:6px;                 /* closer to the top */
-  left:50%;
-  transform:translateX(-50%);
-  display:inline-block;    /* never stretch */
-  white-space:nowrap;
-  pointer-events:none;
-  padding:2px 6px;         /* minimal padding */
-  border:0;                /* remove bubble */
-  background:transparent;  /* remove bubble */
-  color:rgba(239,252,244,.95);
-  font-weight:800;
-  font-size:.85rem;
-  letter-spacing:.06em;
-  text-shadow:0 1px 2px rgba(0,0,0,.7), 0 0 10px rgba(0,0,0,.45); /* readability over art */
-  z-index:3;
+  top: max(10px, env(safe-area-inset-top));  /* keeps clear of notches */
+  right: 18px;
+  z-index: 5;
+  padding: 0;                 /* no bubble */
+  background: transparent;    /* no bubble */
+  border: 0;
+  color: rgba(239,252,244,.95);
+  font-weight: 800;
+  font-size: .85rem;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0,0,0,.7), 0 0 10px rgba(0,0,0,.45);
+  pointer-events: none;
 }
+
 
 
 /* === Slide 1 hero uses background.png directly === */
@@ -169,29 +168,6 @@ input[type="range"]{width:280px}
 /* reduced motion */
 @media (prefers-reduced-motion:reduce){ .screen{transition:none} }
 
-
-
-  /* Progress counter (shared) */
-.progress-badge{
-  position:absolute; top:10px; right:14px;
-  z-index:5;
-  padding:4px 10px; border-radius:10px;
-  font-weight:800; font-size:.8rem; letter-spacing:.06em;
-  color:#e8f4ee;
-  background:rgba(3,12,8,.55);
-  border:1px solid rgba(255,255,255,.14);
-  backdrop-filter:blur(6px);
-  pointer-events:none;
-}
-
-/* Nudge specifically for Slide 1 hero so it doesn’t collide with the big heading */
-.hero .progress-badge{
-  top:18px;            /* higher */
-  right:22px;          /* a little more breathing room */
-}
-
-/* Make sure each screen is the positioning context */
-.screen{ position: relative; }
 
 </style>
 </head>
