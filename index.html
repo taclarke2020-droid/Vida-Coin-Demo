@@ -73,18 +73,30 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 
 /* generic panel shell for image slides (2–5) */
 .imgslide{
-  min-height:clamp(520px,70vh,760px);
-  border-radius:28px;
-  box-shadow:0 12px 40px rgba(0,0,0,.35);
-  background-color:#09170e;        /* base behind PNG */
-  background-position:center;
-  background-repeat:no-repeat;
-  background-size:contain;          /* keep entire infographic visible */
+  /* taller panel so the contained image can fill the space */
+  min-height: clamp(680px, 86vh, 1100px);
+
+  border-radius: 28px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  background-color: #09170e;
+
+  /* keep the entire infographic visible, centered */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;   /* no cropping */
 }
 
-/* make sure slide 2 uses the PNG with space in name */
+/* Slide 2 source file (space in filename is URL-encoded) */
 #slide2.imgslide{
-  background-image:url("Slide%202.png");
+  background-image: url("Slide%202.png");
+}
+
+/* Optional: extra comfy on phones */
+@media (max-width: 640px){
+  .imgslide{
+    min-height: 92vh;
+    border-radius: 18px;
+  }
 }
 
 /* nav (back/next) */
