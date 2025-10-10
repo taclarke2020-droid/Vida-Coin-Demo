@@ -42,27 +42,16 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakar
 .progress{height:3px;background:var(--edge);border-radius:999px;overflow:hidden;margin:0 16px 8px}
 .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-/* Slide counter: tiny label, no bubble */
+/* Slide counter (kept) */
 .step-count{
-  position:absolute;
-  top:6px;                 /* closer to the top */
-  left:50%;
-  transform:translateX(-50%);
-  display:inline-block;    /* never stretch */
-  white-space:nowrap;
-  pointer-events:none;
-  padding:2px 6px;         /* minimal padding */
-  border:0;                /* remove bubble */
-  background:transparent;  /* remove bubble */
-  color:rgba(239,252,244,.95);
-  font-weight:800;
-  font-size:.85rem;
-  letter-spacing:.06em;
-  text-shadow:0 1px 2px rgba(0,0,0,.7), 0 0 10px rgba(0,0,0,.45); /* readability over art */
-  z-index:3;
+  position:absolute; top:6px; left:50%; transform:translateX(-50%);
+  display:inline-block; white-space:nowrap; pointer-events:none;
+  padding:2px 6px; background:transparent; color:rgba(239,252,244,.95);
+  font-weight:800; font-size:.85rem; letter-spacing:.06em;
+  text-shadow:0 1px 2px rgba(0,0,0,.7), 0 0 10px rgba(0,0,0,.45); z-index:3;
 }
 
-/* === Slide 1 hero uses background.png directly === */
+/* === Slide 1 hero uses background.png directly — unchanged === */
 .hero{
   border-radius:28px; padding:110px 20px 74px;
   background:#09170e url("background.png") center / cover no-repeat;
@@ -91,7 +80,7 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 .btn.ghost{background:rgba(255,255,255,.03);color:#d9efe4;border-color:var(--edge);backdrop-filter:blur(2px)}
 .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-/* Pills & popovers */
+/* Pills & popovers (Slide 1 only) */
 .pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px;color:#a7cdb5}
 .pill{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--edge);border-radius:999px;background:rgba(255,255,255,.03);color:#d9efe4;cursor:default;position:relative}
 .pill:hover,.pill:focus{border-color:rgba(114,206,155,.35);box-shadow:0 0 0 2px rgba(114,206,155,.18) inset;outline:none}
@@ -103,20 +92,15 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
   opacity:0;pointer-events:none;transition:opacity .15s, transform .15s;text-align:left;z-index:5
 }
 .pill .popover::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top-color:rgba(11,26,15,.96)}
-.pill .popover ul{margin:.4rem 0 .25rem;padding-left:1.1rem}
-.pill .popover li{margin:.15rem 0}
 .pill:hover .popover,.pill:focus .popover,.pill[data-open="true"] .popover{opacity:1;pointer-events:auto;transform:translate(-50%,-2px)}
 .hero .pills{position:relative;z-index:2}
 
-/* === Generic panels === */
+/* === Generic panels (Slides 2–5) === */
 .panel{background:transparent;border-radius:28px;padding:32px 16px 26px;box-shadow:0 12px 40px rgba(0,0,0,.35);overflow:hidden}
-h2{margin:8px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
-.center{text-align:center}.muted{color:var(--muted)} .tiny{font-size:.92rem}
-
-/* >>> Apply background image to panels too <<< */
 .panel.with-bg{
   min-height:clamp(520px,70vh,760px);
-  background:#09170e url("background.png") center / cover no-repeat;
+  /* Use CSS var to allow per-slide background override */
+  background:#09170e var(--img, url('background.png')) center / cover no-repeat;
 }
 .panel.with-bg::after{
   content:""; position:absolute; inset:0; z-index:0;
@@ -126,44 +110,11 @@ h2{margin:8px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 }
 .panel.with-bg > *{position:relative; z-index:1}
 
-/* Timeline / grid / kpis etc (unchanged) */
-.rail{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 18px}
-.rail .line{width:48px;height:2px;background:var(--edge)}
-.dot{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.03);font-weight:700}
-
-.grid{--min:260px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--min),1fr));gap:12px;max-width:1060px;margin:0 auto 10px}
-.card{padding:14px 12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--edge);backdrop-filter:blur(4px)}
-.card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.tag{font-size:.75rem;border:1px solid var(--edge);border-radius:999px;padding:2px 8px;color:#d9efe4}
-.prog{height:8px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:6px}
-.prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .7s ease}
-.meta{margin-top:6px;color:var(--muted);font-size:.95rem}
-
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1060px;margin:12px auto 6px}
-.kpi{background:rgba(255,255,255,.03);border:1px solid var(--edge);border-radius:14px;padding:12px;text-align:center}
-.kpi .label{color:var(--muted);font-size:.9rem}
-.kpi .value{font-weight:800;font-size:1.4rem;margin-top:4px}
-
-.scrub{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0 2px}
-input[type="range"]{width:280px}
-
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:1060px;margin:8px auto}
-@media (max-width:860px){.cols{grid-template-columns:1fr}}
-.card h3{margin:4px 0 6px}
-
-.supply .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin:6px 0}
-.supply .bar span{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--brand),var(--brand2))}
-.success{margin-top:8px;color:#b3f2cd}.hidden{display:none}
-.badge{display:flex;gap:12px;align-items:center;margin:6px 0 12px}
-.badge img{border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
-
-.ledger{position:relative;max-width:1060px;margin:10px auto 8px;border-radius:16px;padding:8px}
-.row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--edge)}
-.row:last-child{border-bottom:0}
-.bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
-.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .8s ease}
-.flow{position:absolute;left:18px;top:-16px;height:16px;width:16px;border-radius:50%;background:linear-gradient(180deg,#7fe09f,#3abf97);box-shadow:0 0 12px rgba(58,191,151,.6);opacity:0;pointer-events:none}
-.nav{display:flex;justify-content:space-between;gap:10px;max-width:1060px;margin:12px auto 0}
+/* Corner nav for simple slides */
+.corner-nav{
+  position:absolute; bottom:16px; left:16px; right:16px;
+  display:flex; justify-content:space-between; gap:10px;
+}
 
 /* reduced motion */
 @media (prefers-reduced-motion:reduce){ .screen{transition:none} }
@@ -184,9 +135,8 @@ input[type="range"]{width:280px}
 
 <div class="wrap">
 
-  <!-- Slide 1 -->
+  <!-- Slide 1 (UNCHANGED) -->
   <section class="screen hero active" data-screen="1" aria-live="polite">
-
     <h1>When nature improves, Gaia pays you.</h1>
     <div class="chip">What is Gaia?</div>
     <p class="lead">
@@ -201,7 +151,6 @@ input[type="range"]{width:280px}
       <button class="btn ghost" data-next="2">See how it works</button>
     </div>
 
-    <!-- Interactive pills with hover/tap popovers -->
     <div class="pills" role="group" aria-label="Highlights">
       <span class="pill" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Satellite evidence details">
         <span class="dot" aria-hidden="true"></span> Satellite evidence
@@ -240,108 +189,46 @@ input[type="range"]{width:280px}
     </div>
   </section>
 
-  <!-- Slide 2 -->
-  <section class="screen panel with-bg" data-screen="2">
+  <!-- Slide 2 (background = your infographic "slide 2.png") -->
+  <section class="screen panel with-bg" data-screen="2" style="--img: url('slide%202.png')">
     <div class="step-count">2 / 5</div>
-
-    <h2>Land joins & earns</h2>
-    <p class="muted center">Privately owned or charity land onboards, gets verified, receives a HealthScore, then earns Gaia Coins over time.</p>
-    <div class="rail"><div class="dot">1</div>Sign up<div class="line"></div><div class="dot">2</div>Verify<div class="line"></div><div class="dot">3</div>HealthScore<div class="line"></div><div class="dot">4</div>Earn</div>
-
-    <div class="scrub">
-      <span class="tiny muted">Faster</span>
-      <input type="range" id="speed" min="0" max="100" value="40" aria-label="Onboarding speed">
-      <span class="tiny muted">Slower</span>
+    <div class="corner-nav">
+      <button class="btn ghost" data-next="1">Back</button>
+      <button class="btn primary" data-next="3">Next</button>
     </div>
-
-    <div class="grid" id="grid"></div>
-
-    <div class="kpis">
-      <div class="kpi"><div class="label">Parcels onboarded</div><div class="value" id="mParcels">0</div></div>
-      <div class="kpi"><div class="label">Avg HealthScore</div><div class="value" id="mAvg">—</div></div>
-      <div class="kpi"><div class="label">Gaia earned (demo)</div><div class="value" id="mCoins">0</div></div>
-    </div>
-
-    <div class="nav"><button class="btn ghost" data-next="1">Back</button><button class="btn primary" data-next="3">Next: Funding</button></div>
   </section>
 
-  <!-- Slide 3 -->
+  <!-- Slide 3 (simple background only) -->
   <section class="screen panel with-bg" data-screen="3">
     <div class="step-count">3 / 5</div>
-
-    <h2>Funding & certificates</h2>
-    <p class="muted center">Companies buy Proof-of-Health certificates (retiring some ECO supply); people donate and receive a non-transferable Biome Badge.</p>
-
-    <div class="cols">
-      <article class="card">
-        <h3>Companies</h3>
-        <p class="muted tiny">Buy Proof-of-Health certificates</p>
-        <div class="supply">
-          <div class="bar"><span id="ecoBar"></span></div>
-          <div class="muted tiny"><span id="ecoNum">1,000,000</span> ECO remaining</div>
-        </div>
-        <button class="btn primary" id="buyCert">Buy certificate</button>
-        <div class="success hidden" id="certMsg">✅ Certificate issued & 5,000 ECO retired.</div>
-      </article>
-
-      <article class="card">
-        <h3>People</h3>
-        <p class="muted tiny">Donate & receive a Biome Badge</p>
-        <div class="badge">
-          <img id="badgeImg" alt="Biome Badge" width="140" height="140"
-               src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
-          <div class="muted tiny" id="badgeCap">No badge yet</div>
-        </div>
-        <div class="tiny muted">Badge level</div>
-        <div class="scrub"><input type="range" id="badgeLevel" min="1" max="4" value="1" aria-label="Badge level"></div>
-        <button class="btn primary" id="donateBtn">Donate £10 (demo)</button>
-        <div class="success hidden" id="donateMsg">✅ Thanks! Biome Badge granted.</div>
-      </article>
+    <div class="corner-nav">
+      <button class="btn ghost" data-next="2">Back</button>
+      <button class="btn primary" data-next="4">Next</button>
     </div>
-
-    <div class="nav"><button class="btn ghost" data-next="2">Back</button><button class="btn primary" data-next="4">Next: Payouts</button></div>
   </section>
 
-  <!-- Slide 4 -->
+  <!-- Slide 4 (simple background only) -->
   <section class="screen panel with-bg" data-screen="4">
     <div class="step-count">4 / 5</div>
-
-    <h2>Transparent, fair payouts</h2>
-    <p class="muted center">Funds split automatically across verified parcels by HealthScore.</p>
-    <div class="ledger" id="ledger"></div>
-    <div class="nav"><button class="btn ghost" data-next="3">Back</button><button class="btn primary" data-next="5">Next: Trust</button></div>
+    <div class="corner-nav">
+      <button class="btn ghost" data-next="3">Back</button>
+      <button class="btn primary" data-next="5">Next</button>
+    </div>
   </section>
 
-  <!-- Slide 5 -->
+  <!-- Slide 5 (simple background only) -->
   <section class="screen panel with-bg" data-screen="5">
     <div class="step-count">5 / 5</div>
-
-    <h2>Trust & governance</h2>
-    <p class="muted center">Open registry, challenge & review, and on-chain governance keep the system fair.</p>
-
-    <div class="cols">
-      <article class="card">
-        <h3>Open registry</h3>
-        <p class="muted tiny">Every verified parcel is listed with its boundary, score and history.</p>
-        <p class="muted tiny">Suspicious duplicates or big changes can be flagged and reviewed.</p>
-      </article>
-
-      <article class="card">
-        <h3>Governed by holders</h3>
-        <p class="muted tiny">Gaia Coin holders vote on parameters and rule updates.</p>
-        <p class="muted tiny">Clear incentives and anti-gaming rules mean no one can profit from fraud.</p>
-      </article>
+    <div class="corner-nav">
+      <button class="btn ghost" data-next="4">Back</button>
+      <button class="btn primary" data-next="1">Restart</button>
     </div>
-
-    <div class="nav"><button class="btn ghost" data-next="4">Back</button><button class="btn primary" data-next="1">Restart demo</button></div>
   </section>
 
 </div>
 
 <script>
 (function(){
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   // Router + progress + step count
   const screens=[...document.querySelectorAll(".screen")];
   const tabs=[...document.querySelectorAll(".stepper .tab")];
@@ -360,8 +247,6 @@ input[type="range"]{width:280px}
     progressLine.style.width = ((n-1)/(total-1))*100 + "%";
     updateStepCount(n);
     postHeight();
-    if(n===2) startOnboarding();
-    if(n===4) renderPayouts();   // payouts is slide 4
   };
 
   document.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.next)));
@@ -373,8 +258,8 @@ input[type="range"]{width:280px}
   });
   show(1);
 
-  // Hover popovers also open on tap for touch devices
-  document.querySelectorAll('.pill').forEach(pill=>{
+  // Slide 1 pills (tap-to-open on touch)
+  document.querySelectorAll('.hero .pill').forEach(pill=>{
     pill.addEventListener('click', (e)=>{
       if (window.matchMedia('(hover: none)').matches) {
         const wasOpen = pill.dataset.open === 'true';
@@ -391,140 +276,7 @@ input[type="range"]{width:280px}
     }
   });
 
-  // Slide 2: land joins (same logic)
-  const grid=document.getElementById("grid");
-  const mParcels=document.getElementById("mParcels");
-  const mAvg=document.getElementById("mAvg");
-  const mCoins=document.getElementById("mCoins");
-  const names=["Andes Reserve","Coastal Wetland","Prairie Meadow","Alpine Valley","Rice Terrace","Cloud Forest","Dune Heath","Peat Bog"];
-  const codes=["PE","KE","US","CH","VN","CO","UK","IE"];
-  const biomes=["Rainforest","Wetland","Grassland","Montane","Agro-ecosystem","Savanna","Woodland","Coastal"];
-  const parcels=[];
-  const rand=(a,b)=>+(a+Math.random()*(b-a)).toFixed(2);
-  const el=h=>{const d=document.createElement("div"); d.innerHTML=h.trim(); return d.firstElementChild};
-  let timer=null;
-
-  function addParcel(){
-    const i=parcels.length%8;
-    const score=rand(0.62,0.93);
-    const earned=+(score*100).toFixed(2);
-    const p={name:names[i],code:codes[i],biome:biomes[Math.floor(Math.random()*biomes.length)],score,earned};
-    parcels.push(p);
-    const card=el(`
-      <article class="card" aria-live="polite">
-        <div class="top">
-          <strong>${p.name} <span class="muted">(${p.code})</span></strong>
-          <span class="tag">${p.biome}</span>
-        </div>
-        <div class="meta">Sign up • Verify • Score • Earn</div>
-        <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100"><span></span></div>
-        <div class="meta"><span>HealthScore: <b>${p.score}</b></span> · <span>Earned: <b>£${p.earned}</b></span></div>
-      </article>
-    `);
-    grid.appendChild(card);
-    setTimeout(()=>{card.querySelector(".prog span").style.width=Math.min(100,p.score*100)+"%"; postHeight();}, 40);
-
-    mParcels.textContent=parcels.length;
-    const avg=parcels.reduce((a,c)=>a+c.score,0)/parcels.length;
-    mAvg.textContent=avg?avg.toFixed(2):"—";
-    mCoins.textContent=Math.round(parcels.reduce((a,c)=>a+c.earned,0)).toLocaleString();
-  }
-
-  const speed = document.getElementById("speed");
-  function startOnboarding(){
-    if(timer) return;
-    if(parcels.length===0){for(let i=0;i<4;i++) addParcel();}
-    timer=setInterval(()=>{ if(parcels.length>=14){clearInterval(timer); timer=null; return;} addParcel(); }, getInterval());
-  }
-  function getInterval(){ const v = +speed.value; return 200 + (100-v)*12; }
-  speed.addEventListener("input", ()=>{ if(timer){ clearInterval(timer); timer=setInterval(()=>{ if(parcels.length>=14){clearInterval(timer); timer=null; return;} addParcel(); }, getInterval()); } });
-
-  // Slide 3: funding
-  let eco=1_000_000;
-  const ecoBar=document.getElementById("ecoBar");
-  const ecoNum=document.getElementById("ecoNum");
-  const buyCert=document.getElementById("buyCert");
-  const certMsg=document.getElementById("certMsg");
-  const donateBtn=document.getElementById("donateBtn");
-  const donateMsg=document.getElementById("donateMsg");
-  const badgeImg=document.getElementById("badgeImg");
-  const badgeCap=document.getElementById("badgeCap");
-  const badgeLevel = document.getElementById("badgeLevel");
-
-  function refreshEco(){ ecoNum.textContent=eco.toLocaleString(); ecoBar.style.width=(eco/1_000_000*100)+"%"; postHeight(); }
-  refreshEco();
-
-  buyCert.addEventListener("click",()=>{
-    eco=Math.max(0, eco-5000); refreshEco(); certMsg.classList.remove("hidden");
-    if(!prefersReduced){ ecoBar.animate([{filter:'brightness(1.0)'},{filter:'brightness(1.3)'},{filter:'brightness(1.0)'}],{duration:600}); }
-  });
-
-  function badgeSVG(level){
-    const titles={1:"L1 • Seed",2:"L2 • Sprout",3:"L3 • Bloom",4:"L4 • Wild"};
-    const icons ={1:"🌱",2:"🌿",3:"🦋",4:"🌳"};
-    const ring = level===1?12: level===2?16: level===3?20:24;
-    const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='520' height='520'>
-      <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0%' stop-color='#5cf0c2'/><stop offset='100%' stop-color='#786fff'/></linearGradient></defs>
-      <rect width='100%' height='100%' fill='#0b0c10'/>
-      <circle cx='260' cy='230' r='${120+level*6}' fill='none' stroke='url(#g)' stroke-width='${ring}' opacity='.35'/>
-      <circle cx='260' cy='230' r='120' fill='none' stroke='url(#g)' stroke-width='12'/>
-      <text x='260' y='230' font-size='76' text-anchor='middle' dominant-baseline='middle'>${icons[level]}</text>
-      <text x='260' y='390' font-family='Plus Jakarta Sans, Arial' font-size='22' text-anchor='middle' fill='#cfe9da'>Biome Badge — ${titles[level]}</text>
-    </svg>`;
-    return "data:image/svg+xml;utf8,"+encodeURIComponent(svg);
-  }
-
-  badgeLevel.addEventListener("input", ()=>{
-    const lvl = +badgeLevel.value;
-    badgeImg.src = badgeSVG(lvl);
-    badgeCap.textContent = "Biome Badge — Level " + lvl;
-    postHeight();
-  });
-
-  donateBtn.addEventListener("click",()=>{
-    donateBtn.disabled=true;
-    badgeImg.src=badgeSVG(+badgeLevel.value || 1);
-    badgeCap.textContent="Biome Badge — Level " + (+badgeLevel.value || 1);
-    donateMsg.classList.remove("hidden");
-    postHeight();
-  });
-
-  // Slide 4: payouts (with coin flow)
-  const ledger=document.getElementById("ledger");
-  function renderPayouts(){
-    ledger.innerHTML="";
-    if(parcels.length===0){for(let i=0;i<6;i++) addParcel();}
-    const sample=parcels.slice(0,8);
-    const pot=2000;
-    const total=sample.reduce((a,c)=>a+c.score,0);
-    sample.forEach(p=>{
-      const share=p.score/total;
-      const amt=+(pot*share).toFixed(2);
-      const row=el(`<div class="row">
-        <div><strong>${p.name}</strong> <span class="muted">(${p.biome})</span></div>
-        <div class="bar"><span style="width:0%"></span></div>
-        <div>£<b>${amt.toLocaleString()}</b></div>
-      </div>`);
-      ledger.appendChild(row);
-      setTimeout(()=>{row.querySelector(".bar span").style.width=Math.min(100, share*100*2)+"%";}, 40);
-    });
-
-    if(!prefersReduced){
-      for(let i=0;i<10;i++){
-        const c=document.createElement("div"); c.className="flow";
-        ledger.appendChild(c);
-        const rowCount = sample.length;
-        const y = 20 + Math.random()* (rowCount*48);
-        const duration = 1200 + Math.random()*1200;
-        c.style.top = y+"px"; c.style.opacity = "1";
-        c.animate([{transform:"translateX(0px)",opacity:1},{transform:"translateX(960px)",opacity:.2}],{duration,iterations:1,easing:"ease-out",fill:"forwards"});
-        setTimeout(()=>c.remove(), duration+100);
-      }
-    }
-    postHeight();
-  }
-
-  // iframe auto-height for Shopify embed
+  // auto-height for Shopify embed (kept)
   const postHeight = () => {
     const h = document.documentElement.scrollHeight;
     parent.postMessage({ type:"gaia-demo-height", height:h }, "*");
