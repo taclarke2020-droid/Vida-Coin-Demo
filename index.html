@@ -14,110 +14,81 @@
   --bg:#07130a; --panel:#0b1a0f; --ink:#eef7f0; --muted:#a6cdb3; --edge:rgba(255,255,255,.07);
   --brand:#4cc26f; --brand2:#2aa38f;
   --chipbg:rgba(114,206,155,.14); --chipbr:rgba(114,206,155,.22);
-  --ring:rgba(76,194,111,.18);
 }
 
+/* base */
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,Arial,sans-serif}
-
-/* layout */
 .wrap{max-width:1200px;margin:0 auto;padding:16px}
 .screen{position:relative;display:none;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
 .screen.active{display:block;opacity:1;transform:none}
 
-/* === Sticky stepper with progress === */
-.sticky{
-  position:sticky;top:0;z-index:40;
-  background:linear-gradient(180deg,rgba(7,19,10,.86),rgba(7,19,10,.48));
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--edge)
-}
+/* top stepper */
+.sticky{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,rgba(7,19,10,.86),rgba(7,19,10,.48));backdrop-filter:blur(8px);border-bottom:1px solid var(--edge)}
 .stepper{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px}
-.stepper button{
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-  border:1px solid var(--edge);border-radius:999px;color:var(--ink);
-  font-weight:700;font-size:.86rem;padding:.5rem .8rem;cursor:pointer
-}
+.stepper button{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid var(--edge);border-radius:999px;color:var(--ink);font-weight:700;font-size:.86rem;padding:.5rem .8rem;cursor:pointer}
 .stepper button.active{border-color:rgba(114,206,155,.5);box-shadow:0 0 0 2px rgba(114,206,155,.22) inset}
 .progress{height:3px;background:var(--edge);border-radius:999px;overflow:hidden;margin:0 16px 8px}
 .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-/* Slide counter (kept) */
-.step-count{
-  position:absolute; top:6px; left:50%; transform:translateX(-50%);
-  display:inline-block; white-space:nowrap; pointer-events:none;
-  padding:2px 6px; background:transparent; color:rgba(239,252,244,.95);
-  font-weight:800; font-size:.85rem; letter-spacing:.06em;
-  text-shadow:0 1px 2px rgba(0,0,0,.7), 0 0 10px rgba(0,0,0,.45); z-index:3;
-}
+/* tiny slide counter */
+.step-count{position:absolute;top:6px;left:50%;transform:translateX(-50%);display:inline-block;white-space:nowrap;pointer-events:none;padding:2px 6px;background:transparent;color:rgba(239,252,244,.95);font-weight:800;font-size:.85rem;letter-spacing:.06em;text-shadow:0 1px 2px rgba(0,0,0,.7), 0 0 10px rgba(0,0,0,.45);z-index:3}
 
-/* === Slide 1 hero uses background.png directly — unchanged === */
+/* SLIDE 1 (unchanged) */
 .hero{
-  border-radius:28px; padding:110px 20px 74px;
-  background:#09170e url("background.png") center / cover no-repeat;
-  text-align:center; isolation:isolate;
-  box-shadow:0 14px 44px rgba(0,0,0,.38); overflow:hidden;
+  border-radius:28px;padding:110px 20px 74px;
+  background:#09170e url("background.png") center/cover no-repeat;
+  text-align:center;isolation:isolate;
+  box-shadow:0 14px 44px rgba(0,0,0,.38);overflow:hidden;
   min-height:clamp(520px,70vh,760px);
 }
 .hero::after{
-  content:""; position:absolute; inset:0; z-index:0;
+  content:"";position:absolute;inset:0;z-index:0;
   background:
     radial-gradient(1200px 560px at 64% 8%, rgba(255,230,150,.16), transparent 60%),
     linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.55) 100%);
 }
-.hero > *{ position:relative; z-index:1; }
-
+.hero>*{position:relative;z-index:1}
 h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight:800;letter-spacing:.005em}
-.chip{display:inline-block;margin:6px 0 12px;padding:6px 14px;border-radius:999px;
-  color:#b3f2cd;background:var(--chipbg);border:1px solid var(--chipbr);font-weight:800;letter-spacing:.02em}
+.chip{display:inline-block;margin:6px 0 12px;padding:6px 14px;border-radius:999px;color:#b3f2cd;background:var(--chipbg);border:1px solid var(--chipbr);font-weight:800;letter-spacing:.02em}
 .lead{max-width:880px;margin:12px auto 8px;color:#d9efe4;font-size:1.08rem;line-height:1.7}
 .sub{max-width:880px;margin:8px auto 24px;color:#a7cdb5}
 
-/* Buttons */
+/* buttons */
 .btn{border-radius:14px;font-weight:800;cursor:pointer;padding:.95rem 1.28rem;border:1px solid transparent}
 .btn.primary{background:linear-gradient(180deg,#7fe09f,#3abf97);color:#05140c;border:0;box-shadow:0 12px 30px rgba(58,191,151,.32);transition:transform .12s,filter .12s,box-shadow .12s}
 .btn.primary:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 16px 38px rgba(58,191,151,.44)}
 .btn.ghost{background:rgba(255,255,255,.03);color:#d9efe4;border-color:var(--edge);backdrop-filter:blur(2px)}
 .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-/* Pills & popovers (Slide 1 only) */
+/* pills (slide 1) */
 .pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px;color:#a7cdb5}
 .pill{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--edge);border-radius:999px;background:rgba(255,255,255,.03);color:#d9efe4;cursor:default;position:relative}
 .pill:hover,.pill:focus{border-color:rgba(114,206,155,.35);box-shadow:0 0 0 2px rgba(114,206,155,.18) inset;outline:none}
 .pill .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(180deg,var(--brand),var(--brand2));box-shadow:0 0 0 2px rgba(76,194,111,.20)}
-.pill .popover{
-  position:absolute;left:50%;bottom:calc(100% + 10px);transform:translate(-50%,-6px);
-  width:min(520px, calc(100vw - 48px));padding:12px 14px;border-radius:14px;border:1px solid var(--edge);
-  background:rgba(11,26,15,.96);color:#e9f4ee;box-shadow:0 12px 30px rgba(0,0,0,.35);
-  opacity:0;pointer-events:none;transition:opacity .15s, transform .15s;text-align:left;z-index:5
-}
+.pill .popover{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translate(-50%,-6px);width:min(520px, calc(100vw - 48px));padding:12px 14px;border-radius:14px;border:1px solid var(--edge);background:rgba(11,26,15,.96);color:#e9f4ee;box-shadow:0 12px 30px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .15s, transform .15s;text-align:left;z-index:5}
 .pill .popover::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top-color:rgba(11,26,15,.96)}
 .pill:hover .popover,.pill:focus .popover,.pill[data-open="true"] .popover{opacity:1;pointer-events:auto;transform:translate(-50%,-2px)}
 .hero .pills{position:relative;z-index:2}
 
-/* === Generic panels (Slides 2–5) === */
-.panel{background:transparent;border-radius:28px;padding:32px 16px 26px;box-shadow:0 12px 40px rgba(0,0,0,.35);overflow:hidden}
-.panel.with-bg{
+/* generic panel shell for image slides (2–5) */
+.imgslide{
   min-height:clamp(520px,70vh,760px);
-  /* Use CSS var to allow per-slide background override */
-  background:#09170e var(--img, url('background.png')) center / cover no-repeat;
-}
-.panel.with-bg::after{
-  content:""; position:absolute; inset:0; z-index:0;
-  background:
-    radial-gradient(1200px 560px at 64% 8%, rgba(255,230,150,.12), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.55) 100%);
-}
-.panel.with-bg > *{position:relative; z-index:1}
-
-/* Corner nav for simple slides */
-.corner-nav{
-  position:absolute; bottom:16px; left:16px; right:16px;
-  display:flex; justify-content:space-between; gap:10px;
+  border-radius:28px;
+  box-shadow:0 12px 40px rgba(0,0,0,.35);
+  background-color:#09170e;        /* base behind PNG */
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:contain;          /* keep entire infographic visible */
 }
 
-/* reduced motion */
-@media (prefers-reduced-motion:reduce){ .screen{transition:none} }
+/* make sure slide 2 uses the PNG with space in name */
+#slide2.imgslide{
+  background-image:url("Slide%202.png");
+}
+
+/* nav (back/next) */
+.nav{position:absolute;left:16px;right:16px;bottom:16px;display:flex;justify-content:space-between;gap:10px}
 </style>
 </head>
 
@@ -135,7 +106,7 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 
 <div class="wrap">
 
-  <!-- Slide 1 (UNCHANGED) -->
+  <!-- Slide 1 (unchanged) -->
   <section class="screen hero active" data-screen="1" aria-live="polite">
     <h1>When nature improves, Gaia pays you.</h1>
     <div class="chip">What is Gaia?</div>
@@ -189,37 +160,35 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
     </div>
   </section>
 
-  <!-- Slide 2 (background = your infographic "slide 2.png") -->
-  <section class="screen panel with-bg" data-screen="2" style="--img: url('slide%202.png')">
+  <!-- Slide 2: image-only with Back/Next -->
+  <section id="slide2" class="screen imgslide" data-screen="2" aria-live="polite">
     <div class="step-count">2 / 5</div>
-    <div class="corner-nav">
+    <div class="nav">
       <button class="btn ghost" data-next="1">Back</button>
       <button class="btn primary" data-next="3">Next</button>
     </div>
   </section>
 
-  <!-- Slide 3 (simple background only) -->
-  <section class="screen panel with-bg" data-screen="3">
+  <!-- Slide 3–5: empty image panels (you can add background-image later the same way) -->
+  <section class="screen imgslide" data-screen="3" aria-live="polite">
     <div class="step-count">3 / 5</div>
-    <div class="corner-nav">
+    <div class="nav">
       <button class="btn ghost" data-next="2">Back</button>
       <button class="btn primary" data-next="4">Next</button>
     </div>
   </section>
 
-  <!-- Slide 4 (simple background only) -->
-  <section class="screen panel with-bg" data-screen="4">
+  <section class="screen imgslide" data-screen="4" aria-live="polite">
     <div class="step-count">4 / 5</div>
-    <div class="corner-nav">
+    <div class="nav">
       <button class="btn ghost" data-next="3">Back</button>
       <button class="btn primary" data-next="5">Next</button>
     </div>
   </section>
 
-  <!-- Slide 5 (simple background only) -->
-  <section class="screen panel with-bg" data-screen="5">
+  <section class="screen imgslide" data-screen="5" aria-live="polite">
     <div class="step-count">5 / 5</div>
-    <div class="corner-nav">
+    <div class="nav">
       <button class="btn ghost" data-next="4">Back</button>
       <button class="btn primary" data-next="1">Restart</button>
     </div>
@@ -235,19 +204,21 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
   const progressLine = document.getElementById("progressLine");
   const total= screens.length;
 
-  const updateStepCount = (n)=>{
-    document.querySelectorAll(".screen .step-count").forEach(el => { el.textContent = ""; });
+  function updateStepCount(n){
+    document.querySelectorAll(".screen .step-count").forEach(el => el && (el.textContent = ""));
     const el = document.querySelector(`.screen.active .step-count`);
     if(el) el.textContent = `${n} / ${total}`;
-  };
+  }
 
-  const show=n=>{
+  function show(n){
     screens.forEach(s=>s.classList.toggle("active",s.dataset.screen===String(n)));
     tabs.forEach(b=>b.classList.toggle("active",b.dataset.goto===String(n)));
     progressLine.style.width = ((n-1)/(total-1))*100 + "%";
     updateStepCount(n);
-    postHeight();
-  };
+    // auto-height for possible embeds
+    const h = document.documentElement.scrollHeight;
+    parent.postMessage({ type:"gaia-demo-height", height:h }, "*");
+  }
 
   document.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.next)));
   tabs.forEach(b=>b.addEventListener("click",()=>show(b.dataset.goto)));
@@ -256,14 +227,16 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
     if(e.key==="ArrowRight") show(Math.min(total,current+1));
     if(e.key==="ArrowLeft") show(Math.max(1,current-1));
   });
+
+  // Keep slide 1 visible at load
   show(1);
 
-  // Slide 1 pills (tap-to-open on touch)
+  // Slide-1 popover tap support (unchanged)
   document.querySelectorAll('.hero .pill').forEach(pill=>{
     pill.addEventListener('click', (e)=>{
       if (window.matchMedia('(hover: none)').matches) {
         const wasOpen = pill.dataset.open === 'true';
-        document.querySelectorAll('.pill[data-open="true"]').forEach(x=>delete x.dataset.open);
+        document.querySelectorAll('.hero .pill[data-open="true"]').forEach(x=>delete x.dataset.open);
         if (!wasOpen) pill.dataset.open = 'true';
         e.stopPropagation();
       }
@@ -271,20 +244,10 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
     pill.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') delete pill.dataset.open; });
   });
   document.addEventListener('click', (e)=>{
-    if (!e.target.closest('.pill')) {
-      document.querySelectorAll('.pill[data-open="true"]').forEach(x=>delete x.dataset.open);
+    if (!e.target.closest('.hero .pill')) {
+      document.querySelectorAll('.hero .pill[data-open="true"]').forEach(x=>delete x.dataset.open);
     }
   });
-
-  // auto-height for Shopify embed (kept)
-  const postHeight = () => {
-    const h = document.documentElement.scrollHeight;
-    parent.postMessage({ type:"gaia-demo-height", height:h }, "*");
-  };
-  const mo = new MutationObserver(postHeight);
-  mo.observe(document.body,{childList:true,subtree:true,attributes:true});
-  window.addEventListener("load",postHeight);
-  window.addEventListener("resize",postHeight);
 })();
 </script>
 </body>
