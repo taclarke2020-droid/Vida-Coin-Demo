@@ -168,6 +168,31 @@ input[type="range"]{width:280px}
 
 /* reduced motion */
 @media (prefers-reduced-motion:reduce){ .screen{transition:none} }
+
+
+
+  /* Progress counter (shared) */
+.progress-badge{
+  position:absolute; top:10px; right:14px;
+  z-index:5;
+  padding:4px 10px; border-radius:10px;
+  font-weight:800; font-size:.8rem; letter-spacing:.06em;
+  color:#e8f4ee;
+  background:rgba(3,12,8,.55);
+  border:1px solid rgba(255,255,255,.14);
+  backdrop-filter:blur(6px);
+  pointer-events:none;
+}
+
+/* Nudge specifically for Slide 1 hero so it doesn’t collide with the big heading */
+.hero .progress-badge{
+  top:18px;            /* higher */
+  right:22px;          /* a little more breathing room */
+}
+
+/* Make sure each screen is the positioning context */
+.screen{ position: relative; }
+
 </style>
 </head>
 
