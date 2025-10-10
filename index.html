@@ -86,11 +86,15 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
   background-size: contain;   /* no cropping */
 }
 
-/* URL-encode the space */
+/* Slide 2 background (space in filename URL-encoded) */
 #slide2.imgslide{
   background-image: url("ownership%20verification.png");
 }
 
+/* Slide 3 background */
+#slide3.imgslide{
+  background-image: url("Earninggaiacoin.png");
+}
 
 /* Optional: extra comfy on phones */
 @media (max-width: 640px){
@@ -110,7 +114,7 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
   <div class="stepper" aria-label="Demo steps">
     <button class="tab active" data-goto="1">Intro</button>
     <button class="tab" data-goto="2">Verify Ownership</button>
-    <button class="tab" data-goto="3">Funding</button>
+    <button class="tab" data-goto="3">Earning Gaia Coin</button>
     <button class="tab" data-goto="4">Payouts</button>
     <button class="tab" data-goto="5">Trust</button>
   </div>
@@ -182,8 +186,8 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
     </div>
   </section>
 
-  <!-- Slide 3–5: empty image panels (you can add background-image later the same way) -->
-  <section class="screen imgslide" data-screen="3" aria-live="polite">
+  <!-- Slide 3: image-only with Back/Next -->
+  <section id="slide3" class="screen imgslide" data-screen="3" aria-live="polite">
     <div class="step-count">3 / 5</div>
     <div class="nav">
       <button class="btn ghost" data-next="2">Back</button>
@@ -191,7 +195,8 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
     </div>
   </section>
 
-  <section class="screen imgslide" data-screen="4" aria-live="polite">
+  <!-- Slide 4 -->
+  <section id="slide4" class="screen imgslide" data-screen="4" aria-live="polite">
     <div class="step-count">4 / 5</div>
     <div class="nav">
       <button class="btn ghost" data-next="3">Back</button>
@@ -199,7 +204,8 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
     </div>
   </section>
 
-  <section class="screen imgslide" data-screen="5" aria-live="polite">
+  <!-- Slide 5 -->
+  <section id="slide5" class="screen imgslide" data-screen="5" aria-live="polite">
     <div class="step-count">5 / 5</div>
     <div class="nav">
       <button class="btn ghost" data-next="4">Back</button>
