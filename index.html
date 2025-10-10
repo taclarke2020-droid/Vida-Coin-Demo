@@ -11,9 +11,22 @@
 
 <style>
 :root{
-  --bg:#07130a; --panel:#0b1a0f; --ink:#eef7f0; --muted:#a6cdb3; --edge:rgba(255,255,255,.07);
-  --brand:#4cc26f; --brand2:#2aa38f;
-  --chipbg:rgba(114,206,155,.14); --chipbr:rgba(114,206,155,.22);
+  /* Forest Regeneration palette */
+  --bg:#07130a;           /* deep forest */
+  --panel:#0b1a0f;        /* canopy shadow */
+  --ink:#eef7f0;          /* soft paper white-green */
+  --muted:#a6cdb3;        /* mossy muted */
+  --edge:rgba(255,255,255,.07);
+
+  /* organic accent gradient (moss → teal) */
+  --brand:#4cc26f;
+  --brand2:#2aa38f;
+
+  /* chips */
+  --chipbg:rgba(114,206,155,.14);
+  --chipbr:rgba(114,206,155,.22);
+
+  /* gentle pulse ring */
   --ring:rgba(76,194,111,.18);
 }
 
@@ -22,7 +35,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakar
 
 /* layout */
 .wrap{max-width:1200px;margin:0 auto;padding:16px}
-.screen{position:relative;display:none;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.screen{display:none;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
 .screen.active{display:block;opacity:1;transform:none}
 
 /* === Sticky stepper with progress === */
@@ -42,76 +55,103 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakar
 .progress{height:3px;background:var(--edge);border-radius:999px;overflow:hidden;margin:0 16px 8px}
 .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-}
-/* === Slide 1 hero uses background.png directly === */
+/* === Slide 1 hero uses your uploaded background.png === */
 .hero{
-  border-radius:28px; padding:110px 20px 74px;
-  background:#09170e url("background.png") center / cover no-repeat;
-  text-align:center; isolation:isolate;
-  box-shadow:0 14px 44px rgba(0,0,0,.38); overflow:hidden;
+  position:relative;
+  border-radius:28px;
+  padding:110px 20px 74px;
+  background:
+    #09170e
+    url("background.png")         /* file is next to index.html */
+    center / cover no-repeat;
+  text-align:center;
+  isolation:isolate;
+  box-shadow:0 14px 44px rgba(0,0,0,.38);
+  overflow:hidden;
   min-height:clamp(520px,70vh,760px);
 }
+/* ensure any old gradient layers are off */
+.hero::before{ content:none !important; }
+/* soft glow + vignette so text pops */
 .hero::after{
-  content:""; position:absolute; inset:0; z-index:0;
+  content:"";
+  position:absolute; inset:0; z-index:0;
   background:
     radial-gradient(1200px 560px at 64% 8%, rgba(255,230,150,.16), transparent 60%),
     linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.55) 100%);
 }
+/* keep content above overlay */
 .hero > *{ position:relative; z-index:1; }
 
 h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight:800;letter-spacing:.005em}
-.chip{display:inline-block;margin:6px 0 12px;padding:6px 14px;border-radius:999px;
-  color:#b3f2cd;background:var(--chipbg);border:1px solid var(--chipbr);font-weight:800;letter-spacing:.02em}
+.chip{
+  display:inline-block;margin:6px 0 12px;padding:6px 14px;border-radius:999px;
+  color:#b3f2cd;background:var(--chipbg);border:1px solid var(--chipbr);font-weight:800;letter-spacing:.02em
+}
 .lead{max-width:880px;margin:12px auto 8px;color:#d9efe4;font-size:1.08rem;line-height:1.7}
 .sub{max-width:880px;margin:8px auto 24px;color:#a7cdb5}
 
 /* Buttons */
 .btn{border-radius:14px;font-weight:800;cursor:pointer;padding:.95rem 1.28rem;border:1px solid transparent}
-.btn.primary{background:linear-gradient(180deg,#7fe09f,#3abf97);color:#05140c;border:0;box-shadow:0 12px 30px rgba(58,191,151,.32);transition:transform .12s,filter .12s,box-shadow .12s}
+.btn.primary{
+  background:linear-gradient(180deg,#7fe09f,#3abf97);
+  color:#05140c;border:0;box-shadow:0 12px 30px rgba(58,191,151,.32);
+  transition:transform .12s ease,filter .12s ease,box-shadow .12s ease
+}
 .btn.primary:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 16px 38px rgba(58,191,151,.44)}
-.btn.ghost{background:rgba(255,255,255,.03);color:#d9efe4;border-color:var(--edge);backdrop-filter:blur(2px)}
+.btn.ghost{
+  background:rgba(255,255,255,.03);color:#d9efe4;border-color:var(--edge);
+  backdrop-filter:blur(2px)
+}
 .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-/* Pills & popovers */
+/* Pills row */
 .pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px;color:#a7cdb5}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--edge);border-radius:999px;background:rgba(255,255,255,.03);color:#d9efe4;cursor:default;position:relative}
-.pill:hover,.pill:focus{border-color:rgba(114,206,155,.35);box-shadow:0 0 0 2px rgba(114,206,155,.18) inset;outline:none}
-.pill .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(180deg,var(--brand),var(--brand2));box-shadow:0 0 0 2px rgba(76,194,111,.20)}
-.pill .popover{
-  position:absolute;left:50%;bottom:calc(100% + 10px);transform:translate(-50%,-6px);
-  width:min(520px, calc(100vw - 48px));padding:12px 14px;border-radius:14px;border:1px solid var(--edge);
-  background:rgba(11,26,15,.96);color:#e9f4ee;box-shadow:0 12px 30px rgba(0,0,0,.35);
-  opacity:0;pointer-events:none;transition:opacity .15s, transform .15s;text-align:left;z-index:5
-}
-.pill .popover::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top-color:rgba(11,26,15,.96)}
-.pill .popover ul{margin:.4rem 0 .25rem;padding-left:1.1rem}
-.pill .popover li{margin:.15rem 0}
-.pill:hover .popover,.pill:focus .popover,.pill[data-open="true"] .popover{opacity:1;pointer-events:auto;transform:translate(-50%,-2px)}
-.hero .pills{position:relative;z-index:2}
 
-/* === Generic panels === */
-.panel{background:transparent;border-radius:28px;padding:32px 16px 26px;box-shadow:0 12px 40px rgba(0,0,0,.35);overflow:hidden}
-h2{margin:8px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
+/* >>> Interactive pill popovers <<< */
+.pill{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 12px; border:1px solid var(--edge); border-radius:999px;
+  background:rgba(255,255,255,.03); color:#d9efe4; cursor:default; position:relative;
+}
+.pill:hover, .pill:focus{ border-color:rgba(114,206,155,.35); box-shadow:0 0 0 2px rgba(114,206,155,.18) inset; outline:none }
+.pill .dot{ width:8px; height:8px; border-radius:50%;
+  background:linear-gradient(180deg,var(--brand),var(--brand2));
+  box-shadow:0 0 0 2px rgba(76,194,111,.20)
+}
+.pill .popover{
+  position:absolute; left:50%; bottom:calc(100% + 10px);
+  transform:translate(-50%,-6px); width:min(520px, calc(100vw - 48px));
+  padding:12px 14px; border-radius:14px; border:1px solid var(--edge);
+  background:rgba(11,26,15,.96); color:#e9f4ee; box-shadow:0 12px 30px rgba(0,0,0,.35);
+  opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease;
+  text-align:left; z-index:5
+}
+.pill .popover::after{
+  content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:8px solid transparent; border-top-color:rgba(11,26,15,.96)
+}
+.pill .popover ul{ margin:.4rem 0 .25rem; padding-left:1.1rem }
+.pill .popover li{ margin:.15rem 0 }
+.pill:hover .popover,
+.pill:focus .popover,
+.pill[data-open="true"] .popover{
+  opacity:1; pointer-events:auto; transform:translate(-50%,-2px)
+}
+/* make sure popovers sit above the hero vignette */
+.hero .pills{ position:relative; z-index:2 }
+
+/* Panels */
+.panel{background:linear-gradient(180deg,#0b1a0f,#0b1a0f);border-radius:28px;padding:32px 16px 26px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+h2{margin:4px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 .center{text-align:center}.muted{color:var(--muted)} .tiny{font-size:.92rem}
 
-/* >>> Apply background image to panels too <<< */
-.panel.with-bg{
-  min-height:clamp(520px,70vh,760px);
-  background:#09170e url("background.png") center / cover no-repeat;
-}
-.panel.with-bg::after{
-  content:""; position:absolute; inset:0; z-index:0;
-  background:
-    radial-gradient(1200px 560px at 64% 8%, rgba(255,230,150,.12), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.55) 100%);
-}
-.panel.with-bg > *{position:relative; z-index:1}
-
-/* Timeline / grid / kpis etc (unchanged) */
+/* Timeline */
 .rail{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 18px}
 .rail .line{width:48px;height:2px;background:var(--edge)}
 .dot{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.03);font-weight:700}
 
+/* Parcel grid */
 .grid{--min:260px;display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--min),1fr));gap:12px;max-width:1060px;margin:0 auto 10px}
 .card{padding:14px 12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--edge);backdrop-filter:blur(4px)}
 .card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
@@ -120,24 +160,29 @@ h2{margin:8px 0 14px;text-align:center;font-size:clamp(24px,3.6vw,36px)}
 .prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2));transition:width .7s ease}
 .meta{margin-top:6px;color:var(--muted);font-size:.95rem}
 
+/* KPIs */
 .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1060px;margin:12px auto 6px}
 .kpi{background:rgba(255,255,255,.03);border:1px solid var(--edge);border-radius:14px;padding:12px;text-align:center}
 .kpi .label{color:var(--muted);font-size:.9rem}
 .kpi .value{font-weight:800;font-size:1.4rem;margin-top:4px}
 
+/* Scrubber */
 .scrub{display:flex;align-items:center;gap:10px;justify-content:center;margin:8px 0 2px}
 input[type="range"]{width:280px}
 
+/* Funding columns */
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:1060px;margin:8px auto}
 @media (max-width:860px){.cols{grid-template-columns:1fr}}
 .card h3{margin:4px 0 6px}
 
+/* ECO supply + badge */
 .supply .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin:6px 0}
 .supply .bar span{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 .success{margin-top:8px;color:#b3f2cd}.hidden{display:none}
 .badge{display:flex;gap:12px;align-items:center;margin:6px 0 12px}
 .badge img{border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 
+/* Payout ledger + coin flow */
 .ledger{position:relative;max-width:1060px;margin:10px auto 8px;border-radius:16px;padding:8px}
 .row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--edge)}
 .row:last-child{border-bottom:0}
@@ -147,9 +192,9 @@ input[type="range"]{width:280px}
 .nav{display:flex;justify-content:space-between;gap:10px;max-width:1060px;margin:12px auto 0}
 
 /* reduced motion */
-@media (prefers-reduced-motion:reduce){ .screen{transition:none} }
-
-
+@media (prefers-reduced-motion:reduce){
+  .screen{transition:none}
+}
 </style>
 </head>
 
@@ -160,7 +205,6 @@ input[type="range"]{width:280px}
     <button class="tab" data-goto="2">Land joins</button>
     <button class="tab" data-goto="3">Funding</button>
     <button class="tab" data-goto="4">Payouts</button>
-    <button class="tab" data-goto="5">Trust</button>
   </div>
   <div class="progress"><span id="progressLine"></span></div>
 </div>
@@ -169,15 +213,13 @@ input[type="range"]{width:280px}
 
   <!-- Slide 1 -->
   <section class="screen hero active" data-screen="1" aria-live="polite">
-    <div class="step-count">1 / 5</div>
-
     <h1>When nature improves, Gaia pays you.</h1>
     <div class="chip">What is Gaia?</div>
     <p class="lead">
       Gaia is a decentralised crypto system that automatically rewards verified land owners for restoring and maintaining healthy ecosystems — funded by companies and donors who want real, measurable impact.
     </p>
     <p class="sub">
-      Gaia Coin rewards care twice—payouts for verified health today and a supply designed to become scarcer as global recovery grows—plus you use it to vote on how Gaia works.
+      Gaia Coin provides dual rewards: immediate payouts for verified ecosystem health and a supply designed to become scarcer as global recovery increases. Holders govern Gaia through on-chain voting.
     </p>
 
     <div class="cta">
@@ -187,47 +229,49 @@ input[type="range"]{width:280px}
 
     <!-- Interactive pills with hover/tap popovers -->
     <div class="pills" role="group" aria-label="Highlights">
+      <!-- Satellite evidence -->
       <span class="pill" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Satellite evidence details">
         <span class="dot" aria-hidden="true"></span> Satellite evidence
         <span class="popover" role="dialog" aria-label="Satellite evidence">
           <strong>Open satellite data</strong>
           <ul>
-            <li>Public, independent satellites show whether land is truly getting healthier.</li>
-            <li>Signals: greener vegetation, stable water/soil, fewer disturbances.</li>
-            <li>Transparent sources so anyone can verify.</li>
+            <li>We use public, independent satellites to see if land is truly getting healthier.</li>
+            <li>Signals: greener vegetation, stable water/soil, fewer disturbances (e.g., fire).</li>
+            <li>Transparent: sources are open so anyone can verify.</li>
           </ul>
-          <div class="tiny muted">Sources: Sentinel-2, Landsat (10–30 m resolution).</div>
+          <div class="tiny muted">Sources: Sentinel-2, Landsat; 10–30 m resolution.</div>
         </span>
       </span>
 
+      <!-- Public registry -->
       <span class="pill" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Public registry details">
         <span class="dot" aria-hidden="true"></span> Public registry
         <span class="popover" role="dialog" aria-label="Public registry">
-          <strong>Open list of verified land</strong>
+          <strong>Public registry</strong>
           <ul>
-            <li>Shows parcel boundary, HealthScore, and status. History stays on record.</li>
+            <li>A public list of every verified parcel showing its map boundary, health score, and status. Anyone can check it, and the history stays on record.</li>
+          
           </ul>
           <div class="tiny muted">Every update is time-stamped and signed.</div>
         </span>
       </span>
 
+      <!-- Payouts ledger -->
       <span class="pill" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Payouts ledger details">
         <span class="dot" aria-hidden="true"></span> Payouts ledger
         <span class="popover" role="dialog" aria-label="Payouts ledger">
-          <strong>Who got what, and why</strong>
+          <strong>Payouts ledger</strong>
           <ul>
-            <li>Live record of how funds are split by HealthScore. Entries can’t be edited.</li>
+            <li>A live record of how funds are split. You can see the total pot and the exact amount each verified patch of land gets. Entries are time-stamped and can’t be edited.</li>
           </ul>
-          <div class="tiny muted">Fair, transparent and auditable.</div>
+          <div class="tiny muted">Payouts calculated from the lands HealthScore</div>
         </span>
       </span>
     </div>
   </section>
 
   <!-- Slide 2 -->
-  <section class="screen panel with-bg" data-screen="2">
-    <div class="step-count">2 / 5</div>
-
+  <section class="screen panel" data-screen="2">
     <h2>Land joins & earns</h2>
     <p class="muted center">Privately owned or charity land onboards, gets verified, receives a HealthScore, then earns Gaia Coins over time.</p>
     <div class="rail"><div class="dot">1</div>Sign up<div class="line"></div><div class="dot">2</div>Verify<div class="line"></div><div class="dot">3</div>HealthScore<div class="line"></div><div class="dot">4</div>Earn</div>
@@ -250,9 +294,7 @@ input[type="range"]{width:280px}
   </section>
 
   <!-- Slide 3 -->
-  <section class="screen panel with-bg" data-screen="3">
-    <div class="step-count">3 / 5</div>
-
+  <section class="screen panel" data-screen="3">
     <h2>Funding & certificates</h2>
     <p class="muted center">Companies buy Proof-of-Health certificates (retiring some ECO supply); people donate and receive a non-transferable Biome Badge.</p>
 
@@ -287,37 +329,11 @@ input[type="range"]{width:280px}
   </section>
 
   <!-- Slide 4 -->
-  <section class="screen panel with-bg" data-screen="4">
-    <div class="step-count">4 / 5</div>
-
+  <section class="screen panel" data-screen="4">
     <h2>Transparent, fair payouts</h2>
     <p class="muted center">Funds split automatically across verified parcels by HealthScore.</p>
     <div class="ledger" id="ledger"></div>
-    <div class="nav"><button class="btn ghost" data-next="3">Back</button><button class="btn primary" data-next="5">Next: Trust</button></div>
-  </section>
-
-  <!-- Slide 5 -->
-  <section class="screen panel with-bg" data-screen="5">
-    <div class="step-count">5 / 5</div>
-
-    <h2>Trust & governance</h2>
-    <p class="muted center">Open registry, challenge & review, and on-chain governance keep the system fair.</p>
-
-    <div class="cols">
-      <article class="card">
-        <h3>Open registry</h3>
-        <p class="muted tiny">Every verified parcel is listed with its boundary, score and history.</p>
-        <p class="muted tiny">Suspicious duplicates or big changes can be flagged and reviewed.</p>
-      </article>
-
-      <article class="card">
-        <h3>Governed by holders</h3>
-        <p class="muted tiny">Gaia Coin holders vote on parameters and rule updates.</p>
-        <p class="muted tiny">Clear incentives and anti-gaming rules mean no one can profit from fraud.</p>
-      </article>
-    </div>
-
-    <div class="nav"><button class="btn ghost" data-next="4">Back</button><button class="btn primary" data-next="1">Restart demo</button></div>
+    <div class="nav"><button class="btn ghost" data-next="3">Back</button><button class="btn primary" data-next="1">Restart demo</button></div>
   </section>
 
 </div>
@@ -326,28 +342,19 @@ input[type="range"]{width:280px}
 (function(){
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Router + progress + step count
+  // Router + progress
   const screens=[...document.querySelectorAll(".screen")];
   const tabs=[...document.querySelectorAll(".stepper .tab")];
   const progressLine = document.getElementById("progressLine");
   const total= screens.length;
-
-  const updateStepCount = (n)=>{
-    document.querySelectorAll(".screen .step-count").forEach(el => { el.textContent = ""; });
-    const el = document.querySelector(`.screen.active .step-count`);
-    if(el) el.textContent = `${n} / ${total}`;
-  };
-
   const show=n=>{
     screens.forEach(s=>s.classList.toggle("active",s.dataset.screen===String(n)));
     tabs.forEach(b=>b.classList.toggle("active",b.dataset.goto===String(n)));
     progressLine.style.width = ((n-1)/(total-1))*100 + "%";
-    updateStepCount(n);
     postHeight();
     if(n===2) startOnboarding();
-    if(n===4) renderPayouts();   // payouts is slide 4
+    if(n===4) renderPayouts();
   };
-
   document.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.next)));
   tabs.forEach(b=>b.addEventListener("click",()=>show(b.dataset.goto)));
   document.addEventListener("keydown",(e)=>{
@@ -359,6 +366,7 @@ input[type="range"]{width:280px}
 
   // Hover popovers also open on tap for touch devices
   document.querySelectorAll('.pill').forEach(pill=>{
+    // Toggle on click (touch screens)
     pill.addEventListener('click', (e)=>{
       if (window.matchMedia('(hover: none)').matches) {
         const wasOpen = pill.dataset.open === 'true';
@@ -367,7 +375,10 @@ input[type="range"]{width:280px}
         e.stopPropagation();
       }
     });
-    pill.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') delete pill.dataset.open; });
+    // Close on Escape when focused
+    pill.addEventListener('keydown', (e)=>{
+      if (e.key === 'Escape') delete pill.dataset.open;
+    });
   });
   document.addEventListener('click', (e)=>{
     if (!e.target.closest('.pill')) {
@@ -375,7 +386,7 @@ input[type="range"]{width:280px}
     }
   });
 
-  // Slide 2: land joins (same logic)
+  // Slide 2: land joins
   const grid=document.getElementById("grid");
   const mParcels=document.getElementById("mParcels");
   const mAvg=document.getElementById("mAvg");
@@ -420,8 +431,14 @@ input[type="range"]{width:280px}
     if(parcels.length===0){for(let i=0;i<4;i++) addParcel();}
     timer=setInterval(()=>{ if(parcels.length>=14){clearInterval(timer); timer=null; return;} addParcel(); }, getInterval());
   }
-  function getInterval(){ const v = +speed.value; return 200 + (100-v)*12; }
-  speed.addEventListener("input", ()=>{ if(timer){ clearInterval(timer); timer=setInterval(()=>{ if(parcels.length>=14){clearInterval(timer); timer=null; return;} addParcel(); }, getInterval()); } });
+  function getInterval(){
+    // slider: 0..100 → 200..1400ms
+    const v = +speed.value;
+    return 200 + (100-v)*12;
+  }
+  speed.addEventListener("input", ()=>{
+    if(timer){ clearInterval(timer); timer=setInterval(()=>{ if(parcels.length>=14){clearInterval(timer); timer=null; return;} addParcel(); }, getInterval()); }
+  });
 
   // Slide 3: funding
   let eco=1_000_000;
@@ -494,6 +511,7 @@ input[type="range"]{width:280px}
     });
 
     if(!prefersReduced){
+      // simple coin flow animation
       for(let i=0;i<10;i++){
         const c=document.createElement("div"); c.className="flow";
         ledger.appendChild(c);
