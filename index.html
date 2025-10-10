@@ -85,26 +85,40 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 /* Slide 2 background (space encoded) */
 #slide2.imgslide{ background-image: url("Slide%202.png"); }
 
-/* centered overlay to replace middle text on Slide 2 */
+/* Centered overlay that sits above the image but under Back/Next */
 #slide2{ position:relative; }
 #slide2 .mid-overlay{
   position:absolute; inset:0;
   display:flex; align-items:center; justify-content:center;
-  pointer-events:none;             /* don’t block Back/Next */
+  pointer-events:none;         /* don’t block Back/Next */
   z-index:3;
 }
-#slide2 .mid-card{
-  pointer-events:auto;
-  width:clamp(260px, 34vw, 420px);
-  background:rgba(9,23,14,.86);
-  border:1px solid var(--edge);
+
+/* The “paint-over” block to hide the image’s middle text */
+#slide2 .mask{
+  pointer-events:auto;         /* you can select the text if needed */
+  width:clamp(280px, 36vw, 460px);
+  height:clamp(160px, 26vh, 240px);
   border-radius:20px;
-  padding:16px 18px;
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
-  text-align:center;
+
+  /* dark green close to the card tint in the PNG */
+  background:#10281b;          /* solid so the image text doesn’t show through */
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow:
+    inset 0 8px 22px rgba(0,0,0,.28),
+    0 10px 30px rgba(0,0,0,.35);
+
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:16px 18px;
 }
-#slide2 .mid-title{font-weight:800; font-size:1.1rem; margin-bottom:6px}
-#slide2 .mid-copy{color:#d9efe4; font-size:.98rem; line-height:1.55}
+
+#slide2 .mask h3{
+  margin:0 0 6px; font-weight:800; font-size:1.1rem; color:#e9f6ef;
+}
+#slide2 .mask p{
+  margin:0; color:#d9efe4; font-size:.98rem; line-height:1.55;
+}
+
 
 /* small-screen tweaks */
 @media (max-width: 640px){
@@ -190,14 +204,15 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 
     <!-- Centered overlay to replace middle-panel wording -->
     <div class="mid-overlay">
-      <div class="mid-card">
-        <div class="mid-title" id="mid-title">Boundary verified by satellites</div>
-        <div class="mid-copy" id="mid-copy">
-          We trace your parcel’s boundary from your drawing and cross-check it
-          with open satellite images.
-        </div>
-      </div>
-    </div>
+  <div class="mask">
+    <h3 id="mid-title">Boundary verified by satellites</h3>
+    <p id="mid-copy">
+      We trace your parcel’s boundary from your drawing and cross-check it
+      with open satellite images.
+    </p>
+  </div>
+</div>
+
 
     <div class="nav">
       <button class="btn ghost" data-next="1">Back</button>
