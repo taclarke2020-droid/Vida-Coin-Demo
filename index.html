@@ -42,26 +42,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakar
 .progress{height:3px;background:var(--edge);border-radius:999px;overflow:hidden;margin:0 16px 8px}
 .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand),var(--brand2))}
 
-/* Tiny slide counter – top-right, no bubble */
-.step-count{
-  position:absolute;
-  top: max(10px, env(safe-area-inset-top));  /* keeps clear of notches */
-  right: 18px;
-  z-index: 5;
-  padding: 0;                 /* no bubble */
-  background: transparent;    /* no bubble */
-  border: 0;
-  color: rgba(239,252,244,.95);
-  font-weight: 800;
-  font-size: .85rem;
-  letter-spacing: .06em;
-  white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0,0,0,.7), 0 0 10px rgba(0,0,0,.45);
-  pointer-events: none;
 }
-
-
-
 /* === Slide 1 hero uses background.png directly === */
 .hero{
   border-radius:28px; padding:110px 20px 74px;
