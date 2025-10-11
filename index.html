@@ -103,6 +103,10 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 #slide5.imgslide {
   background-image: url("donations.png");
 }
+/* Slide 6 background */
+#slide6.imgslide{
+  background-image: url("landowners.png");
+}
 
 
 /* Optional: extra comfy on phones */
@@ -126,6 +130,8 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
     <button class="tab" data-goto="3">Earning Gaia Coin</button>
     <button class="tab" data-goto="4">Corporate Funding</button>
     <button class="tab" data-goto="5">Donations</button>
+    <button class="tab" data-goto="6">How Land Owners Earn</button>
+
   </div>
   <div class="progress"><span id="progressLine"></span></div>
 </div>
@@ -214,13 +220,24 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
   </section>
 
   <!-- Slide 5 -->
-  <section id="slide5" class="screen imgslide" data-screen="5" aria-live="polite">
-    <div class="step-count">5 / 5</div>
-    <div class="nav">
-      <button class="btn ghost" data-next="4">Back</button>
-      <button class="btn primary" data-next="1">Restart</button>
-    </div>
-  </section>
+<section id="slide5" class="screen imgslide" data-screen="5" aria-live="polite">
+  <div class="step-count">5 / 6</div> <!-- (JS will overwrite the count anyway) -->
+  <div class="nav">
+    <button class="btn ghost" data-next="4">Back</button>
+    <button class="btn primary" data-next="6">Next</button>
+  </div>
+</section>
+
+
+  <!-- Slide 6 -->
+<section id="slide6" class="screen imgslide" data-screen="6" aria-live="polite">
+  <div class="step-count">6 / 6</div>
+  <div class="nav">
+    <button class="btn ghost" data-next="5">Back</button>
+    <button class="btn primary" data-next="1">Restart</button>
+  </div>
+</section>
+
 
 </div>
 
