@@ -162,6 +162,17 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 .feature h3 { margin: 0 0 4px; font-size: 1rem; font-weight: 800; }
 .feature p  { margin: 0; color: #cfe7d9; font-size: .96rem; line-height: 1.55; }
 
+  /* Center the Slide 2 content */
+#slide2{
+  display: flex;
+  align-items: center;   /* vertical centering */
+  justify-content: center; /* horizontal centering */
+  flex-direction: column;
+}
+
+/* Optional but nicer: make the background fill the slide */
+.imgslide{ background-size: cover; }
+
   
 </style>
 </head>
@@ -242,7 +253,7 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 <section id="slide2" class="screen imgslide" data-screen="2" aria-live="polite">
   <div class="step-count">2 / 6</div>
 
-  <div class="panel" style="margin-top:56px;">
+  <div class="panel">
     <span class="kicker">About the Gaia Coin Pilot</span>
     <h2>Linking verified land to a real digital currency</h2>
 
