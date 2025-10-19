@@ -162,27 +162,23 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 .feature h3 { margin: 0 0 4px; font-size: 1rem; font-weight: 800; }
 .feature p  { margin: 0; color: #cfe7d9; font-size: .96rem; line-height: 1.55; }
 
-  /* Center the Slide 2 content */
-#slide2{
+/* Center content only when the slide is active */
+#slide2.active,
+#slide3.active,
+#slide4.active,
+#slide5.active,
+#slide6.active{
   display: flex;
-  align-items: center;   /* vertical centering */
-  justify-content: center; /* horizontal centering */
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
 }
+
 
 /* Optional but nicer: make the background fill the slide */
 .imgslide{ background-size: cover; }
 
-  /* Center content on slides 3–6 just like slide 2 */
-#slide3,
-#slide4,
-#slide5,
-#slide6{
-  display: flex;
-  align-items: center;    /* vertical centering */
-  justify-content: center;/* horizontal centering */
-  flex-direction: column; /* keeps step-count on top, panel in the middle */
-}
+
 
 /* Make sure slide backgrounds fill nicely (already set above, safe to keep) */
 .imgslide{ background-size: cover; }
