@@ -173,6 +173,21 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 /* Optional but nicer: make the background fill the slide */
 .imgslide{ background-size: cover; }
 
+  /* Center content on slides 3–6 just like slide 2 */
+#slide3,
+#slide4,
+#slide5,
+#slide6{
+  display: flex;
+  align-items: center;    /* vertical centering */
+  justify-content: center;/* horizontal centering */
+  flex-direction: column; /* keeps step-count on top, panel in the middle */
+}
+
+/* Make sure slide backgrounds fill nicely (already set above, safe to keep) */
+.imgslide{ background-size: cover; }
+
+
   
 </style>
 </head>
@@ -317,7 +332,6 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 </section>
 
 
-  <!-- Slide 3 -->
   <!-- Slide 3 -->
 <section id="slide3" class="screen imgslide" data-screen="3" aria-live="polite">
   <div class="step-count">3 / 6</div>
