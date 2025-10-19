@@ -162,6 +162,61 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 .feature h3 { margin: 0 0 4px; font-size: 1rem; font-weight: 800; }
 .feature p  { margin: 0; color: #cfe7d9; font-size: .96rem; line-height: 1.55; }
 
+  /* --- Slide 2: visual fixes --- */
+
+/* Fill the slide background nicely (your file had 'contain') */
+.imgslide{ background-size: cover !important; }
+
+/* Content panel */
+.panel2{
+  max-width: 980px;
+  margin: 56px auto 0;
+  padding: 36px 28px;
+  text-align: center;
+  color: #e9f4ee;
+  border-radius: 22px;
+  border: 1px solid var(--edge);
+  background: radial-gradient(60% 120% at 50% 0%, rgba(255,255,255,.06), rgba(255,255,255,.02)) ,
+              linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  backdrop-filter: blur(4px);
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+}
+.panel2 h2{
+  margin: 0 0 8px;
+  font-size: clamp(26px, 2.6vw, 34px);
+  font-weight: 800;
+}
+.panel2 p{ margin: 12px 0; line-height: 1.78; }
+
+/* Small highlight chips */
+.chips{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+@media (max-width: 860px){ .chips{ grid-template-columns: 1fr; } }
+
+.chip2{
+  display: grid; grid-template-columns: 36px 1fr; gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--edge);
+  background: rgba(255,255,255,.04);
+  text-align: left;
+}
+.chip2 .ico{
+  width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: linear-gradient(180deg,var(--brand),var(--brand2));
+  box-shadow: 0 8px 18px rgba(58,191,151,.35);
+}
+.chip2 h3{ margin: 0 0 4px; font-size: 1rem; font-weight: 800; }
+.chip2 p{ margin: 0; color: #cfe7d9; line-height: 1.55; }
+.panel2 a.link{ color:#7fe09f; font-weight:700; text-decoration:none; }
+.panel2 a.link:hover{ text-decoration:underline; }
+
+
   
 </style>
 </head>
@@ -239,21 +294,40 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
   </section>
 
   <!-- Slide 2 -->
- <section id="slide2" class="screen imgslide" data-screen="2" aria-live="polite">
+ <!-- Slide 2 -->
+<section id="slide2" class="screen imgslide" data-screen="2" aria-live="polite">
   <div class="step-count">2 / 6</div>
 
-  <div class="panel" style="margin-top:56px;">
-    <span class="kicker">About the Gaia Coin Pilot</span>
-    <h2>Linking verified land to a real digital currency</h2>
+  <div class="panel2">
+    <h2>About the Gaia Coin Pilot</h2>
 
     <p>
-      The <strong>Gaia Coin Pilot</strong> is the first real-world test of the project — showing how real ecological
-      land can be linked to a <strong>digital currency (cryptocurrency)</strong> that runs on the blockchain.
+      The <strong>Gaia Coin Pilot</strong> is the first real-world test of the project — showing how real ecological land
+      can be linked to a <strong>digital currency (cryptocurrency)</strong> that runs on the blockchain.
     </p>
 
-    <div class="features" aria-label="Pilot highlights">
-      <div class="feature">
-        <div class="icon" aria-hidden="true">
+    <p>
+      In this early stage, we’re working directly with <strong>environmental charities</strong> to manually verify and
+      tokenise land that is being protected or restored. Each verified area earns a <strong>monetary reward</strong> in
+      Gaia Coin, which has real financial value and is built as an <strong>ERC-20 token</strong> — a standard format for
+      cryptocurrencies that can be safely stored, sent, and traded on the blockchain.
+    </p>
+
+    <p>
+      <em>In the future, this whole process will be automated.</em> Gaia Coin will use <strong>on-chain systems</strong> —
+      meaning self-running computer programs (<strong>smart contracts</strong>) that live directly on the blockchain —
+      to check land health and issue rewards automatically, without any manual steps.
+    </p>
+
+    <p>
+      This pilot lays the foundation for the fully automated version described in the
+      <a class="link" href="GAIA%20coin%20Whitepaper.pdf" target="_blank" rel="noopener">white paper</a>.
+    </p>
+
+    <!-- small visual highlights (optional, keeps same info in scan-friendly form) -->
+    <div class="chips" aria-label="Pilot highlights">
+      <div class="chip2">
+        <div class="ico" aria-hidden="true">
           <!-- leaf -->
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M20 4c-8 0-14 6-14 14 5 0 9-4 9-9 0-2 2-5 5-5Z" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
@@ -261,12 +335,12 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
         </div>
         <div>
           <h3>Charities first</h3>
-          <p>We work directly with environmental charities and <strong>manually verify</strong> their land using maps, satellite imagery, and ownership records.</p>
+          <p>Manual verification with maps, satellite imagery, and ownership records.</p>
         </div>
       </div>
 
-      <div class="feature">
-        <div class="icon" aria-hidden="true">
+      <div class="chip2">
+        <div class="ico" aria-hidden="true">
           <!-- coin -->
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <ellipse cx="12" cy="6" rx="7" ry="3.5" stroke="white" stroke-width="1.7"/>
@@ -275,12 +349,12 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
         </div>
         <div>
           <h3>Monetary rewards</h3>
-          <p>Each verified area earns a <strong>monetary reward</strong> in Gaia Coin. It’s an <strong>ERC-20</strong> token — the standard crypto format you can store, send, and trade.</p>
+          <p>Verified land earns Gaia Coin (ERC-20) that you can store, send, and trade.</p>
         </div>
       </div>
 
-      <div class="feature">
-        <div class="icon" aria-hidden="true">
+      <div class="chip2">
+        <div class="ico" aria-hidden="true">
           <!-- automation -->
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M4 8h8M4 12h12M4 16h6" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
@@ -288,15 +362,10 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
         </div>
         <div>
           <h3>Automated later</h3>
-          <p>Next, Gaia Coin moves to <strong>on-chain systems</strong> — smart contracts that automatically check land health and issue rewards. No manual steps.</p>
+          <p>Smart contracts (“on-chain systems”) will issue rewards automatically.</p>
         </div>
       </div>
     </div>
-
-    <p>
-      This pilot lays the foundation for the fully automated version described in the
-      <a class="link" href="GAIA%20coin%20Whitepaper.pdf" target="_blank" rel="noopener">white paper</a>.
-    </p>
   </div>
 
   <div class="nav">
