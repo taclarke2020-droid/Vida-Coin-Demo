@@ -90,8 +90,6 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 #slide4.imgslide { background-image: url("background.png"); }
 /* Slide 5 background */
 #slide5.imgslide { background-image: url("background.png"); }
-/* Slide 6 background */
-#slide6.imgslide{ background-image: url("background.png"); }
 
 /* Optional: extra comfy on phones */
 @media (max-width: 640px){
@@ -167,7 +165,6 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 #slide3.active,
 #slide4.active,
 #slide5.active,
-#slide6.active{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -388,6 +385,35 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
   <div class="nav">
     <button class="btn ghost" data-next="3">Back</button>
     <button class="btn primary" data-next="5">Next</button>
+  </div>
+</section>
+
+  <!-- Slide 5 -->
+<section id="slide5" class="screen imgslide" data-screen="5" aria-live="polite">
+  <div class="step-count">5 / 5</div>
+
+  <div class="panel" style="text-align:center;">
+    <span class="kicker">Sign up</span>
+    <h2>Join the Gaia Coin Pilot</h2>
+
+    <p>
+      If your organisation restores or protects ecosystems, you’re invited to
+      <strong>join the Gaia Coin Pilot</strong>. Participation is <strong>free</strong>, and all verification data is
+      <strong>fully transparent</strong> and publicly viewable.
+    </p>
+
+    <!-- Optional call-to-action buttons -->
+    <div class="cta" style="margin-top:12px;">
+      <a class="btn primary" href="mailto:hello@yourdomain.com?subject=Gaia%20Coin%20Pilot%20Application&body=Hi%20Gaia%20team,%0A%0AWe'd%20like%20to%20apply%20to%20join%20the%20pilot.%20Here%20are%20our%20details:%0A-%20Organisation%20name:%0A-%20Website:%0A-%20Contact%20person:%0A-%20Land%20coordinates%20(or%20location):%0A-%20Summary%20of%20restoration%20work:%0A%0AThanks!">
+        Apply to join
+      </a>
+      <a class="btn ghost" href="#eligibility">See eligibility</a>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="btn ghost" data-next="4">Back</button>
+    <button class="btn primary" data-next="1">Restart</button>
   </div>
 </section>
 
