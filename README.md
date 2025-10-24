@@ -1,1 +1,1 @@
-# Gaia-Demo
+# Vida Coin-Demo
