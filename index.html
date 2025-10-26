@@ -215,51 +215,42 @@ h1{font-size:clamp(34px,5.4vw,60px);line-height:1.04;margin:0 0 18px;font-weight
 /* Make sure slide backgrounds fill nicely (already set above, safe to keep) */
 .imgslide{ background-size: cover; }
 
-form label { font-weight:700; color:#d9efe4; }
-form input, form select {
-  width:100%;
-  padding:10px 12px;
-  border-radius:10px;
-  border:1px solid var(--edge);
-  background:rgba(255,255,255,.03);
-  color:#eef7f0;
-  font-size:1rem;
-}
-form input:focus, form select:focus {
-  outline:none;
-  border-color:var(--brand);
-  box-shadow:0 0 0 2px rgba(76,194,111,.25);
+/* ——— Form styles (replace this whole block) ——— */
+form label { 
+  font-weight: 700; 
+  color: #d9efe4; 
 }
 
-  /* Fix dropdown visibility */
+form input, form select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--edge);
+  background-color: rgba(11, 26, 15, 0.95); /* deep forest green */
+  color: #eef7f0;
+  font-size: 1rem;
+  transition: border-color .2s, box-shadow .2s, background-color .2s;
+}
+
+form input:focus, form select:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(76,194,111,.25);
+  background-color: rgba(11, 26, 15, 1);
+}
+
+/* Fix dropdown visibility */
 form select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-color: rgba(11, 26, 15, 0.95); /* deep green backdrop */
-  color: #eef7f0; /* light readable text */
-  border: 1px solid var(--edge);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 1rem;
   cursor: pointer;
-  background-image: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
 }
 
-/* Hover and focus states */
-form select:hover {
-  border-color: var(--brand);
-  box-shadow: 0 0 0 2px rgba(76,194,111,.25);
-}
-
+/* Dropdown list items */
 form select option {
-  background-color: #0b1a0f; /* dark green dropdown background */
-  color: #eef7f0; /* light text inside dropdown */
-}
-
-/* Optional: subtle dropdown arrow style */
-form select::-ms-expand {
-  display: none;
+  background-color: #0b1a0f; /* same dark green */
+  color: #eef7f0;           /* readable text */
 }
   
 </style>
