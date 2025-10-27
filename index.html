@@ -107,10 +107,20 @@ h1 .highlight-line {
 /* bigger CTA */
 .btn.big{font-size:1.1rem;padding:1.1rem 1.5rem;margin-top:12px}
 
-/*underline read the whitepaper*/
-a.btn.ghost[href*="whitepaper"]:hover {
-text-decoration-color: #7fe09f;
-filter: brightness(1.05);
+/* base: show an underline with nice spacing */
+a.btn.ghost[href*="whitepaper"]{
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: rgba(255,255,255,.75);
+  transition: text-decoration-color .2s ease, filter .15s ease, text-shadow .15s ease;
+}
+
+/* hover: tint the underline + add a soft glow */
+a.btn.ghost[href*="whitepaper"]:hover{
+  text-decoration-color: #7fe09f;        /* green underline */
+  text-shadow: 0 0 10px rgba(127,224,159,.45);
+  filter: brightness(1.05);
 }
 
   
@@ -306,7 +316,7 @@ form select option {
       <button class="btn primary" data-next="2">Learn about the pilot</button>
       <!-- changed to anchor that opens the PDF -->
       <a class="btn ghost" href="Vida%20Coin%20Whitepaper%20new.pdf" target="_blank" rel="noopener">
-        Read the whitepaper
+        Read the white paper
       </a>
     </div>
     <!-- second row: big centered CTA -->
