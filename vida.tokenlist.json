@@ -1,0 +1,16 @@
+{
+  "name": "VIDA Coin List",
+  "logoURI": "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774",
+  "timestamp": "2025-10-31T00:00:00+00:00",
+  "version": { "major": 1, "minor": 0, "patch": 0 },
+  "tokens": [
+    {
+      "chainId": 8453,
+      "address": "0x1D929E2422AEC567907f7fE2B966f7f84CA1858F",
+      "name": "VIDA Coin",
+      "symbol": "VIDA",
+      "decimals": 18,
+      "logoURI": "https://taclarke2020-droid.github.io/Vida-Coin-Demo/vida.png"
+    }
+  ]
+}
