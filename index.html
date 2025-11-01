@@ -282,25 +282,25 @@ form select option {
   color: #eef7f0;           /* readable text */
 }
 
-  
-  /* --- Totals footer --- */
-footer.totals {
-  margin-top: 60px;
-  padding: 30px 20px;
-  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
-  border-top: 1px solid var(--edge);
-  text-align: center;
-  color: #cfe7d9;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  border-radius: 18px 18px 0 0;
-  box-shadow: 0 -4px 24px rgba(0,0,0,.3);
+  /* Totals header (just under the sticky nav) */
+.totals-header{
+  text-align:center;
+  background:linear-gradient(180deg, rgba(11,26,15,.85), rgba(11,26,15,.6));
+  border-bottom:1px solid var(--edge);
+  color:#d9efe4;
+  padding:10px 0;
+  font-weight:600;
+  font-size:.95rem;
+  letter-spacing:.01em;
+}
+.totals-header .muted{
+  color:#88a799;
+  font-weight:500;
+  font-size:.9rem;
+  opacity:.85;
+  margin-left:6px;
 }
 
-footer.totals strong {
-  color: #7fe09f;
-  font-weight: 800;
-}
 </style>
 </head>
 
@@ -316,6 +316,15 @@ footer.totals strong {
   <div class="progress"><span id="progressLine"></span></div>
 </div>
 
+<!-- Totals header -->
+<div class="totals-header">
+  <p>
+    <strong>Total land registered:</strong> 7.322 hectares • 
+    <strong>Total VIDA earned:</strong> 0.176 VIDA
+    <span class="muted">(maximum supply: 21,000,000 VIDA)</span>
+  </p>
+</div>
+  
 <div class="wrap">
 
   <!-- Slide 1 (unchanged except for the whitepaper link) -->
@@ -536,13 +545,6 @@ footer.totals strong {
 
   </div> <!-- end of .wrap -->
 
-<!-- System Totals -->
-<footer class="totals">
-  <div class="totals-inner">
-    <p><strong>Total land registered:</strong> <span id="totalLand">7.322</span> hectares</p>
-    <p><strong>Total VIDA earned:</strong> <span id="totalVida">0.176</span> VIDA</p>
-  </div>
-</footer>
 
 <script>
 (function(){
