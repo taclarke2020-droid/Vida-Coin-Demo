@@ -282,23 +282,39 @@ form select option {
   color: #eef7f0;           /* readable text */
 }
 
-  /* Totals header (just under the sticky nav) */
-.totals-header{
-  text-align:center;
-  background:linear-gradient(180deg, rgba(11,26,15,.85), rgba(11,26,15,.6));
+/* --- Totals header v2 --- */
+.stats-bar{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:10px 14px;
+  background:linear-gradient(180deg, rgba(11,26,15,.85), rgba(11,26,15,.55));
   border-bottom:1px solid var(--edge);
-  color:#d9efe4;
-  padding:10px 0;
-  font-weight:600;
-  font-size:.95rem;
-  letter-spacing:.01em;
+  backdrop-filter: blur(6px);
 }
-.totals-header .muted{
-  color:#88a799;
-  font-weight:500;
-  font-size:.9rem;
-  opacity:.85;
-  margin-left:6px;
+
+.stat-row{
+  display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+}
+
+.stat-chip{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 12px;
+  border:1px solid var(--edge);
+  border-radius:999px;
+  background:rgba(255,255,255,.04);
+  color:#d9efe4; font-weight:700; letter-spacing:.01em;
+  box-shadow:0 6px 18px rgba(0,0,0,.22);
+}
+
+.stat-chip .icon{
+  width:22px; height:22px; border-radius:8px; display:grid; place-items:center;
+  background:linear-gradient(180deg, var(--brand), var(--brand2));
+  box-shadow:0 6px 14px rgba(58,191,151,.35);
+}
+
+.stat-chip .num{ color:#b3f2cd; font-weight:800; }      /* numbers pop */
+.stat-chip .unit{ color:#a7cdb5; font-weight:600; }     /* softer units */
+.stat-caption{
+  color:#88a799; font-size:.85rem; opacity:.9;
 }
 
 </style>
@@ -317,12 +333,33 @@ form select option {
 </div>
 
 <!-- Totals header -->
-<div class="totals-header">
-  <p>
-    <strong>Total land registered:</strong> 7.322 hectares • 
-    <strong>Total VIDA earned:</strong> 0.176 VIDA
-    <span class="muted">(maximum supply: 21,000,000 VIDA)</span>
-  </p>
+<div class="stats-bar" role="status" aria-live="polite">
+  <div class="stat-row">
+    <div class="stat-chip">
+      <span class="icon" aria-hidden="true">
+        <!-- leaf -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M20 4c-8 0-14 6-14 14 5 0 9-4 9-9 0-2 2-5 5-5Z" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span>Land registered:</span>
+      <span class="num">7.322</span><span class="unit">&nbsp;hectares</span>
+    </div>
+
+    <div class="stat-chip">
+      <span class="icon" aria-hidden="true">
+        <!-- coin -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <ellipse cx="12" cy="6" rx="7" ry="3.5" stroke="white" stroke-width="1.6"/>
+          <path d="M19 6v6c0 1.9-3.1 3.5-7 3.5s-7-1.6-7-3.5V6" stroke="white" stroke-width="1.6"/>
+        </svg>
+      </span>
+      <span>VIDA earned:</span>
+      <span class="num">0.176</span><span class="unit">&nbsp;VIDA</span>
+    </div>
+  </div>
+
+  <div class="stat-caption">(maximum supply: 21,000,000 VIDA)</div>
 </div>
   
 <div class="wrap">
