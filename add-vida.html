@@ -40,33 +40,41 @@
     decimals: 18,
     image: "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg"
   };
-  const BASE = { chainId: "0x2105" }; // 8453
 
-  const $ = (id) => document.getElementById(id);
+  const BASE = {
+    chainId: "0x2105", // 8453
+    chainName: "Base Mainnet",
+    rpcUrls: ["https://mainnet.base.org"],
+    nativeCurrency: { name: "Ethereum", symbol: "ETH", decimals: 18 },
+    blockExplorerUrls: ["https://basescan.org"]
+  };
+
   const status = (msg) => { document.getElementById("status").textContent = msg; };
 
-  async function ensureBase() {
+  async function switchToBase() {
     try {
       const current = await window.ethereum.request({ method: "eth_chainId" });
       if (current !== BASE.chainId) {
-        status("Switching to Base…");
-        await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [BASE] });
+        try {
+          await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: BASE.chainId }]
+          });
+        } catch (switchError) {
+          // If Base isn't added yet, add it first
+          if (switchError.code === 4902) {
+            status("Adding Base Mainnet...");
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [BASE]
+            });
+          } else throw switchError;
+        }
       }
     } catch (err) {
-      // If Base isn’t added, try to add it.
-      if (err && err.code === 4902) {
-        status("Adding Base network…");
-        await window.ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [{
-            chainId: BASE.chainId,
-            chainName: "Base",
-            rpcUrls: ["https://mainnet.base.org"],
-            nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-            blockExplorerUrls: ["https://basescan.org"]
-          }]
-        });
-      } else { throw err; }
+      console.error(err);
+      status("⚠️ Failed to switch to Base: " + err.message);
+      throw err;
     }
   }
 
@@ -76,24 +84,24 @@
         status("MetaMask not detected. Open this page inside MetaMask’s Browser.");
         return;
       }
-      await ensureBase();
+      status("Connecting wallet...");
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      await switchToBase();
 
-      status("Adding VIDA token…");
+      status("Adding VIDA token...");
       const added = await window.ethereum.request({
         method: "wallet_watchAsset",
         params: { type: "ERC20", options: TOKEN }
       });
 
-      status(added ? "✅ VIDA added to your wallet." : "❕ Request cancelled.");
+      status(added ? "✅ VIDA added successfully!" : "❕ Request cancelled.");
     } catch (e) {
       console.error(e);
-      status("⚠️ Unable to add token: " + (e?.message || e));
+      status("⚠️ Unable to add token: " + (e.message || e));
     }
   }
 
-  // MetaMask Mobile requires a *user gesture*. Bind to tap/click.
-  $("addVidaBtn").addEventListener("click", addVida);
-  $("addVidaBtn").addEventListener("touchstart", addVida, { passive: true });
+  document.getElementById("addVidaBtn").addEventListener("click", addVida);
 })();
 </script>
 </body>
