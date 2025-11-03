@@ -1,8 +1,19 @@
 {
   "name": "VIDA Coin List",
+  "timestamp": "2025-11-03T00:00:00+00:00",
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "tags": {
+    "sustainability": {
+      "name": "Sustainability",
+      "description": "Projects contributing to ecological restoration and environmental impact."
+    }
+  },
   "logoURI": "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774",
-  "timestamp": "2025-10-31T00:00:00+00:00",
-  "version": { "major": 1, "minor": 0, "patch": 0 },
+  "keywords": ["environmental", "green", "ecology", "restoration", "VIDA"],
   "tokens": [
     {
       "chainId": 8453,
@@ -10,7 +21,8 @@
       "name": "VIDA Coin",
       "symbol": "VIDA",
       "decimals": 18,
-      "logoURI": "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774"
+      "logoURI": "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774",
+      "tags": ["sustainability"]
     }
   ]
 }
