@@ -1,107 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Add VIDA to MetaMask</title>
 <style>
-  :root { --bg:#0b1c14; --card:#10251b; --text:#dff6e8; --muted:#9fe7c0; --btn:#39c18f; }
-  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
-  .wrap{max-width:680px;margin:0 auto;padding:24px}
-  .card{background:var(--card);border-radius:12px;padding:28px;text-align:center}
-  h1{margin:0 0 8px;font-size:28px}
-  p{margin:10px 0 0;line-height:1.5}
-  code{background:#0e1f17;border:1px solid #1a3b2a;padding:2px 6px;border-radius:6px}
-  button{margin-top:18px;padding:12px 18px;border:0;border-radius:10px;
-         font-weight:700;color:#fff;background:var(--btn);cursor:pointer}
-  .hint{color:var(--muted);font-size:14px;margin-top:14px}
+  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+         background:#081a14; color:#dff5e8; }
+  .card { max-width:560px; margin:40px auto; background:#0d261d; border-radius:16px;
+          padding:28px; box-shadow:0 10px 30px rgba(0,0,0,.25); }
+  h1 { margin:0 0 10px; font-size:32px; line-height:1.2 }
+  .accent { color:#8BF1C1 }
+  p { margin:10px 0 0; color:#bfe9d4 }
+  button, a.btn { display:inline-block; background:#39c18f; color:#081a14; font-weight:700;
+                  border:none; border-radius:10px; padding:12px 18px; cursor:pointer;
+                  text-decoration:none; margin-top:16px }
+  .subtle { font-size:14px; color:#87c5aa; margin-top:10px }
+  code.inline { background:#073023; border:1px solid #1c5d47; border-radius:6px; padding:2px 6px }
+  .warn { color:#ffd166 }
 </style>
 </head>
 <body>
-<div class="wrap">
   <div class="card">
-    <h1>Add <span style="color:var(--muted)">VIDA</span> to MetaMask</h1>
+    <h1>Add <span class="accent">VIDA</span> to MetaMask</h1>
     <p>Tap the button below. If prompted, allow the page to connect.</p>
 
-    <button id="addVidaBtn">➕ Add VIDA to MetaMask</button>
+    <button id="addVidaBtn">➕ Add VIDA on Base</button>
 
-    <p class="hint" id="status">Ready.</p>
+    <p id="status" class="subtle" role="status"></p>
 
-    <p class="hint">Contract: <code id="addr">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code><br/>
-    Network: <code>Base (chainId 8453)</code></p>
+    <p class="subtle">
+      Contract: <code class="inline">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code><br/>
+      Network: <code class="inline">Base (chainId 8453)</code>
+    </p>
+
+    <div id="fallback" class="subtle" style="display:none">
+      <p class="warn">MetaMask not detected.</p>
+      <p>Open this page inside MetaMask’s in-app browser:</p>
+      <a class="btn" href="https://metamask.app.link/dapp/taclarke2020-droid.github.io/Vida-Coin-Demo/add-vida.html">
+        Open in MetaMask
+      </a>
+    </div>
   </div>
-</div>
 
 <script>
 (async function () {
-  const TOKEN = {
-    address: "0x1D929E2422AEC567907f7fE2B966f7f84CA1858F",
-    symbol: "VIDA",
-    decimals: 18,
-    image: "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg"
-  };
+  const CONTRACT = "0x1D929E2422AEC567907f7fE2B966f7f84CA1858F";
+  const SYMBOL   = "VIDA";
+  const DECIMALS = 18;
 
-  const BASE = {
-    chainId: "0x2105", // 8453
-    chainName: "Base Mainnet",
+  const BASE_PARAMS = {
+    chainId: "0x2109", // 8453 in hex
+    chainName: "Base",
+    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
     rpcUrls: ["https://mainnet.base.org"],
-    nativeCurrency: { name: "Ethereum", symbol: "ETH", decimals: 18 },
-    blockExplorerUrls: ["https://basescan.org"]
+    blockExplorerUrls: ["https://basescan.org/"]
   };
 
-  const status = (msg) => { document.getElementById("status").textContent = msg; };
+  const $btn = document.getElementById('addVidaBtn');
+  const $status = document.getElementById('status');
+  const $fallback = document.getElementById('fallback');
 
-  async function switchToBase() {
+  function setStatus(msg) { $status.textContent = msg; }
+
+  async function ensureBase() {
+    const provider = window.ethereum;
+    if (!provider) throw new Error("no_provider");
     try {
-      const current = await window.ethereum.request({ method: "eth_chainId" });
-      if (current !== BASE.chainId) {
-        try {
-          await window.ethereum.request({
-            method: "wallet_switchEthereumChain",
-            params: [{ chainId: BASE.chainId }]
-          });
-        } catch (switchError) {
-          // If Base isn't added yet, add it first
-          if (switchError.code === 4902) {
-            status("Adding Base Mainnet...");
-            await window.ethereum.request({
-              method: "wallet_addEthereumChain",
-              params: [BASE]
-            });
-          } else throw switchError;
-        }
-      }
+      // Try switch first
+      await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: BASE_PARAMS.chainId }] });
     } catch (err) {
-      console.error(err);
-      status("⚠️ Failed to switch to Base: " + err.message);
-      throw err;
+      // If chain not added, add then switch
+      if (err && err.code === 4902) {
+        await provider.request({ method: 'wallet_addEthereumChain', params: [BASE_PARAMS] });
+      } else {
+        throw err;
+      }
     }
   }
 
-  async function addVida() {
+  async function addToken() {
     try {
-      if (!window.ethereum) {
-        status("MetaMask not detected. Open this page inside MetaMask’s Browser.");
-        return;
-      }
-      status("Connecting wallet...");
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      await switchToBase();
+      if (!window.ethereum) throw new Error("no_provider");
+      setStatus("Checking Base network…");
+      await ensureBase();
 
-      status("Adding VIDA token...");
+      setStatus("Requesting MetaMask to watch asset…");
       const added = await window.ethereum.request({
-        method: "wallet_watchAsset",
-        params: { type: "ERC20", options: TOKEN }
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: CONTRACT,
+            symbol: SYMBOL,
+            decimals: DECIMALS,
+            image: 'https://rawcdn.githack.com/taclarke2020-droid/Vida-Coin-Demo/refs/heads/main/Vida%20coin%20logo.svg'
+          }
+        }
       });
 
-      status(added ? "✅ VIDA added successfully!" : "❕ Request cancelled.");
+      if (added) {
+        setStatus("✅ VIDA added! If you still don’t see it, pull-to-refresh your token list.");
+      } else {
+        setStatus("ℹ️ Request dismissed. You can add VIDA manually in MetaMask → Import Tokens.");
+      }
     } catch (e) {
-      console.error(e);
-      status("⚠️ Unable to add token: " + (e.message || e));
+      if (e && e.message === "no_provider") {
+        setStatus("");
+        $fallback.style.display = 'block';
+      } else if (e && e.code) {
+        setStatus(`⚠️ ${e.message || "MetaMask error"} (code ${e.code})`);
+      } else {
+        setStatus(`⚠️ ${e && e.message ? e.message : "Something went wrong"}`);
+      }
     }
   }
 
-  document.getElementById("addVidaBtn").addEventListener("click", addVida);
+  $btn.addEventListener('click', addToken, { passive: true });
+
+  // Optional: if MetaMask is present and user navigated here, auto-prompt after a short delay on mobile (requires gesture in some versions)
+  // setTimeout(() => { if (window.ethereum) addToken(); }, 1200);
 })();
 </script>
 </body>
