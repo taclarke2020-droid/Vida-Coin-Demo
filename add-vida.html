@@ -27,59 +27,97 @@
     </p>
   </div>
 
+  <div id="manual" style="display:none;margin-top:12px;">
+  <p><b>Manual add in MetaMask (mobile):</b></p>
+  <ol>
+    <li>Open MetaMask → Assets → <i>Import tokens</i>.</li>
+    <li>Network: <b>Base</b> (chainId 8453).</li>
+    <li>Paste contract: <code>0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code>.</li>
+    <li>Symbol: <b>VIDA</b>, Decimals: <b>18</b>.</li>
+  </ol>
+</div>
+<p id="msg" style="display:none;margin-top:8px;opacity:.85;"></p>
+
   <script>
-    const TOKEN = {
-      address: "0x1D929E2422AEC567907f7fE2B966f7f84CA1858F",
-      symbol: "VIDA",
-      decimals: 18,
-      image: "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774",
-    };
+const TOKEN = {
+  address: '0x1D929E2422AEC567907f7fE2B966f7f84CA1858F',
+  symbol: 'VIDA',
+  decimals: 18,
+  image: 'https://rawcdn.githack.com/taclarke2020-droid/Vida-Coin-Demo/refs/heads/main/Vida%20coin%20logo.svg'
+};
+const BASE = {
+  chainId: '0x2105', // 8453
+  chainName: 'Base',
+  nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+  rpcUrls: ['https://mainnet.base.org'],
+  blockExplorerUrls: ['https://basescan.org']
+};
 
-    const BASE_PARAMS = {
-      chainId: "0x2105", // ✅ Base mainnet (8453)
-      chainName: "Base",
-      nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-      rpcUrls: ["https://mainnet.base.org","https://developer-access-mainnet.base.org"],
-      blockExplorerUrls: ["https://basescan.org/"],
-    };
+function $id(id){ return document.getElementById(id); }
+function note(t){ const el=$id('msg'); if(el){ el.textContent=t; el.style.display='block'; } }
+function showManual(){ const el=$id('manual'); if(el){ el.style.display='block'; } }
 
-    const msg = (t) => document.getElementById('msg').textContent = t || "";
-
-    async function addVida() {
-      if (!window.ethereum) {
-        msg("MetaMask not detected. Open this page inside MetaMask’s in-app browser.");
-        // deep link fallback
-        window.location.href =
-          "https://metamask.app.link/dapp/" + window.location.host + window.location.pathname + window.location.search;
-        return;
-      }
-
-      try {
-        // 1) Try to switch to Base
-        try {
-          await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: BASE_PARAMS.chainId }] });
-        } catch (err) {
-          // If Base not added yet, add it
-          if (err && err.code === 4902) {
-            await window.ethereum.request({ method: "wallet_addEthereumChain", params: [BASE_PARAMS] });
-          } else {
-            throw err;
-          }
-        }
-
-        // 2) Add VIDA token
-        const added = await window.ethereum.request({
-          method: "wallet_watchAsset",
-          params: { type: "ERC20", options: TOKEN }
-        });
-
-        msg(added ? "Token added!" : "Request was dismissed.");
-      } catch (e) {
-        msg(e?.message || "Something went wrong.");
-      }
+async function ensureBase(eth){
+  // try switch; if chain missing, add then switch
+  try {
+    await eth.request({ method:'wallet_switchEthereumChain', params:[{ chainId: BASE.chainId }] });
+  } catch(e){
+    if(e && e.code === 4902){ // chain not added
+      await eth.request({ method:'wallet_addEthereumChain', params:[BASE] });
+      await eth.request({ method:'wallet_switchEthereumChain', params:[{ chainId: BASE.chainId }] });
+    } else {
+      throw e;
     }
+  }
+}
 
-    document.getElementById('add').addEventListener('click', addVida);
-  </script>
+async function addVida(){
+  const eth = window.ethereum;
+  if(!eth || !eth.isMetaMask){
+    note('Open this page inside the MetaMask mobile app (Browser tab), or use desktop with the MetaMask extension.');
+    showManual(); return;
+  }
+  try { await eth.request({ method:'eth_requestAccounts' }); } catch { /* user denied; keep going */ }
+
+  // 1) ensure Base
+  try { await ensureBase(eth); } 
+  catch(e){ note('Could not switch to Base. In MetaMask: Settings → Networks → add/enable Base.'); showManual(); return; }
+
+  // 2) small waits help MetaMask mobile settle after a chain change
+  await new Promise(r => setTimeout(r, 250));
+
+  // 3) try to add the token (retry once if needed)
+  async function watch(){
+    return eth.request({
+      method: 'wallet_watchAsset',
+      params: { type:'ERC20', options: TOKEN }
+    });
+  }
+  try{
+    const ok = await watch();
+    if(!ok){ note('MetaMask declined to add VIDA.'); showManual(); return; }
+  } catch(e1){
+    // one retry after a slightly longer wait
+    await new Promise(r => setTimeout(r, 600));
+    try{
+      const ok2 = await watch();
+      if(!ok2){ note('MetaMask declined to add VIDA.'); showManual(); }
+    } catch(e2){
+      note('MetaMask mobile couldn’t add VIDA automatically on Base. Please add it manually below.');
+      showManual();
+    }
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const btn = $id('addBtn');
+  if(btn) btn.addEventListener('click', addVida);
+
+  // Optional: auto-attempt on load when in MetaMask
+  if(window.ethereum && window.ethereum.isMetaMask){
+    setTimeout(addVida, 300); // give the in-app browser a moment
+  }
+});
+</script>
 </body>
 </html>
