@@ -7,11 +7,11 @@
     "patch": 0
   },
   "tags": {
-    "sustainability": {
-      "name": "Sustainability",
-      "description": "Projects contributing to ecological restoration and environmental impact."
-    }
-  },
+  "impact": {
+    "name": "Sustainability",
+    "description": "Projects contributing to ecological restoration and environmental impact."
+  }
+},
   "logoURI": "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774",
   "keywords": ["environmental", "green", "ecology", "restoration", "VIDA"],
   "tokens": [
@@ -22,7 +22,7 @@
       "symbol": "VIDA",
       "decimals": 18,
       "logoURI": "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774",
-      "tags": ["sustainability"]
+      "tags": ["impact"]
     }
   ]
 }
