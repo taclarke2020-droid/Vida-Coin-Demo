@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Add VIDA to MetaMask</title>
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;background:#0b1c14;color:#e8f6ec;display:grid;place-items:center;min-height:100vh;margin:0}
+    .card{max-width:520px;padding:24px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:#11271a}
+    button{background:#39c18f;color:#062114;border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer}
+    .muted{color:#a7cdb5}
+    code{background:#0e2016;border:1px solid rgba(255,255,255,.1);padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Add <b>VIDA</b> to MetaMask</h1>
+    <p class="muted">Network: <b>Base Mainnet</b></p>
+
+    <button id="addBtn">➕ Add VIDA to MetaMask</button>
+    <p id="msg" class="muted" style="margin-top:12px;"></p>
+
+    <hr style="margin:18px 0;border:0;border-top:1px solid rgba(255,255,255,.15)">
+    <p class="muted">If you’re on mobile, open this page inside the MetaMask Browser:
+      <br><code>metamask.app.link/dapp/your-domain/add-vida.html</code></p>
+  </div>
+
+  <script>
+  (function(){
+    const TOKEN = {
+      address: "0x1D929E2422AEC567907f7fE2B966f7f84CA1858F", // VIDA
+      symbol:  "VIDA",
+      decimals: 18,
+      image:   "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774"
+    };
+    const msg = (t)=> document.getElementById('msg').textContent = t;
+
+    async function addToken(){
+      if (!window.ethereum) {
+        msg("MetaMask not detected. Install MetaMask and try again.");
+        window.open("https://metamask.io/download/","_blank");
+        return;
+      }
+      try {
+        const wasAdded = await window.ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: TOKEN
+          }
+        });
+        msg(wasAdded ? "VIDA added to your wallet ✅" : "Cancelled.");
+      } catch(e){
+        msg(e?.message || "Could not add token.");
+      }
+    }
+
+    document.getElementById('addBtn').addEventListener('click', addToken);
+
+    // Optional: auto-open prompt if query has ?auto=1 and a prior click landed here
+    if (location.search.includes("auto=1")) {
+      setTimeout(()=>document.getElementById('addBtn').click(), 300);
+    }
+  })();
+  </script>
+</body>
+</html>
