@@ -49,13 +49,13 @@
   const SYMBOL   = "VIDA";
   const DECIMALS = 18;
 
-  const BASE_PARAMS = {
-    chainId: "0x2109", // 8453 in hex
-    chainName: "Base",
-    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-    rpcUrls: ["https://mainnet.base.org"],
-    blockExplorerUrls: ["https://basescan.org/"]
-  };
+const BASE_PARAMS = {
+  chainId: "0x2105", // ✅ 8453 in hex
+  chainName: "Base",
+  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: ["https://mainnet.base.org"], // you can also add a backup below
+  blockExplorerUrls: ["https://basescan.org/"]
+};
 
   const $btn = document.getElementById('addVidaBtn');
   const $status = document.getElementById('status');
