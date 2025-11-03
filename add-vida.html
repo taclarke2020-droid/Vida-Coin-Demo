@@ -1,68 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Add VIDA Coin</title>
-  <style>
-    body { background:#0b1c14; color:#e8f6ec; font-family:sans-serif; text-align:center; padding:60px; }
-    h1 { color:#9fe7c0; }
-    p { color:#cfe8d9; max-width:500px; margin:12px auto; line-height:1.5; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Add VIDA to MetaMask</title>
+<style>
+  :root { --bg:#0b1c14; --card:#10251b; --text:#dff6e8; --muted:#9fe7c0; --btn:#39c18f; }
+  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  .wrap{max-width:680px;margin:0 auto;padding:24px}
+  .card{background:var(--card);border-radius:12px;padding:28px;text-align:center}
+  h1{margin:0 0 8px;font-size:28px}
+  p{margin:10px 0 0;line-height:1.5}
+  code{background:#0e1f17;border:1px solid #1a3b2a;padding:2px 6px;border-radius:6px}
+  button{margin-top:18px;padding:12px 18px;border:0;border-radius:10px;
+         font-weight:700;color:#fff;background:var(--btn);cursor:pointer}
+  .hint{color:var(--muted);font-size:14px;margin-top:14px}
+</style>
 </head>
 <body>
-  <h1>Adding VIDA to MetaMask...</h1>
-  <p>If MetaMask doesn’t open automatically, please check your browser permissions.</p>
-  <p>Token: <code>0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code></p>
+<div class="wrap">
+  <div class="card">
+    <h1>Add <span style="color:var(--muted)">VIDA</span> to MetaMask</h1>
+    <p>Tap the button below. If prompted, allow the page to connect.</p>
 
-  <script>
-    const TOKEN = {
-      address: '0x1D929E2422AEC567907f7fE2B966f7f84CA1858F',
-      symbol: 'VIDA',
-      decimals: 18,
-      image: 'https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg?v=1716912774'
-    };
+    <button id="addVidaBtn">➕ Add VIDA on Base</button>
 
-    async function ensureBase() {
-      const baseChainId = '0x2105'; // Base mainnet
-      try {
-        const current = await window.ethereum.request({ method: 'eth_chainId' });
-        if (current !== baseChainId) {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: baseChainId }]
-          });
-        }
-      } catch (e) {
-        if (e.code === 4902) {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [{
-              chainId: baseChainId,
-              chainName: 'Base Mainnet',
-              nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-              rpcUrls: ['https://mainnet.base.org'],
-              blockExplorerUrls: ['https://basescan.org']
-            }]
-          });
-        }
+    <p class="hint" id="status">Ready.</p>
+
+    <p class="hint">Contract: <code id="addr">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code><br/>
+    Network: <code>Base (chainId 8453)</code></p>
+  </div>
+</div>
+
+<script>
+(async function () {
+  const TOKEN = {
+    address: "0x1D929E2422AEC567907f7fE2B966f7f84CA1858F",
+    symbol: "VIDA",
+    decimals: 18,
+    image: "https://cdn.shopify.com/s/files/1/0664/1454/3080/files/Vida_coin_logo.jpg"
+  };
+  const BASE = { chainId: "0x2105" }; // 8453
+
+  const $ = (id) => document.getElementById(id);
+  const status = (msg) => { document.getElementById("status").textContent = msg; };
+
+  async function ensureBase() {
+    try {
+      const current = await window.ethereum.request({ method: "eth_chainId" });
+      if (current !== BASE.chainId) {
+        status("Switching to Base…");
+        await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [BASE] });
       }
-    }
-
-    async function autoAdd() {
-      if (!window.ethereum) return;
-      try {
-        await ensureBase();
+    } catch (err) {
+      // If Base isn’t added, try to add it.
+      if (err && err.code === 4902) {
+        status("Adding Base network…");
         await window.ethereum.request({
-          method: 'wallet_watchAsset',
-          params: { type: 'ERC20', options: TOKEN }
+          method: "wallet_addEthereumChain",
+          params: [{
+            chainId: BASE.chainId,
+            chainName: "Base",
+            rpcUrls: ["https://mainnet.base.org"],
+            nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+            blockExplorerUrls: ["https://basescan.org"]
+          }]
         });
-      } catch (err) {
-        console.error('Auto-add failed', err);
-      }
+      } else { throw err; }
     }
+  }
 
-    window.addEventListener('load', autoAdd);
-  </script>
+  async function addVida() {
+    try {
+      if (!window.ethereum) {
+        status("MetaMask not detected. Open this page inside MetaMask’s Browser.");
+        return;
+      }
+      await ensureBase();
+
+      status("Adding VIDA token…");
+      const added = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: { type: "ERC20", options: TOKEN }
+      });
+
+      status(added ? "✅ VIDA added to your wallet." : "❕ Request cancelled.");
+    } catch (e) {
+      console.error(e);
+      status("⚠️ Unable to add token: " + (e?.message || e));
+    }
+  }
+
+  // MetaMask Mobile requires a *user gesture*. Bind to tap/click.
+  $("addVidaBtn").addEventListener("click", addVida);
+  $("addVidaBtn").addEventListener("touchstart", addVida, { passive: true });
+})();
+</script>
 </body>
 </html>
