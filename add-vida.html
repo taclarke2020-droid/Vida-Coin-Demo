@@ -106,7 +106,7 @@ async function addVida(){
       const ok2 = await watch();
       if(!ok2){ note('MetaMask declined to add VIDA.'); showManual(); }
     } catch(e2){
-      note('MetaMask mobile couldn’t add VIDA automatically on Base. Please add it manually below.');
+      note('MetaMask mobile couldn’t add VIDA automatically. Please add it manually below.');
       showManual();
     }
   }
