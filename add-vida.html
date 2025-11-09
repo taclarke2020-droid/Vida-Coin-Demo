@@ -6,7 +6,7 @@
   <title>Add VIDA to MetaMask</title>
   <style>
     :root{
-      --bg:#0b1c14; --card:#10261c; --text:#d9f7e8; --muted:#bfead6; --warn:#ffd38a; --accent:#39c18f;
+      --bg:#0b1c14; --card:#10261c; --text:#d9f7e8; --muted:#bfead6; --warn:#ffd38a; --ok:#9ff0c9; --accent:#39c18f;
     }
     html,body{height:100%}
     body{
@@ -19,37 +19,60 @@
       background:var(--card); border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.25);
       padding:28px 24px;
     }
-    h1{margin:0 0 10px; font-size:36px; line-height:1.1}
+    h1{margin:0 0 10px; font-size:32px; line-height:1.15}
     p{margin:8px 0; color:var(--muted)}
     .warn{color:var(--warn)}
+    .ok{color:var(--ok)}
     code{background:#0e1f17; border:1px solid #214734; border-radius:6px; padding:2px 6px}
+    #addrBox{
+      display:none; margin-top:12px; text-align:left;
+      padding:12px 14px; border:1px solid #214734; border-radius:10px; background:#0e1f17;
+    }
+    #addrRow{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+    #copyBtn{
+      cursor:pointer; border:1px solid #214734; background:#132a20; color:#d9f7e8;
+      padding:6px 10px; border-radius:8px; font-weight:700;
+    }
     .manual{
       display:none; margin-top:16px; text-align:left;
-      padding:16px 18px; border:1px solid #254837; border-radius:12px;
+      padding:16px 18px; border:1px solid #254837; border-radius:12px; background:#0e1f17;
     }
-    ol{margin:6px 0 0 18px; line-height:1.55}
+    ol{margin:6px 0 0 18px; line-height:1.6}
+    .small{font-size:.92rem}
   </style>
 </head>
 <body>
   <main class="wrap">
     <section class="card">
-      <h1>Adding <span style="color:#7DE3B1">VIDA</span> to MetaMask…</h1>
-      <p id="status">Please wait while we connect and add the token.</p>
+      <h1>Setting up <span style="color:#7DE3B1">VIDA</span> for you…</h1>
+      <p id="status">Step 1/5 — Connecting to your wallet</p>
+
+      <!-- Address box (shown after we connect) -->
+      <div id="addrBox">
+        <div class="small" style="margin-bottom:6px;">Your wallet address (copied to clipboard):</div>
+        <div id="addrRow">
+          <code id="addr">0x…</code>
+          <button id="copyBtn" aria-label="Copy address">Copy again</button>
+          <span id="copyNote" class="ok" style="display:none;">Copied!</span>
+        </div>
+      </div>
 
       <!-- Manual fallback (shown only if auto-add fails) -->
- <div style="display:flex; justify-content:center; text-align:left; margin-top:20px;">
-  <div id="manual" style="display:none; max-width:420px; background:#10261c; border:1px solid #254837; border-radius:10px; padding:16px 20px;">
-    <p style="text-align:center; font-weight:bold; color:#9ff0c9;">Manually add VIDA to MetaMask (mobile):</p>
-    <ol style="margin:0; padding-left:20px; color:#dff6e8; line-height:1.5;">
-    <li>Press the Home button on the bottom left of the screen (to return to your wallet in MetaMask) and click the small + icon on the right of the screen.</li>
-    <li>Select "Custom"</li>
-    <li>Choose <b>Base</b> from the "Select a network" drop-down menu.</li>
-    <li>Paste this <code>0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code> under "Token contract address".</li>
-    <li>Select next.</li>
-    <li>Press import.</li>
-  </ol>
-</div>
-<p id="msg" style="display:none;margin-top:8px;opacity:.85;"></p>
+      <div id="manual" class="manual">
+        <p class="warn" style="margin-top:0;"><b>Manual add (MetaMask mobile):</b></p>
+        <ol>
+          <li>Open MetaMask → Assets → <i>Import tokens</i>.</li>
+          <li>Network: <b>Base</b> (chainId 8453).</li>
+          <li>Paste contract: <code>0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code>.</li>
+          <li>Symbol: <b>VIDA</b>, Decimals: <b>18</b>.</li>
+        </ol>
+      </div>
+
+      <p class="small" style="margin-top:14px;">
+        Tip (mobile): open this page <b>inside the MetaMask app’s Browser</b>.
+        If you’re viewing in Mail/Safari, long-press the link → “Open in MetaMask”.
+      </p>
+      <p class="small">Contract: <code>0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code> · Network: <code>Base (8453)</code></p>
     </section>
   </main>
 
@@ -59,8 +82,8 @@
     address: '0x1D929E2422AEC567907f7fE2B966f7f84CA1858F',
     symbol:  'VIDA',
     decimals: 18,
-    // Prefer a small HTTPS PNG if available:
-    image:   'https://rawcdn.githack.com/taclarke2020-droid/Vida-Coin-Demo/refs/heads/main/Vida%20coin%20logo.svg'
+    // PNG is often more reliable for logos inside wallets; keep SVG if you prefer.
+    image:   'https://rawcdn.githack.com/taclarke2020-droid/Vida-Coin-Demo/refs/heads/main/vida-32.png'
   };
   const BASE = {
     chainId: '0x2105', // 8453
@@ -72,12 +95,39 @@
 
   // ---- Helpers ----
   const $ = id => document.getElementById(id);
-  const setStatus = (t, warn=false) => {
-    const el = $('status'); if(!el) return;
-    el.textContent = t; el.className = warn ? 'warn' : '';
+  const setStatus = (text, cls) => {
+    const el = $('status');
+    if (!el) return;
+    el.textContent = text;
+    el.className = cls || '';
   };
-  const showManual = () => { const m = $('manual'); if(m) m.style.display = 'block'; };
+  const showManual = () => { const m = $('manual'); if (m) m.style.display = 'block'; };
+  const showAddr = (addr) => {
+    $('addr').textContent = addr;
+    $('addrBox').style.display = 'block';
+  };
+  async function copyToClipboard(text){
+    try {
+      // Clipboard API (works in most modern contexts incl. MetaMask browser)
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // Fallback: try a hidden textarea selection
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        return true;
+      } catch { return false; }
+    }
+  }
 
+  // Switch to (or add) Base
   async function ensureBase(eth){
     try {
       await eth.request({ method:'wallet_switchEthereumChain', params:[{ chainId: BASE.chainId }] });
@@ -91,47 +141,106 @@
     }
   }
 
-  async function addVida(){
+  async function runSetup(){
     const eth = window.ethereum;
 
-    // Must be in MetaMask (desktop extension or in-app browser)
     if (!eth || !eth.isMetaMask) {
-      setStatus('Open this page inside the MetaMask app (Browser tab) or use desktop with the MetaMask extension.', true);
-      showManual(); return;
+      setStatus('Please open this page inside the MetaMask app (Browser tab) or use desktop with the MetaMask extension.', 'warn');
+      showManual();
+      return;
     }
 
-    try { await eth.request({ method:'eth_requestAccounts' }); } catch {}
-
+    // 1) Connect
+    setStatus('Step 1/5 — Connecting to your wallet');
+    let accounts = [];
     try {
-      // 1) Switch to (or add) Base
-      setStatus('Switching to Base…');
+      accounts = await eth.request({ method:'eth_requestAccounts' });
+    } catch (e) {
+      setStatus('We couldn’t connect to MetaMask. Please approve the connection and reload.', 'warn');
+      showManual();
+      return;
+    }
+    const addr = (accounts && accounts[0]) ? accounts[0] : null;
+    if (!addr) {
+      setStatus('No account returned from MetaMask. Please unlock/approve and reload.', 'warn');
+      showManual();
+      return;
+    }
+
+    // 2) Copy address
+    setStatus('Step 2/5 — Copying your address');
+    showAddr(addr);
+    const copied = await copyToClipboard(addr);
+    if (copied) {
+      const note = $('copyNote');
+      if (note) { note.style.display = 'inline'; setTimeout(()=> note.style.display='none', 1600); }
+    }
+
+    // 3) Switch to Base
+    setStatus('Step 3/5 — Switching to Base');
+    try {
       await ensureBase(eth);
+    } catch (e) {
+      setStatus('Could not switch to Base automatically. You can add VIDA manually below.', 'warn');
+      showManual();
+      return;
+    }
 
-      // 2) Small pause helps on mobile after network changes
-      await new Promise(r => setTimeout(r, 300));
+    // Give mobile a beat to settle after network change
+    await new Promise(r => setTimeout(r, 300));
 
-      // 3) Ask MetaMask to watch the token
-      setStatus('Adding VIDA to your wallet…');
+    // 4) Add VIDA with logo
+    setStatus('Step 4/5 — Adding VIDA to your wallet');
+    try {
       const ok = await eth.request({
         method:'wallet_watchAsset',
         params:{ type:'ERC20', options: TOKEN }
       });
-
-      if (ok) {
-        setStatus('✅ VIDA was added to your wallet.', false);
-      } else {
-        setStatus('MetaMask declined to add VIDA.', true);
+      if (!ok) {
+        setStatus('MetaMask declined to add VIDA. You can add it manually below.', 'warn');
         showManual();
+        return;
       }
-    } catch(e){
-      // Common mobile messages can be noisy; we show a clean fallback.
-      setStatus('Could not add automatically. Please use the manual steps below.', true);
-      showManual();
+    } catch (e) {
+      // One retry helps on some mobile builds
+      await new Promise(r => setTimeout(r, 600));
+      try {
+        const ok2 = await eth.request({
+          method:'wallet_watchAsset',
+          params:{ type:'ERC20', options: TOKEN }
+        });
+        if (!ok2) {
+          setStatus('MetaMask declined to add VIDA. You can add it manually below.', 'warn');
+          showManual();
+          return;
+        }
+      } catch (e2) {
+        setStatus('Could not add VIDA automatically. Please use the manual steps below.', 'warn');
+        showManual();
+        return;
+      }
     }
+
+    // 5) Done
+    setStatus('✅ Step 5/5 — All set! VIDA was added and your address was copied.', 'ok');
+
+    // Allow user to re-copy if needed
+    $('copyBtn').addEventListener('click', async ()=>{
+      const ok = await copyToClipboard(addr);
+      const note = $('copyNote');
+      if (note) {
+        note.textContent = ok ? 'Copied!' : 'Copy failed';
+        note.className = ok ? 'ok' : 'warn';
+        note.style.display = 'inline';
+        setTimeout(()=> note.style.display='none', 1600);
+      }
+    });
   }
 
-  // Auto-run shortly after load
-  window.addEventListener('DOMContentLoaded', () => setTimeout(addVida, 250));
+  window.addEventListener('DOMContentLoaded', () => {
+    // Auto-run shortly after load
+    setTimeout(runSetup, 250);
+  });
   </script>
 </body>
 </html>
