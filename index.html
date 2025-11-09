@@ -306,6 +306,14 @@ form select option {
   letter-spacing:.01em;
 }
 
+
+  .provenance {
+  margin: 8px 0 14px;
+  color: #7DE3B1; /* same hue as your highlight line */
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
 </style>
 </head>
 
@@ -333,33 +341,42 @@ form select option {
 <div class="wrap">
 
   <!-- Slide 1 (unchanged except for the whitepaper link) -->
-  <section class="screen hero active" data-screen="1" aria-live="polite">
-    <h1>
-  When nature improves,<br>
-  <span class="highlight-line">VIDA Coin pays you.</span>
-</h1>
-<div class="chip">What is Vida?</div>
-    <p class="lead">
-            VIDA Coin is a cryptocurrency that rewards land owners for restoring and maintaining healthy ecosystems. Funded by companies and donors seeking real, measurable environmental impact, VIDA’s supply grows scarcer - and more valuable - as more land joins the system. VIDA is issued through a transparent process that ensures every coin represents verifiable proof of impact.
-    </p>
-<p class="sub">
-       
-    </p>
-    <div class="cta">
-      <button class="btn primary" data-next="2">Learn about the pilot</button>
-      <!-- changed to anchor that opens the PDF -->
-      <a class="btn ghost" href="Vida%20Coin%20Whitepaper%20new.pdf" target="_blank" rel="noopener">
-        Read the white paper
-      </a>
-    </div>
-    <!-- second row: big centered CTA -->
-<div class="cta">
- <button class="btn primary big" data-next="5">
-  Start Earning VIDA
-</button>
-</div>
-    </div>
-  </section>
+<section class="screen hero active" data-screen="1" aria-live="polite">
+  <h1>
+    When nature improves,<br>
+    <span class="highlight-line">VIDA Coin pays you.</span>
+  </h1>
+
+  <div class="chip">What is Vida?</div>
+
+  <p class="provenance">
+    Created by a farmer to make restoring and protecting the Earth financially rewarding.
+  </p>
+
+  <p class="lead">
+    VIDA Coin is a cryptocurrency that rewards land owners for restoring and maintaining healthy ecosystems.
+    Funded by companies and donors seeking real, measurable environmental impact, VIDA’s supply grows scarcer —
+    and more valuable — as more land joins the system. VIDA is issued through a transparent process that ensures
+    every coin represents verifiable proof of impact.
+  </p>
+
+  <p class="sub"></p>
+
+  <div class="cta">
+    <button class="btn primary" data-next="2">Learn about the pilot</button>
+    <!-- changed to anchor that opens the PDF -->
+    <a class="btn ghost" href="Vida%20Coin%20Whitepaper%20new.pdf" target="_blank" rel="noopener">
+      Read the white paper
+    </a>
+  </div>
+
+  <!-- second row: big centered CTA -->
+  <div class="cta">
+    <button class="btn primary big" data-next="5">
+      Start Earning VIDA
+    </button>
+  </div>
+</section>
 
   <!-- Slide 2 -->
 <section id="slide2" class="screen imgslide" data-screen="2" aria-live="polite">
