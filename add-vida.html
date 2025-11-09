@@ -96,7 +96,7 @@
 
     // Must be in MetaMask (desktop extension or in-app browser)
     if (!eth || !eth.isMetaMask) {
-      setStatus('Open this page inside the MetaMask app (Browser tab) or use desktop with the MetaMask extension.', true);
+      setStatus('Metamask not detected. Please install MetaMask', true);
       showManual(); return;
     }
 
