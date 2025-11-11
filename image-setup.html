@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Set up your VIDA wallet (MetaMask)</title>
+<style>
+  :root{
+    --bg:#0b1c14; --card:#10261c; --text:#d9f7e8; --muted:#bfead6;
+    --accent:#39c18f; --ink:#1b2921; --soft:#f3fbf6; --line:#d8eae1;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:760px;margin:24px auto;padding:16px}
+  .card{background:var(--card);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.25);padding:24px}
+  h1{margin:0 0 6px;font-size:28px}
+  p.lead{margin:6px 0 18px;color:var(--muted)}
+  .help{background:var(--soft);border-radius:10px;padding:18px 22px;margin:18px 0}
+  h3{color:#0c5230;margin:0 0 10px}
+  ol{padding-left:20px;color:var(--ink);line-height:1.6;margin:0 0 10px}
+  img.guide{width:100%;max-width:420px;border-radius:8px;margin:10px 0;display:block}
+  code.inline{background:#eaf7f0;color:#0c5230;padding:3px 6px;border-radius:4px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 2px}
+  .btn{appearance:none;border:0;border-radius:8px;padding:12px 16px;font-weight:700;cursor:pointer}
+  .btn.copy{background:#2e9d77;color:#fff}
+  .btn.auto{background:var(--accent);color:#fff}
+  .hint{color:#9ff0c9;margin:10px 0 0}
+  hr{border:none;border-top:1px solid var(--line);margin:16px 0}
+  .note{color:#bfead6;font-size:14px}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>Set up your <span style="color:#7DE3B1">VIDA</span> wallet</h1>
+      <p class="lead">Follow the pictures below to install MetaMask on your phone, switch to the Base network, copy your wallet address, and add the VIDA token.</p>
+
+      <div class="help">
+        <h3>Step-by-step (mobile)</h3>
+
+        <!-- 1 -->
+        <ol>
+          <li><b>Install <a href="https://metamask.io/download/" target="_blank" style="color:#39c18f;text-decoration:none;">MetaMask</a></b> from the App Store and tap “Create a new wallet”.</li>
+        </ol>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/1.jpg?v=1762897842" alt="Install MetaMask and create a new wallet">
+
+        <!-- 2 -->
+        <ol start="2">
+          <li>Select <b>Use Secret Recovery Phrase</b>. Keep your recovery phrase safe and private—never share it with anyone.</li>
+        </ol>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/2.jpg?v=1762897855" alt="Choose use secret recovery phrase">
+
+        <!-- 3 -->
+        <ol start="3">
+          <li>Open MetaMask. Tap the network menu at the top and choose <b>Base</b>.</li>
+        </ol>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/3.jpg?v=1762897877" alt="Select Base network">
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.jpg?v=1762897911" alt="Base shown in network list">
+
+        <!-- 4 -->
+        <ol start="4">
+          <li>Tap <b>Receive</b> (or your account name) and tap the copy icon to copy your wallet address (it begins with <code class="inline">0x...</code>).</li>
+        </ol>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.5.jpg?v=1762900392" alt="Receive screen">
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="Copy wallet address">
+
+        <p class="note">5. Email this address to us along with your verification materials.</p>
+
+        <hr>
+
+        <!-- 6.. final -->
+        <ol start="6">
+          <li>Tap the small <b>+</b> in the top-right.</li>
+        </ol>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/6.jpg?v=1762897960" alt="Add token plus button">
+
+        <ol start="7">
+          <li>Select <b>Custom token</b> and ensure the network is <b>Base</b>.</li>
+        </ol>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/7.jpg?v=1762897972" alt="Custom token on Base">
+
+        <ol start="8">
+          <li>Paste this under “Token contract address”:<br>
+            <code id="contract" class="inline">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code>
+          </li>
+        </ol>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/8.jpg?v=1762897984" alt="Paste contract address">
+
+        <ol start="9">
+          <li>Confirm the token symbol shows <b>VIDA</b> and decimals <b>18</b>, then tap <b>Next</b> → <b>Import</b>.</li>
+        </ol>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/9.jpg?v=1762897996" alt="Confirm VIDA token">
+        <p class="hint">✅ You’ll now see <b>VIDA Coin</b> listed under the <b>Base</b> network (it will show 0 until you earn coins).</p>
+        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA token visible in wallet">
+      </div>
+
+      <div class="row">
+        <button class="btn copy" id="copyBtn">Copy contract address</button>
+        <button class="btn auto" id="autoBtn">Try automatic add (desktop)</button>
+      </div>
+      <p id="toast" class="note" aria-live="polite"></p>
+    </section>
+  </main>
+
+<script>
+  // --- Mini helpers
+  const CONTRACT = '0x1D929E2422AEC567907f7fE2B966f7f84CA1858F';
+  const TOKEN = {
+    address: CONTRACT, symbol: 'VIDA', decimals: 18,
+    image: 'https://rawcdn.githack.com/taclarke2020-droid/Vida-Coin-Demo/refs/heads/main/Vida%20coin%20logo.svg'
+  };
+  const BASE = {
+    chainId:'0x2105', chainName:'Base',
+    nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18},
+    rpcUrls:['https://mainnet.base.org'], blockExplorerUrls:['https://basescan.org']
+  };
+  const $ = id => document.getElementById(id);
+  const toast = (t)=>{ const el=$('toast'); el.textContent=t; };
+
+  // Copy contract
+  $('copyBtn').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(CONTRACT); toast('Copied contract address to clipboard.'); }
+    catch { toast('Copy failed — you can select and copy the code above.'); }
+  });
+
+  // Optional desktop auto-add (safe no-op on mobile/non-MetaMask)
+  async function ensureBase(eth){
+    try{
+      await eth.request({method:'wallet_switchEthereumChain', params:[{chainId:BASE.chainId}]});
+    }catch(e){
+      if(e && e.code===4902){
+        await eth.request({method:'wallet_addEthereumChain', params:[BASE]});
+        await eth.request({method:'wallet_switchEthereumChain', params:[{chainId:BASE.chainId}]});
+      }else{ throw e; }
+    }
+  }
+  $('autoBtn').addEventListener('click', async () => {
+    const eth = window.ethereum;
+    if(!eth || !eth.isMetaMask){ toast('Open on desktop with the MetaMask extension to use automatic add.'); return; }
+    try{
+      await eth.request({method:'eth_requestAccounts'});
+      await ensureBase(eth);
+      await new Promise(r=>setTimeout(r,250));
+      const ok = await eth.request({method:'wallet_watchAsset', params:{type:'ERC20', options:TOKEN}});
+      toast(ok ? 'VIDA was added to your wallet.' : 'MetaMask declined to add VIDA.');
+    }catch(e){ toast('Could not add automatically. You can still add VIDA using the steps above.'); }
+  });
+</script>
+</body>
+</html>
