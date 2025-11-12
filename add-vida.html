@@ -158,7 +158,29 @@ img.guide {
   background:#0c5230;               /* invert badge */
   color:#7DE3B1;
 }
-    
+
+
+    /* Make selected steps span the full grid width */
+.step.full { grid-column: 1 / -1; }
+
+/* Row of two screenshots that stay on the same line (desktop) */
+.pair {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 8px;
+}
+.pair .guide { width: calc(50% - 8px); max-width: 420px; }
+
+/* Stack the pair vertically on narrow screens */
+@media (max-width: 720px){
+  .pair { flex-direction: column; }
+  .pair .guide { width: 100%; max-width: 420px; }
+}
+
+/* Step 5 callout stays prominent and full width */
+.step.callout { grid-column: 1 / -1; }
     
   </style>
 </head>
@@ -196,28 +218,27 @@ img.guide {
       <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/2.jpg?v=1762897855" alt="MetaMask Step 2">
     </div>
 
-  <!-- Step 3 -->
-<div class="step">
+ <!-- Step 3 (full row) -->
+<div class="step full">
   <span class="num">3</span>
   <p>Once inside MetaMask, tap the "popular networks" menu at the top and select <b>Base</b>.</p>
-
   <div class="pair">
     <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/3.jpg?v=1762897877" alt="Open networks menu">
     <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.jpg?v=1762897911" alt="Select Base">
   </div>
 </div>
 
-<!-- Step 4 -->
-<div class="step">
+<!-- Step 4 (full row, sits UNDER step 3) -->
+<div class="step full">
   <span class="num">4</span>
   <p>Tap <b>Receive</b> and tap the small squares to copy your wallet address (it begins with <code class="inline">0x...</code>).</p>
-
   <div class="pair">
     <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.5.jpg?v=1762911556" alt="Receive screen">
     <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="Copy wallet address">
   </div>
+</div>
 
-    <!-- Step 5 (callout) -->
+<!-- Step 5 (own full-width callout card) -->
 <div class="step callout">
   <span class="num">5</span>
   <p>Now send this address to us in your email along with your verification materials.</p>
