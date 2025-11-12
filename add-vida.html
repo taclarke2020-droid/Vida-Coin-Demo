@@ -21,29 +21,21 @@
     p{margin:8px 0; color:var(--muted)}
     .warn{color:var(--warn)}
     code{background:#0e1f17; border:1px solid #214734; border-radius:6px; padding:2px 6px}
-    .manual{
-      display:none; margin-top:16px; text-align:left;
-      padding:16px 18px; border:1px solid #254837; border-radius:12px;
-    }
-    ol{margin:6px 0 0 18px; line-height:1.55}
 
-    /* —— mobile help block keeps your look but fits inside this page —— */
+    /* Mobile help block */
     .help{background:var(--soft);border-radius:10px;padding:18px 22px;margin:18px 0}
     .help h3{color:#0c5230;margin:0 0 10px}
     .help ol{padding-left:20px;color:var(--ink);line-height:1.6;margin:0 0 10px}
-     img.guide{
-    width:100%;
-    max-width:200px;   /* ↓ make them smaller: try 260–340px */
-    height:auto;
-    display:block;
-    margin:8px auto;   /* centers each image */
-    border-radius:8px;
+    img.guide{
+      width:100%;
+      max-width:200px;
+      height:auto;
+      display:block;
+      margin:8px auto;
+      border-radius:8px;
+    }
     .inline{background:#eaf7f0;padding:3px 6px;border-radius:4px;display:inline-block}
     .note{color:#bfead6;font-size:14px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 2px}
-    .btn{appearance:none;border:0;border-radius:8px;padding:12px 16px;font-weight:700;cursor:pointer}
-    .btn.copy{background:#2e9d77;color:#fff}
-    .btn.auto{background:var(--accent);color:#fff}
   </style>
 </head>
 <body>
@@ -53,21 +45,6 @@
     <section class="card" id="desktop">
       <h1>Adding <span style="color:#7DE3B1">VIDA</span> to MetaMask (Desktop)</h1>
       <p id="status">If you’re on desktop with the MetaMask extension, we’ll try to switch to Base and add the token automatically.</p>
-
-      <!-- Manual fallback (shown only if auto-add fails or not in MetaMask) -->
-      <div style="display:flex; justify-content:center; text-align:left; margin-top:20px;">
-        <div id="manual" class="manual">
-          <p style="text-align:center; font-weight:bold; color:#9ff0c9;">Manually add VIDA to MetaMask (mobile):</p>
-          <ol style="margin:0; padding-left:20px; color:#dff6e8; line-height:1.5;">
-            <li>Press the Home button on the bottom left of the screen (to return to your wallet in MetaMask) and click the small + icon on the right of the screen.</li>
-            <li>Select "Custom"</li>
-            <li>Choose <b>Base</b> from the "Select a network" drop-down menu.</li>
-            <li>Paste this <code>0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code> under "Token contract address".</li>
-            <li>Select next.</li>
-            <li>Press import.</li>
-          </ol>
-        </div>
-      </div>
       <p id="msg" style="display:none;margin-top:8px;opacity:.85;"></p>
     </section>
 
@@ -86,7 +63,7 @@
         </ol>
         <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/1.jpg?v=1762897842" alt="MetaMask Step 1">
 
-        <!-- 2 (keep wording exactly) -->
+        <!-- 2 -->
         <ol start="2">
           2. Select "use secret recovery phase" keep your <b>recovery pass phrase</b> safe and private, never share it with anyone.
         </ol>
@@ -141,19 +118,12 @@
           <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA visible">
         </div>
       </div>
-
-      <!-- Optional helpers (kept for convenience) -->
-      <div class="row">
-        <button class="btn copy" id="copyBtn">Copy contract address</button>
-        <button class="btn auto" id="autoBtn">Try automatic add (desktop)</button>
-      </div>
-      <p id="toast" class="note" aria-live="polite"></p>
     </section>
 
   </main>
 
   <script>
-    // ===== Config shared across sections =====
+    // ===== Config =====
     const TOKEN = {
       address: '0x1D929E2422AEC567907f7fE2B966f7f84CA1858F',
       symbol:  'VIDA',
@@ -169,12 +139,11 @@
     };
 
     // ===== Helpers =====
-    const $ = id => document.getElementById(id);
-    const setStatus = (t, warn=false) => {
-      const el = $('status'); if(!el) return;
-      el.textContent = t; el.className = warn ? 'warn' : '';
+    const setStatus = (html, warn=false) => {
+      const el = document.getElementById('status'); if(!el) return;
+      el.className = warn ? 'warn' : '';
+      el.innerHTML = html; // use HTML so we can show the 0x… code pill
     };
-    const showManual = () => { const m = $('manual'); if(m) m.style.display = 'block'; };
 
     async function ensureBase(eth){
       try {
@@ -192,10 +161,10 @@
     async function addVidaAuto(){
       const eth = window.ethereum;
 
-      // Must be in MetaMask (desktop extension or in-app browser)
+      // Not in MetaMask on desktop
       if (!eth || !eth.isMetaMask) {
-        setStatus('Metamask not detected. Please install MetaMask (or use the mobile steps below).', true);
-        showManual(); return;
+        setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below (<code>0x…</code>).', true);
+        return;
       }
 
       try { await eth.request({ method:'eth_requestAccounts' }); } catch {}
@@ -203,7 +172,6 @@
       try {
         setStatus('Switching to Base…');
         await ensureBase(eth);
-
         await new Promise(r => setTimeout(r, 300));
 
         setStatus('Adding VIDA to your wallet…');
@@ -215,44 +183,15 @@
         if (ok) {
           setStatus('✅ VIDA was added to your wallet.');
         } else {
-          setStatus('MetaMask declined to add VIDA.', true);
-          showManual();
+          setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below (<code>0x…</code>).', true);
         }
       } catch(e){
-        setStatus('Could not add automatically. Please use the mobile steps below.', true);
-        showManual();
+        setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below (<code>0x…</code>).', true);
       }
     }
 
-    // Auto-run for desktop section
+    // Auto-run desktop attempt
     window.addEventListener('DOMContentLoaded', () => setTimeout(addVidaAuto, 250));
-
-    // === Convenience buttons under mobile section ===
-    const CONTRACT = TOKEN.address;
-    const toast = (t)=>{ const el=$('toast'); if(el) el.textContent=t; };
-
-    const copyBtn = $('copyBtn');
-    if(copyBtn){
-      copyBtn.addEventListener('click', async () => {
-        try { await navigator.clipboard.writeText(CONTRACT); toast('Copied contract address to clipboard.'); }
-        catch { toast('Copy failed — you can select and copy the code above.'); }
-      });
-    }
-
-    const autoBtn = $('autoBtn');
-    if(autoBtn){
-      autoBtn.addEventListener('click', async () => {
-        const eth = window.ethereum;
-        if(!eth || !eth.isMetaMask){ toast('Open on desktop with the MetaMask extension to use automatic add.'); return; }
-        try{
-          await eth.request({method:'eth_requestAccounts'});
-          await ensureBase(eth);
-          await new Promise(r=>setTimeout(r,250));
-          const ok = await eth.request({method:'wallet_watchAsset', params:{type:'ERC20', options:TOKEN}});
-          toast(ok ? 'VIDA was added to your wallet.' : 'MetaMask declined to add VIDA.');
-        }catch(e){ toast('Could not add automatically. You can still add VIDA using the steps above.'); }
-      });
-    }
   </script>
 </body>
 </html>
