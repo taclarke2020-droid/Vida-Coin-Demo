@@ -141,6 +141,24 @@ img.guide {
 
 /* consistent spacing under step text before images */
 .step p { margin: 6px 0 8px; color: var(--ink); }
+
+/* Callout styling for the important Step 5 */
+.step.callout{
+  background:#e8f7ee;              /* brighter */
+  border:2px solid var(--accent);   /* thicker border */
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+.step.callout p{
+  font-size:20px;                   /* bigger text */
+  font-weight:700;                  /* bold */
+  color:#0c5230;                    /* dark green */
+  margin:10px 0 0;
+}
+.step.callout .num{
+  background:#0c5230;               /* invert badge */
+  color:#7DE3B1;
+}
+    
     
   </style>
 </head>
@@ -199,7 +217,10 @@ img.guide {
     <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="Copy wallet address">
   </div>
 
-  <div class="callout big">5. Now send this address to us in your email along with your verification materials.</div>
+    <!-- Step 5 (callout) -->
+<div class="step callout">
+  <span class="num">5</span>
+  <p>Now send this address to us in your email along with your verification materials.</p>
 </div>
 
     <!-- Step 6 -->
