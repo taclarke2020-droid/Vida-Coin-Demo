@@ -163,7 +163,7 @@
 
       // Not in MetaMask on desktop
       if (!eth || !eth.isMetaMask) {
-        setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below.', true);
+        setStatus('Failed desktop setup - make sure MetaMask is installed or try the mobile setup shown below.', true);
         return;
       }
 
@@ -183,10 +183,10 @@
         if (ok) {
           setStatus('✅ VIDA was added to your wallet.');
         } else {
-          setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below.', true);
+          setStatus('Failed desktop setup - make sure MetaMask is installed or try the mobile setup shown below.', true);
         }
       } catch(e){
-        setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below.', true);
+        setStatus('Failed desktop setup - make sure MetaMask is installed or try the mobile setup shown below.', true);
       }
     }
 
