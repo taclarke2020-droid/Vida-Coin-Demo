@@ -83,15 +83,37 @@ img.guide {
   border-radius: 8px;
 }
 
-/* side-by-side pair inside a step */
-.pair{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(260px, 1fr));
-  gap:12px;
-  margin-top:10px;
+/* Fix overlapping of Step 3/4 pairs */
+.step {
+  width: 100%;
+  box-sizing: border-box;
 }
-@media (max-width: 640px){
-  .pair{ grid-template-columns: 1fr; } /* stack on phones */
+
+.pair {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 20px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.pair img.guide {
+  width: 48%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+@media (max-width: 700px) {
+  .pair {
+    flex-wrap: wrap;
+  }
+  .pair img.guide {
+    width: 100%;
+    max-width: 320px;
+  }
 }
 
 /* make the step 5 reminder nice and bold */
