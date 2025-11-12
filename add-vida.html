@@ -113,7 +113,7 @@
         <div style="margin:12px 0;">
           <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/9.jpg?v=1762897996" alt="Confirm token">
           <p style="margin-top:10px;color:#375947;">
-            ✅ Congratulations you’ll now see <b>VIDA Coin</b> listed in your wallet under the <b>Base</b> network, it will show 0 until you have earn your first coins.
+            ✅ Congratulations you’ll now see your <b>VIDA Coin</b> balnce and are ready to start earning.
           </p>
           <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA visible">
         </div>
@@ -163,7 +163,7 @@
 
       // Not in MetaMask on desktop
       if (!eth || !eth.isMetaMask) {
-        setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below (<code>0x…</code>).', true);
+        setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below.', true);
         return;
       }
 
@@ -183,10 +183,10 @@
         if (ok) {
           setStatus('✅ VIDA was added to your wallet.');
         } else {
-          setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below (<code>0x…</code>).', true);
+          setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below.', true);
         }
       } catch(e){
-        setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below (<code>0x…</code>).', true);
+        setStatus('Failed desktop setup — make sure MetaMask is installed or try the mobile setup shown below.', true);
       }
     }
 
