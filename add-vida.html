@@ -128,6 +128,19 @@ img.guide {
   font-size:18px;
   font-weight:700;
 }
+
+    /* make the contract pill wrap nicely on small screens */
+.inline{
+  background:#eaf7f0;
+  padding:3px 6px;
+  border-radius:4px;
+  display:inline-block;
+  overflow-wrap:anywhere;   /* <- keeps it from blowing out layout */
+  word-break:break-word;
+}
+
+/* consistent spacing under step text before images */
+.step p { margin: 6px 0 8px; color: var(--ink); }
     
   </style>
 </head>
@@ -203,22 +216,30 @@ img.guide {
       <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/7.jpg?v=1762897972" alt="Custom token Base">
     </div>
 
-    <!-- Step 8 / 9 / Next -->
-    <div class="step">
-      <span class="num">8</span>
-      <p>Paste this address under “Token contract address”:<br>
-        <code id="contract" class="inline">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code>
-      </p>
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/8.jpg?v=1762897984" alt="Paste contract">
-      <p><b>Confirm the token symbol is <b>VIDA</b> and decimals is <b>18</b>.</b></p>
-      <p>Tap <b>Next</b> → <b>Import</b>.</p>
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/9.jpg?v=1762897996" alt="Confirm token">
-      <p style="margin-top:10px;color:#375947;">
-        ✅ Congratulations you’ll now see <b>VIDA Coin</b> listed in your wallet under the <b>Base</b> network, it will show 0 until you have earn your first coins.
-      </p>
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA visible">
-    </div>
+   <!-- Step 8 -->
+<div class="step">
+  <span class="num">8</span>
+  <p>Paste this address under “Token contract address”:</p>
+  <p><code id="contract" class="inline">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code></p>
+  <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/8.jpg?v=1762897984" alt="Paste contract">
+</div>
 
+<!-- Step 9 -->
+<div class="step">
+  <span class="num">9</span>
+  <p>Confirm the token symbol is <b>VIDA</b> and decimals is <b>18</b>.</p>
+  <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/9.jpg?v=1762897996" alt="Confirm token details">
+</div>
+
+<!-- Step 10 -->
+<div class="step">
+  <span class="num">10</span>
+  <p>Tap <b>Next</b> → <b>Import</b>.</p>
+  <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA visible in wallet">
+  <p style="margin-top:10px;color:#375947;">
+    ✅ Congratulations you’ll now see <b>VIDA Coin</b> listed in your wallet under the <b>Base</b> network, it will show 0 until you have earn your first coins.
+  </p>
+</div>
   </div>
 </div>
 
