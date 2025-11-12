@@ -181,6 +181,40 @@ img.guide {
 
 /* Step 5 callout stays prominent and full width */
 .step.callout { grid-column: 1 / -1; }
+
+
+/* ===== Mobile polish (phones only) ===== */
+@media (max-width: 480px){
+  .wrap{ width: 94%; margin: 16px auto; }
+  .card{ padding: 16px; border-radius: 14px; }
+
+  /* Friendlier type + spacing */
+  h2{ font-size: 20px; }
+  .help{ padding: 14px; }
+  .step p{ font-size: 16px; line-height: 1.6; }
+  .step .num{
+    min-width: 24px; height: 24px; line-height: 24px; font-size: 12px;
+  }
+
+  /* Make screenshots fit nicely on small screens */
+  img.guide{
+    display:block;
+    width: 92vw;          /* fill phone width with a little gutter */
+    max-width: 360px;     /* cap so it never gets comically huge */
+    height:auto;
+    margin: 10px auto 0;
+    border-radius: 10px;
+  }
+
+  /* When steps have two images (3 and 4), stack them cleanly */
+  .pair{ flex-direction: column; gap: 10px; align-items: center; }
+  .pair .guide{ width: 92vw; max-width: 360px; }
+
+  /* Step 5 callout readability */
+  .step.callout p{ font-size: 18px; }
+}
+
+    
     
   </style>
 </head>
