@@ -83,7 +83,29 @@ img.guide {
   border-radius: 8px;
 }
 
+/* side-by-side pair inside a step */
+.pair{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap:12px;
+  margin-top:10px;
+}
+@media (max-width: 640px){
+  .pair{ grid-template-columns: 1fr; } /* stack on phones */
+}
 
+/* make the step 5 reminder nice and bold */
+.callout.big{
+  margin-top:12px;
+  background: var(--soft);
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:8px;
+  padding:12px 14px;
+  color: var(--ink);
+  font-size:18px;
+  font-weight:700;
+}
     
   </style>
 </head>
@@ -121,22 +143,29 @@ img.guide {
       <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/2.jpg?v=1762897855" alt="MetaMask Step 2">
     </div>
 
-    <!-- Step 3 -->
-    <div class="step">
-      <span class="num">3</span>
-      <p><b>Once inside MetaMask, tap the "popular networks" menu at the top and select <b>Base</b>.</b></p>
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/3.jpg?v=1762897877" alt="MetaMask Step 3">
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.jpg?v=1762897911" alt="MetaMask Step 4">
-    </div>
+  <!-- Step 3 -->
+<div class="step">
+  <span class="num">3</span>
+  <p>Once inside MetaMask, tap the "popular networks" menu at the top and select <b>Base</b>.</p>
 
-    <!-- Step 4 -->
-    <div class="step">
-      <span class="num">4</span>
-      <p>Tap <b>Receive</b> and tap the small squares to copy your wallet address (it begins with <code class="inline">0x...</code>).</p>
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.5.jpg?v=1762900392" alt="MetaMask Step 4A">
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="MetaMask Step 4B">
-      <p class="note" style="margin-top:10px;">5. Now send this address to us in your email along with your verification materials.</p>
-    </div>
+  <div class="pair">
+    <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/3.jpg?v=1762897877" alt="Open networks menu">
+    <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.jpg?v=1762897911" alt="Select Base">
+  </div>
+</div>
+
+<!-- Step 4 -->
+<div class="step">
+  <span class="num">4</span>
+  <p>Tap <b>Receive</b> and tap the small squares to copy your wallet address (it begins with <code class="inline">0x...</code>).</p>
+
+  <div class="pair">
+    <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.5.jpg?v=1762900392" alt="Receive screen">
+    <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="Copy wallet address">
+  </div>
+
+  <div class="callout big">5. Now send this address to us in your email along with your verification materials.</div>
+</div>
 
     <!-- Step 6 -->
     <div class="step">
