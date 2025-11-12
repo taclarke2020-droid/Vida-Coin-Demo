@@ -22,67 +22,67 @@
     .warn{color:var(--warn)}
     code{background:#0e1f17; border:1px solid #214734; border-radius:6px; padding:2px 6px}
 
-    /* --- Mobile guide layout & type --- */
+    /* Mobile help block */
     .help{background:var(--soft);border-radius:10px;padding:18px 22px;margin:18px 0}
     .help h3{color:#0c5230;margin:0 0 10px}
-    .help, .help p, .help li { font-size:18px; line-height:1.7; color:var(--ink); }
-
-    /* Two-column step grid on wide screens; single column on mobile */
-    .steps{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:16px;
-      margin-top:10px;
+    .help ol{padding-left:20px;color:var(--ink);line-height:1.6;margin:0 0 10px}
+    img.guide{
+      width:100%;
+      max-width:200px;
+      height:auto;
+      display:block;
+      margin:8px auto;
+      border-radius:8px;
     }
-    .step{
-      background:#fff; /* better contrast for text/images inside */
-      border:1px solid var(--line);
-      border-radius:10px;
-      padding:14px 16px;
-      color:var(--ink);
-    }
-    .num{
-      display:inline-block; min-width:28px; height:28px; line-height:28px;
-      text-align:center; border-radius:999px; background:var(--accent); color:#0b1c14;
-      font-weight:800; margin-right:8px; font-size:14px; vertical-align:middle;
-    }
-    .step p{margin:8px 0 0}
+    .inline{background:#eaf7f0;padding:3px 6px;border-radius:4px;display:inline-block}
+    .note{color:#bfead6;font-size:14px}
 
-    /* Image sizing: never overlap, centered, consistent */
-    .guide{
-      width:100%; max-width:320px; height:auto; display:block;
-      margin:10px auto 0; border-radius:8px;
-    }
+/* Bigger, clearer type for the mobile guide */
+.help { font-size: 18px; }
+.help ol { font-size: 18px; line-height: 1.7; }
 
-    /* Make Step 5 shouty but still pretty */
-    .callout{
-      margin-top:12px; padding:12px 14px; border:2px dashed #6ccfa4;
-      background:#eaf7f0; border-radius:8px; font-weight:700; font-size:20px;
-      color:#0c5230; text-align:center;
-    }
-
-    /* Small captions under images when two in same step */
-    .caption{font-size:14px; color:#4a6658; text-align:center; margin-top:6px}
-
-    @media (max-width:480px){
-      .callout{font-size:18px}
-      .guide{max-width:280px}
-    }
-
-/* pair layout inside any step */
-.pair {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
+/* Grid layout for steps (desktop = 2 columns, mobile = 1) */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
   margin-top: 10px;
 }
-.imgbox {
-  flex: 1 1 300px;
-  max-width: 340px;
-  text-align: center;
+
+/* Individual step card */
+.step {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
 }
-.imgbox img.guide { margin: 0 auto; }
+
+/* Number badge */
+.step .num {
+  display: inline-block;
+  min-width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #0b1c14;
+  font-weight: 800;
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.step p { margin: 6px 0 0; color: var(--ink); }
+
+/* Tighter, consistent image sizing */
+img.guide {
+  width: 100%;
+  max-width: 320px;   /* was 200; a touch larger, still compact */
+  margin: 10px auto 0;
+  border-radius: 8px;
+}
+
 
     
   </style>
@@ -90,101 +90,87 @@
 <body>
   <main class="wrap">
 
-    <!-- === Desktop auto-add (unchanged text/flow) === -->
+    <!-- === Section A: Desktop auto-add === -->
     <section class="card" id="desktop">
       <h1>Adding <span style="color:#7DE3B1">VIDA</span> to MetaMask (Desktop)</h1>
       <p id="status">If you’re on desktop with the MetaMask extension, we’ll try to switch to Base and add the token automatically.</p>
       <p id="msg" style="display:none;margin-top:8px;opacity:.85;"></p>
     </section>
 
-    <!-- === Mobile step-by-step (same words, clearer layout) === -->
+    <!-- === Section B: Mobile step-by-step (EXACT TEXT/ORDER) === -->
     <section class="card" id="mobile">
       <h2>For Mobile follow the 10 simple steps below:</h2>
 
       <div class="help">
-        <h3>Step-by-step (mobile)</h3>
+        <div class="help">
+  <h3>Step-by-step (mobile)</h3>
 
-        <div class="steps">
-          <!-- 1 -->
-          <div class="step">
-            <span class="num">1</span>
-            <p><b>Install <a href="https://metamask.io/download/" target="_blank" style="color:#39c18f;text-decoration:none;">MetaMask</a></b> from the App Store and tap "create a new wallet".</p>
-            <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/1.jpg?v=1762897842" alt="MetaMask Step 1">
-          </div>
+  <div class="steps">
 
-          <!-- 2 -->
-          <div class="step">
-            <span class="num">2</span>
-            <p>2. Select "use secret recovery phase" keep your <b>recovery pass phrase</b> safe and private, never share it with anyone.</p>
-            <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/2.jpg?v=1762897855" alt="MetaMask Step 2">
-          </div>
-
-         <!-- Step 3 -->
-<div class="step">
-  <span class="num">3</span>
-  <p>Once inside MetaMask, tap the "popular networks" menu at the top and select <b>Base</b>.</p>
-
-  <!-- side-by-side image pair -->
-  <div class="pair">
-    <div class="imgbox">
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/3.jpg?v=1762897877" alt="Open networks menu">
-      <p class="caption">Tap “Popular networks”</p>
+    <!-- Step 1 -->
+    <div class="step">
+      <span class="num">1</span>
+      <p><b>Install <a href="https://metamask.io/download/" target="_blank" style="color:#39c18f;text-decoration:none;">MetaMask</a></b> from the App Store and tap "create a new wallet".</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/1.jpg?v=1762897842" alt="MetaMask Step 1">
     </div>
-    <div class="imgbox">
-      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.jpg?v=1762897911" alt="Select Base">
-      <p class="caption">Select <b>Base</b> from list</p>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <span class="num">2</span>
+      <p>2. Select "use secret recovery phase" keep your <b>recovery pass phrase</b> safe and private, never share it with anyone.</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/2.jpg?v=1762897855" alt="MetaMask Step 2">
     </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <span class="num">3</span>
+      <p><b>Once inside MetaMask, tap the "popular networks" menu at the top and select <b>Base</b>.</b></p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/3.jpg?v=1762897877" alt="MetaMask Step 3">
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.jpg?v=1762897911" alt="MetaMask Step 4">
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <span class="num">4</span>
+      <p>Tap <b>Receive</b> and tap the small squares to copy your wallet address (it begins with <code class="inline">0x...</code>).</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.5.jpg?v=1762900392" alt="MetaMask Step 4A">
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="MetaMask Step 4B">
+      <p class="note" style="margin-top:10px;">5. Now send this address to us in your email along with your verification materials.</p>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step">
+      <span class="num">6</span>
+      <p>Tap the small <b>+</b> icon in the top right corner.</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/6.jpg?v=1762897960" alt="Plus icon">
+    </div>
+
+    <!-- Step 7 -->
+    <div class="step">
+      <span class="num">7</span>
+      <p>Select <b>Custom token</b> and make sure the network is <b>Base</b>.</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/7.jpg?v=1762897972" alt="Custom token Base">
+    </div>
+
+    <!-- Step 8 / 9 / Next -->
+    <div class="step">
+      <span class="num">8</span>
+      <p>Paste this address under “Token contract address”:<br>
+        <code id="contract" class="inline">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code>
+      </p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/8.jpg?v=1762897984" alt="Paste contract">
+      <p><b>Confirm the token symbol is <b>VIDA</b> and decimals is <b>18</b>.</b></p>
+      <p>Tap <b>Next</b> → <b>Import</b>.</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/9.jpg?v=1762897996" alt="Confirm token">
+      <p style="margin-top:10px;color:#375947;">
+        ✅ Congratulations you’ll now see <b>VIDA Coin</b> listed in your wallet under the <b>Base</b> network, it will show 0 until you have earn your first coins.
+      </p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA visible">
+    </div>
+
   </div>
 </div>
 
-<!-- Step 4 -->
-<div class="step">
-  <span class="num">4</span>
-  <p>Tap <b>Receive</b> and tap the small squares to copy your wallet address (it begins with <code class="inline">0x...</code>).</p>
-  <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.5.jpg?v=1762900392" alt="Receive screen">
-  <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="Copy wallet address">
-  <div class="callout">5. Now send this address to us in your email along with your verification materials.</div>
-</div>
-
-          <!-- 6 -->
-          <div class="step">
-            <span class="num">6</span>
-            <p>Tap the small <b>+</b> icon in the top right corner.</p>
-            <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/6.jpg?v=1762897960" alt="Plus icon">
-          </div>
-
-          <!-- 7 -->
-          <div class="step">
-            <span class="num">7</span>
-            <p>Select <b>Custom token</b> and make sure the network is <b>Base</b>.</p>
-            <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/7.jpg?v=1762897972" alt="Custom token Base">
-          </div>
-
-          <!-- 8 -->
-          <div class="step">
-            <span class="num">8</span>
-            <p>Paste this address under “Token contract address”:</p>
-            <p><code id="contract" class="inline">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code></p>
-            <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/8.jpg?v=1762897984" alt="Paste contract">
-          </div>
-
-          <!-- 9 -->
-          <div class="step">
-            <span class="num">9</span>
-            <p>Confirm the token symbol is <b>VIDA</b> and decimals is <b>18</b>.</p>
-            <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/9.jpg?v=1762897996" alt="Confirm token details">
-          </div>
-
-          <!-- 10 -->
-          <div class="step">
-            <span class="num">10</span>
-            <p>Tap <b>Next</b> → <b>Import</b>.</p>
-            <p style="margin-top:10px;color:#375947;">✅ Congratulations you’ll now see <b>VIDA Coin</b> listed in your wallet under the <b>Base</b> network, it will show 0 until you have earn your first coins.</p>
-            <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA visible">
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <script>
@@ -203,11 +189,11 @@
       blockExplorerUrls: ['https://basescan.org']
     };
 
-    // ===== Desktop auto-add status messages =====
+    // ===== Helpers =====
     const setStatus = (html, warn=false) => {
       const el = document.getElementById('status'); if(!el) return;
       el.className = warn ? 'warn' : '';
-      el.innerHTML = html;
+      el.innerHTML = html; // use HTML so we can show the 0x… code pill
     };
 
     async function ensureBase(eth){
@@ -226,6 +212,7 @@
     async function addVidaAuto(){
       const eth = window.ethereum;
 
+      // Not in MetaMask on desktop
       if (!eth || !eth.isMetaMask) {
         setStatus('Failed desktop setup - make sure MetaMask is installed or try the mobile setup shown below.', true);
         return;
@@ -254,6 +241,7 @@
       }
     }
 
+    // Auto-run desktop attempt
     window.addEventListener('DOMContentLoaded', () => setTimeout(addVidaAuto, 250));
   </script>
 </body>
