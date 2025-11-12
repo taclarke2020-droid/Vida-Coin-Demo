@@ -26,14 +26,7 @@
     .help{background:var(--soft);border-radius:10px;padding:18px 22px;margin:18px 0}
     .help h3{color:#0c5230;margin:0 0 10px}
     .help ol{padding-left:20px;color:var(--ink);line-height:1.6;margin:0 0 10px}
-    img.guide{
-      width:100%;
-      max-width:200px;
-      height:auto;
-      display:block;
-      margin:8px auto;
-      border-radius:8px;
-    }
+    
     .inline{background:#eaf7f0;padding:3px 6px;border-radius:4px;display:inline-block}
     .note{color:#bfead6;font-size:14px}
 
@@ -76,12 +69,7 @@
 .step p { margin: 6px 0 0; color: var(--ink); }
 
 /* Tighter, consistent image sizing */
-img.guide {
-  width: 100%;
-  max-width: 320px;   /* was 200; a touch larger, still compact */
-  margin: 10px auto 0;
-  border-radius: 8px;
-}
+
 
 /* Fix overlapping of Step 3/4 pairs */
 .step {
@@ -197,14 +185,7 @@ img.guide {
   }
 
   /* Make screenshots fit nicely on small screens */
-  img.guide{
-    display:block;
-    width: 92vw;          /* fill phone width with a little gutter */
-    max-width: 360px;     /* cap so it never gets comically huge */
-    height:auto;
-    margin: 10px auto 0;
-    border-radius: 10px;
-  }
+  
 
   /* When steps have two images (3 and 4), stack them cleanly */
   .pair{ flex-direction: column; gap: 10px; align-items: center; }
@@ -214,7 +195,31 @@ img.guide {
   .step.callout p{ font-size: 18px; }
 }
 
-    
+    /* Universal screenshot sizing (desktop + mobile) */
+img.guide{
+  display:block;
+  width:100%;        /* always respect the container */
+  max-width:100%;    /* never overflow the card */
+  height:auto;
+  margin:10px auto 0;
+  border-radius:10px;
+}
+
+/* Step 3 & 4 image row logic */
+.pair{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  align-items:flex-start;
+  margin-top:8px;
+}
+.pair .guide{ width:calc(50% - 8px); }
+
+/* On phones: stack the pair vertically to avoid crowding */
+@media (max-width:700px){
+  .pair{ flex-direction:column; }
+  .pair .guide{ width:100%; }
+}
     
   </style>
 </head>
