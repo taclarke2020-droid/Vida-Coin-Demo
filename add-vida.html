@@ -36,6 +36,55 @@
     }
     .inline{background:#eaf7f0;padding:3px 6px;border-radius:4px;display:inline-block}
     .note{color:#bfead6;font-size:14px}
+
+/* Bigger, clearer type for the mobile guide */
+.help { font-size: 18px; }
+.help ol { font-size: 18px; line-height: 1.7; }
+
+/* Grid layout for steps (desktop = 2 columns, mobile = 1) */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+}
+
+/* Individual step card */
+.step {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+/* Number badge */
+.step .num {
+  display: inline-block;
+  min-width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #0b1c14;
+  font-weight: 800;
+  margin-right: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.step p { margin: 6px 0 0; color: var(--ink); }
+
+/* Tighter, consistent image sizing */
+img.guide {
+  width: 100%;
+  max-width: 320px;   /* was 200; a touch larger, still compact */
+  margin: 10px auto 0;
+  border-radius: 8px;
+}
+
+
+    
   </style>
 </head>
 <body>
@@ -53,72 +102,74 @@
       <h2>For Mobile follow the 10 simple steps below:</h2>
 
       <div class="help">
-        <h3>Step-by-step (mobile)</h3>
+        <div class="help">
+  <h3>Step-by-step (mobile)</h3>
 
-        <!-- 1 -->
-        <ol>
-          <li><b>Install
-            <a href="https://metamask.io/download/" style="color:#39c18f;text-decoration:none;" target="_blank">MetaMask</a></b>
-            from the App Store and tap "create a new wallet".</li>
-        </ol>
-        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/1.jpg?v=1762897842" alt="MetaMask Step 1">
+  <div class="steps">
 
-        <!-- 2 -->
-        <ol start="2">
-          2. Select "use secret recovery phase" keep your <b>recovery pass phrase</b> safe and private, never share it with anyone.
-        </ol>
-        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/2.jpg?v=1762897855" alt="MetaMask Step 2">
+    <!-- Step 1 -->
+    <div class="step">
+      <span class="num">1</span>
+      <p><b>Install <a href="https://metamask.io/download/" target="_blank" style="color:#39c18f;text-decoration:none;">MetaMask</a></b> from the App Store and tap "create a new wallet".</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/1.jpg?v=1762897842" alt="MetaMask Step 1">
+    </div>
 
-        <!-- 3 -->
-        <ol start="3">
-          <li>Once inside MetaMask, tap the "popular networks" menu at the top and select <b>Base</b>.</li>
-        </ol>
-        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/3.jpg?v=1762897877" alt="MetaMask Step 3">
-        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.jpg?v=1762897911" alt="MetaMask Step 4">
+    <!-- Step 2 -->
+    <div class="step">
+      <span class="num">2</span>
+      <p>2. Select "use secret recovery phase" keep your <b>recovery pass phrase</b> safe and private, never share it with anyone.</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/2.jpg?v=1762897855" alt="MetaMask Step 2">
+    </div>
 
-        <!-- 4 -->
-        <ol start="4">
-          <li>Tap <b>Receive</b> and tap the small squares to copy your wallet address (it begins with <code class="inline">0x...</code>).</li>
-        </ol>
-        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.5.jpg?v=1762900392" alt="MetaMask Step 4A">
-        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="MetaMask Step 4B">
+    <!-- Step 3 -->
+    <div class="step">
+      <span class="num">3</span>
+      <p><b>Once inside MetaMask, tap the "popular networks" menu at the top and select <b>Base</b>.</b></p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/3.jpg?v=1762897877" alt="MetaMask Step 3">
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.jpg?v=1762897911" alt="MetaMask Step 4">
+    </div>
 
-        <p style="margin-top:12px;" class="note">
-          5. Now send this address to us in your email along with your verification materials.
-        </p>
+    <!-- Step 4 -->
+    <div class="step">
+      <span class="num">4</span>
+      <p>Tap <b>Receive</b> and tap the small squares to copy your wallet address (it begins with <code class="inline">0x...</code>).</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/4.5.jpg?v=1762900392" alt="MetaMask Step 4A">
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/5.jpg?v=1762897936" alt="MetaMask Step 4B">
+      <p class="note" style="margin-top:10px;">5. Now send this address to us in your email along with your verification materials.</p>
+    </div>
 
-        <hr style="border:none;border-top:1px solid var(--line);margin:18px 0">
+    <!-- Step 6 -->
+    <div class="step">
+      <span class="num">6</span>
+      <p>Tap the small <b>+</b> icon in the top right corner.</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/6.jpg?v=1762897960" alt="Plus icon">
+    </div>
 
-        <!-- 6.. -->
-        <ol start="6">
-          <li>Tap the small <b>+</b> icon in the top right corner.</li>
-        </ol>
-        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/6.jpg?v=1762897960" alt="Plus icon">
+    <!-- Step 7 -->
+    <div class="step">
+      <span class="num">7</span>
+      <p>Select <b>Custom token</b> and make sure the network is <b>Base</b>.</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/7.jpg?v=1762897972" alt="Custom token Base">
+    </div>
 
-        <ol start="7">
-          <li>Select <b>Custom token</b> and make sure the network is <b>Base</b>.</li>
-        </ol>
-        <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/7.jpg?v=1762897972" alt="Custom token Base">
+    <!-- Step 8 / 9 / Next -->
+    <div class="step">
+      <span class="num">8</span>
+      <p>Paste this address under “Token contract address”:<br>
+        <code id="contract" class="inline">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code>
+      </p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/8.jpg?v=1762897984" alt="Paste contract">
+      <p><b>Confirm the token symbol is <b>VIDA</b> and decimals is <b>18</b>.</b></p>
+      <p>Tap <b>Next</b> → <b>Import</b>.</p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/9.jpg?v=1762897996" alt="Confirm token">
+      <p style="margin-top:10px;color:#375947;">
+        ✅ Congratulations you’ll now see <b>VIDA Coin</b> listed in your wallet under the <b>Base</b> network, it will show 0 until you have earn your first coins.
+      </p>
+      <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA visible">
+    </div>
 
-        <ol start="8">
-          <li>Paste this address under “Token contract address”:<br>
-            <code id="contract" class="inline">0x1D929E2422AEC567907f7fE2B966f7f84CA1858F</code>
-            <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/8.jpg?v=1762897984" alt="Paste contract">
-          </li>
-          <li>Confirm the token symbol is <b>VIDA</b> and decimals is <b>18</b>.</li>
-          <br>
-          <li>Tap <b>Next</b> → <b>Import</b>.</li>
-        </ol>
-
-        <div style="margin:12px 0;">
-          <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/9.jpg?v=1762897996" alt="Confirm token">
-          <p style="margin-top:10px;color:#375947;">
-            ✅ Congratulations you’ll now see your <b>VIDA Coin</b> balnce and are ready to start earning.
-          </p>
-          <img class="guide" src="https://cdn.shopify.com/s/files/1/0664/1454/3080/files/10.jpg?v=1762898008" alt="VIDA visible">
-        </div>
-      </div>
-    </section>
+  </div>
+</div>
 
   </main>
 
